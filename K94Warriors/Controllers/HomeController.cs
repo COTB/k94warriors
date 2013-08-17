@@ -14,14 +14,14 @@ namespace K94Warriors.Controllers
 
             return View();
         }
-
+        [OutputCache(Duration=240)]
         public virtual ActionResult About()
         {
             ViewBag.Message = "Your app description page.";
 
             return View();
         }
-
+        [OutputCache(Duration = 240)]
         public virtual ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
