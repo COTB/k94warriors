@@ -6,12 +6,12 @@ using System.Web.Mvc;
 
 namespace K94Warriors.Controllers
 {
-    public class SkillsController : Controller
+    public partial class SkillsController : Controller
     {
         //
         // GET: /Skills/
 
-        public ActionResult Index()
+        public virtual ActionResult Index()
         {
             return View();
         }

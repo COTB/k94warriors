@@ -26,6 +26,7 @@ public static class MVC
 {
     public static K94Warriors.Controllers.AccountController Account = new K94Warriors.Controllers.T4MVC_AccountController();
     public static K94Warriors.Controllers.HomeController Home = new K94Warriors.Controllers.T4MVC_HomeController();
+    public static K94Warriors.Controllers.SkillsController Skills = new K94Warriors.Controllers.T4MVC_SkillsController();
     public static T4MVC.SharedController Shared = new T4MVC.SharedController();
 }
 
