@@ -10,13 +10,16 @@ namespace K94Warriors.Models
 
         [Required]
         public int DogProfileID { get; set; }
+        public virtual DogProfile DogProfile { get; set; }
 
         public string Note { get; set; }
 
         [Required]
         public bool IsCritical { get; set; }
 
-        public virtual ICollection<DogProfile> DogProfiles { get; set; }
+        [Required]
+        public int NoteTypeID { get; set; }
+        public virtual NoteType NoteType { get; set; }
 
         public virtual ICollection<MetaData> MetaData { get; set; }
     }
