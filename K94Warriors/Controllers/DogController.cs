@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
-using K94Warriors.Entities;
+using K94Warriors.Models;
 
 namespace K94Warriors.Controllers
 {
