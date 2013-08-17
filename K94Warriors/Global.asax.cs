@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using K94Warriors.Logger;
 
 namespace K94Warriors
 {
@@ -24,5 +26,29 @@ namespace K94Warriors
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
         }
+
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            Exception exception = Server.GetLastError();
+            Response.Clear();
+
+            var logger = new SmptLogger();
+            var emailTo = ConfigurationManager.AppSettings["AdminErrorEmail"];
+            var emailSubject = ConfigurationManager.AppSettings["AdminErrorSubject"];
+            var emailFrom = ConfigurationManager.AppSettings["LogEmailFrom"];
+
+            var message = new EmailMessage
+            {
+                Body = exception.ToString(),
+                From = emailFrom,
+                Subject = emailSubject,
+                To = emailTo
+            };
+
+            logger.Send(message);
+
+            Server.ClearError();
+            Response.Redirect("~/Error/HttpError404");
+        } 
     }
 }
