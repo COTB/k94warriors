@@ -52,6 +52,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -124,6 +126,49 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Entities\DogEvent.cs">
+      <DependentUpon>k9Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\DogMedicalRecord.cs">
+      <DependentUpon>k9Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\DogNote.cs">
+      <DependentUpon>k9Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\DogProfile.cs">
+      <DependentUpon>k9Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\DogSkill.cs">
+      <DependentUpon>k9Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\DogSkillName.cs">
+      <DependentUpon>k9Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Donor.cs">
+      <DependentUpon>k9Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\k9Entities.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>k9Entities.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\k9Entities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>k9Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\k9Entities.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>k9Entities.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\MetaData.cs">
+      <DependentUpon>k9Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\WarriorInfo.cs">
+      <DependentUpon>k9Entities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -186,6 +231,23 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <EntityDeploy Include="Entities\k9Entities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>k9Entities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Entities\k9Entities.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>k9Entities.edmx</DependentUpon>
+      <LastGenOutput>k9Entities.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Entities\k9Entities.edmx.diagram">
+      <DependentUpon>k9Entities.edmx</DependentUpon>
+    </Content>
+    <Content Include="Entities\k9Entities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>k9Entities.edmx</DependentUpon>
+      <LastGenOutput>k9Entities.cs</LastGenOutput>
+    </Content>
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
@@ -216,11 +278,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
