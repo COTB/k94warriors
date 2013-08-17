@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Web;
@@ -22,9 +23,12 @@ namespace K94Warriors.Logger
                 Port = int.Parse(ConfigurationManager.AppSettings["SmtpPort"]),
                 Host = ConfigurationManager.AppSettings["SmtpHost"],
                 DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false
+                UseDefaultCredentials = false,
+                Credentials =
+                    new NetworkCredential(ConfigurationManager.AppSettings["SmtpUsername"],
+                                          ConfigurationManager.AppSettings["SmtpPassword"])
             };
-            // credentials required?
+           
 
             client.Send(mail);
         }

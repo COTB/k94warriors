@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -11,10 +12,16 @@ namespace K94Warriors.Controllers
         //
         // GET: /Error/
 
-        public ActionResult HttpError404()
+        public ActionResult Error404()
         {
-            return View("Error");
+            Response.StatusCode = (int)HttpStatusCode.NotFound;
+            return View("Error404");
         }
 
+        public ActionResult Index()
+        {
+            Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            return View("Error");
+        }
     }
 }
