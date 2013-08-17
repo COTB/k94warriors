@@ -26,6 +26,7 @@ public static class MVC
 {
     public static K94Warriors.Controllers.AccountController Account = new K94Warriors.Controllers.T4MVC_AccountController();
     public static K94Warriors.Controllers.HomeController Home = new K94Warriors.Controllers.T4MVC_HomeController();
+    public static K94Warriors.Controllers.SkillsController Skills = new K94Warriors.Controllers.T4MVC_SkillsController();
     public static T4MVC.SharedController Shared = new T4MVC.SharedController();
 }
 
@@ -71,7 +72,6 @@ namespace Links
         public static readonly string _references_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/_references.min.js") ? Url("_references.min.js") : Url("_references.js");
         public static readonly string jquery_1_8_2_intellisense_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/jquery-1.8.2.intellisense.min.js") ? Url("jquery-1.8.2.intellisense.min.js") : Url("jquery-1.8.2.intellisense.js");
         public static readonly string jquery_1_8_2_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/jquery-1.8.2.min.js") ? Url("jquery-1.8.2.min.js") : Url("jquery-1.8.2.js");
-        public static readonly string jquery_1_8_2_min_js = Url("jquery-1.8.2.min.js");
         public static readonly string jquery_ui_1_8_24_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/jquery-ui-1.8.24.min.js") ? Url("jquery-ui-1.8.24.min.js") : Url("jquery-ui-1.8.24.js");
         public static readonly string jquery_ui_1_8_24_min_js = Url("jquery-ui-1.8.24.min.js");
         public static readonly string jquery_unobtrusive_ajax_js = T4MVCHelpers.IsProduction() && T4Extensions.FileExists(URLPATH + "/jquery.unobtrusive-ajax.min.js") ? Url("jquery.unobtrusive-ajax.min.js") : Url("jquery.unobtrusive-ajax.js");

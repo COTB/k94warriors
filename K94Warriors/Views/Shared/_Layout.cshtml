@@ -12,17 +12,17 @@
         <header>
             <div class="content-wrapper">
                 <div class="float-left">
-                    <p class="site-title">@Html.ActionLink("your logo here", "Index", "Home")</p>
+                    <p class="site-title">@Html.ActionLink("your logo here",MVC.Home.Index())</p>
                 </div>
                 <div class="float-right">
                     <section id="login">
-                        @Html.Partial("_LoginPartial")
+                        @Html.Partial(MVC.Shared.Views._LoginPartial)
                     </section>
                     <nav>
                         <ul id="menu">
-                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                            <li>@Html.ActionLink("About", "About", "Home")</li>
-                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                            <li>@Html.ActionLink("Home", MVC.Home.Index())</li>
+                            <li>@Html.ActionLink("About", MVC.Home.About())</li>
+                            <li>@Html.ActionLink("Contact", MVC.Home.Contact())</li>
                         </ul>
                     </nav>
                 </div>
