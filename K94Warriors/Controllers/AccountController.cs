@@ -15,13 +15,13 @@ namespace K94Warriors.Controllers
 {
     [Authorize]
     [InitializeSimpleMembership]
-    public class AccountController : Controller
+    public partial class AccountController : Controller
     {
         //
         // GET: /Account/Login
 
         [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
+        public virtual ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
             return View();
@@ -33,7 +33,7 @@ namespace K94Warriors.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginModel model, string returnUrl)
+        public virtual ActionResult Login(LoginModel model, string returnUrl)
         {
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
@@ -50,7 +50,7 @@ namespace K94Warriors.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult LogOff()
+        public virtual ActionResult LogOff()
         {
             WebSecurity.Logout();
 
@@ -61,7 +61,7 @@ namespace K94Warriors.Controllers
         // GET: /Account/Register
 
         [AllowAnonymous]
-        public ActionResult Register()
+        public virtual ActionResult Register()
         {
             return View();
         }
@@ -72,7 +72,7 @@ namespace K94Warriors.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(RegisterModel model)
+        public virtual ActionResult Register(RegisterModel model)
         {
             if (ModelState.IsValid)
             {
@@ -98,7 +98,7 @@ namespace K94Warriors.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Disassociate(string provider, string providerUserId)
+        public virtual ActionResult Disassociate(string provider, string providerUserId)
         {
             string ownerAccount = OAuthWebSecurity.GetUserName(provider, providerUserId);
             ManageMessageId? message = null;
@@ -125,7 +125,7 @@ namespace K94Warriors.Controllers
         //
         // GET: /Account/Manage
 
-        public ActionResult Manage(ManageMessageId? message)
+        public virtual ActionResult Manage(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
@@ -142,7 +142,7 @@ namespace K94Warriors.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Manage(LocalPasswordModel model)
+        public virtual ActionResult Manage(LocalPasswordModel model)
         {
             bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
             ViewBag.HasLocalPassword = hasLocalAccount;
@@ -206,7 +206,7 @@ namespace K94Warriors.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult ExternalLogin(string provider, string returnUrl)
+        public virtual ActionResult ExternalLogin(string provider, string returnUrl)
         {
             return new ExternalLoginResult(provider, Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
         }
@@ -215,7 +215,7 @@ namespace K94Warriors.Controllers
         // GET: /Account/ExternalLoginCallback
 
         [AllowAnonymous]
-        public ActionResult ExternalLoginCallback(string returnUrl)
+        public virtual ActionResult ExternalLoginCallback(string returnUrl)
         {
             AuthenticationResult result = OAuthWebSecurity.VerifyAuthentication(Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
             if (!result.IsSuccessful)
@@ -250,7 +250,7 @@ namespace K94Warriors.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult ExternalLoginConfirmation(RegisterExternalLoginModel model, string returnUrl)
+        public virtual ActionResult ExternalLoginConfirmation(RegisterExternalLoginModel model, string returnUrl)
         {
             string provider = null;
             string providerUserId = null;
@@ -294,21 +294,21 @@ namespace K94Warriors.Controllers
         // GET: /Account/ExternalLoginFailure
 
         [AllowAnonymous]
-        public ActionResult ExternalLoginFailure()
+        public virtual ActionResult ExternalLoginFailure()
         {
             return View();
         }
 
         [AllowAnonymous]
         [ChildActionOnly]
-        public ActionResult ExternalLoginsList(string returnUrl)
+        public virtual ActionResult ExternalLoginsList(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
             return PartialView("_ExternalLoginsListPartial", OAuthWebSecurity.RegisteredClientData);
         }
 
         [ChildActionOnly]
-        public ActionResult RemoveExternalLogins()
+        public virtual ActionResult RemoveExternalLogins()
         {
             ICollection<OAuthAccount> accounts = OAuthWebSecurity.GetAccountsFromUserName(User.Identity.Name);
             List<ExternalLogin> externalLogins = new List<ExternalLogin>();
