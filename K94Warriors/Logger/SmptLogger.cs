@@ -18,19 +18,10 @@ namespace K94Warriors.Logger
             mail.BodyEncoding = UTF8Encoding.UTF8;
             mail.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
 
-            var client = new SmtpClient
+            using (var client = new SmtpClient())
             {
-                Port = int.Parse(ConfigurationManager.AppSettings["SmtpPort"]),
-                Host = ConfigurationManager.AppSettings["SmtpHost"],
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
-                Credentials =
-                    new NetworkCredential(ConfigurationManager.AppSettings["SmtpUsername"],
-                                          ConfigurationManager.AppSettings["SmtpPassword"])
-            };
-           
-
-            client.Send(mail);
+                client.Send(mail);
+            }
         }
     }
 }
