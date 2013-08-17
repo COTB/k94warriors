@@ -205,7 +205,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="EFRepository.cs" />
     <Compile Include="Controllers\SkillsController.cs" />
-    <Compile Include="Filters\EmailExceptionFilter.cs" />
+    <Compile Include="Filters\EmailErrorAttribute.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
