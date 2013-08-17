@@ -10,6 +10,7 @@ namespace K94Warriors.Controllers
 {
     public class DogController : Controller
     {
+
         public ActionResult GetDogs()
         {
             var repo = RepoResolver.GetRepository<DogProfile>();

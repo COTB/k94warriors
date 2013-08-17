@@ -1,48 +1,71 @@
-﻿<!DOCTYPE html>
+﻿@using System.Web.UI.WebControls
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>@ViewBag.Title - My ASP.NET MVC Application</title>
+        <title>@ViewBag.Title - K9 For Warriors</title>
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />
+        <link href="~/Content/bootstrap/bootstrap.css" rel="stylesheet">
+        <link href="~/Content/bootstrap/bootstrap-glyphicons.css" rel="stylesheet">
         @Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")
     </head>
     <body>
         <header>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p class="site-title">@Html.ActionLink("your logo here",MVC.Home.Index())</p>
-                </div>
-                <div class="float-right">
-                    <section id="login">
-                        @Html.Partial(MVC.Shared.Views._LoginPartial)
-                    </section>
-                    <nav>
-                        <ul id="menu">
-                            <li>@Html.ActionLink("Home", MVC.Home.Index())</li>
-                            <li>@Html.ActionLink("About", MVC.Home.About())</li>
-                            <li>@Html.ActionLink("Contact", MVC.Home.Contact())</li>
+            <div class="navbar navbar-static-top">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#">K9 For Warriors</a>
+                    </div>
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li><a href="/dog">Dogs</a></li>
+                            <li><a href="/warrior">Warriors</a></li>
+                            <li><a href="/donor">Donors</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Action</a></li>
+                                    <li><a href="#">Another action</a></li>
+                                    <li><a href="#">Something else here</a></li>
+                                    <li class="divider"></li>
+                                    <li class="dropdown-header">Nav header</li>
+                                    <li><a href="#">Separated link</a></li>
+                                    <li><a href="#">One more separated link</a></li>
+                                </ul>
+                            </li>
                         </ul>
-                    </nav>
+                        <ul class="nav navbar-nav navbar-right">
+                            @Html.Partial(MVC.Shared.Views._LoginPartial)
+                        </ul>
+                    </div><!--/.nav-collapse -->
                 </div>
             </div>
+
+           
         </header>
-        <div id="body">
-            @RenderSection("featured", required: false)
-            <section class="content-wrapper main-content clear-fix">
-                @RenderBody()
-            </section>
+        <div class="container">
+
+            @RenderBody()
+
         </div>
+
         <footer>
             <div class="content-wrapper">
                 <div class="float-left">
-                    <p>&copy; @DateTime.Now.Year - My ASP.NET MVC Application</p>
+                    <p>&copy; @DateTime.Now.Year</p>
                 </div>
             </div>
         </footer>
 
         @Scripts.Render("~/bundles/jquery")
+        <script src="~/Scripts/bootstrap.js" type="text/javascript"></script>
         @RenderSection("scripts", required: false)
     </body>
 </html>
