@@ -1,5 +1,5 @@
 ﻿using System.Data.Entity;
-using K94Warriors.Entities;
+using K94Warriors.Models;
 
 namespace K94Warriors
 {
