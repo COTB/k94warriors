@@ -21,7 +21,7 @@ namespace K94Warriors.Controllers
         {
             IRepository<DogSkill> repo = RepoResolver.GetRepository<DogSkill>();
             repo.Update(dogSkill);
-            RedirectToAction("GetSkill", "Skills");
+            return RedirectToAction("GetSkill", "Skills");
         }
 
         public ActionResult GetSkill(int id)
@@ -36,7 +36,7 @@ namespace K94Warriors.Controllers
         {
             IRepository<DogSkill> repo = RepoResolver.GetRepository<DogSkill>();
             repo.Delete(id);
-            RedirectToAction("Index", "Skills");
+            return RedirectToAction("Index", "Skills");
         }
     }
 }
