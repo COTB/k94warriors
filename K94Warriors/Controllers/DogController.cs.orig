@@ -18,10 +18,17 @@ namespace K94Warriors.Controllers
         }
 
         public ActionResult GetDogs()
+<<<<<<< HEAD
+        {
+            var repo = RepoResolver.GetRepository<DogProfile>("K9");
+            var dogs = repo.GetAll();
+            return View(dogs);
+=======
         {
             var dogs = _dogRepo.GetAll();
 
             throw new NotImplementedException();
+>>>>>>> 5699f9ca9735f6ca3f13c8823540a390bb08d965
         }
 
         [HttpGet]

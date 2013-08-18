@@ -368,6 +368,8 @@
     <Content Include="Views\Shared\Error404.cshtml" />
     <Content Include="Views\Dog\GetDogs.cshtml" />
     <Content Include="Views\Dog\DeleteDog.cshtml" />
+    <Content Include="Views\Dog\CreateOrUpdateDog.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DogProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

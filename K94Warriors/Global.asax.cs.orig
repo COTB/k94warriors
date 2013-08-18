@@ -40,7 +40,7 @@ namespace K94Warriors
 =======
             //filters.Add(new EmailErrorAttribute());
             filters.Add(new HandleErrorAttribute
->>>>>>> e04eafba63b81ed0bc12a12fdefc46f3e476c1a8
+>>>>>>> 5699f9ca9735f6ca3f13c8823540a390bb08d965
             {
                 // All exception types, let view specify master
                 View = "Error",

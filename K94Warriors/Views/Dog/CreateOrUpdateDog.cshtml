@@ -1,0 +1,12 @@
+﻿@model K94Warriors.Models.DogProfile
+
+@{
+    ViewBag.Title = "CreateOrUpdateDog";
+}
+
+<h2>CreateOrUpdateDog</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.EditorForModel()   
+}

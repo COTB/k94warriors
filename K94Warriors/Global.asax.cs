@@ -8,7 +8,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using K94Warriors.Filters;
-using K94Warriors.Email;
+using K94Warriors.Logger;
 
 namespace K94Warriors
 {
@@ -30,18 +30,14 @@ namespace K94Warriors
 
         private static void RegisterFilters(GlobalFilterCollection filters)
         {
-            // Get from and to addresses from config
-            var from = ConfigurationManager.AppSettings["ErrorFromEmailAddress"];
-            var to = ConfigurationManager.AppSettings["ErrorToEmailAddress"];
-
-            // Add custom error handler that will email problems out
-            filters.Add(new EmailErrorAttribute(new SmtpMailer(), from, to)
+            //filters.Add(new EmailErrorAttribute());
+            filters.Add(new HandleErrorAttribute
             {
-                // All exception types, let view specify master
-                View = "Error",
+                View = "Error"
             });
-
             FilterConfig.RegisterGlobalFilters(filters);
         }
+
+
     }
 }
