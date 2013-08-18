@@ -15,13 +15,7 @@ namespace K94Warriors.Controllers
         public ActionResult Error404()
         {
             Response.StatusCode = (int)HttpStatusCode.NotFound;
-            return View("Error404");
-        }
-
-        public ActionResult Index()
-        {
-            Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            return View("Error");
+            return View();
         }
     }
 }

@@ -14,9 +14,16 @@ namespace K94Warriors
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                name: "Home",
+                url: "",
+                defaults: new { controller = "Home", action = "Index", pageTitle = "Welcome" }
+            );
+
+            // 404 catch-all
+            routes.MapRoute(
+                name: "404 Catch All",
+                url: "{*anything}",
+                defaults: new { controller = "Error", action = "Error404", pageTitle = "Not Found" }
             );
         }
     }

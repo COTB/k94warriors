@@ -22,6 +22,9 @@ namespace K94Warriors
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(
+                new StyleBundle("~/Content/fontawesome").Include("~/Content/fontawesome.css"));
+
+            bundles.Add(
                 new StyleBundle("~/Content/bootstrap").Include("~/Content/bootstrap/bootstrap.css")
                     .Include("~/Content/bootstrap/bootstrap-glyphicons.css"));
 
