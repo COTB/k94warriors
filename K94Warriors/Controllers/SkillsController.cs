@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
 using K94Warriors.Models;
 
@@ -14,22 +11,32 @@ namespace K94Warriors.Controllers
 
         public virtual ActionResult Index()
         {
-            return View();
+            IRepository<DogSkill> repo = RepoResolver.GetRepository<DogSkill>();
+            IQueryable<DogSkill> skills = repo.GetAll();
+            return View(skills);
         }
 
+        [HttpPost]
         public ActionResult CreateOrUpdateSkill(DogSkill dogSkill)
         {
-            throw new NotImplementedException();
+            IRepository<DogSkill> repo = RepoResolver.GetRepository<DogSkill>();
+            repo.Update(dogSkill);
+            RedirectToAction("GetSkill", "Skills");
         }
 
         public ActionResult GetSkill(int id)
         {
-            throw new NotImplementedException();
+            IRepository<DogSkill> repo = RepoResolver.GetRepository<DogSkill>();
+            repo.GetById(id);
+            return View(id);
         }
 
+        [HttpPost]
         public ActionResult DeleteSkill(int id)
         {
-            throw new NotImplementedException();
+            IRepository<DogSkill> repo = RepoResolver.GetRepository<DogSkill>();
+            repo.Delete(id);
+            RedirectToAction("Index", "Skills");
         }
     }
 }
