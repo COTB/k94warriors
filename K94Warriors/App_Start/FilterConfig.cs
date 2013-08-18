@@ -13,7 +13,7 @@ namespace K94Warriors
             // Add the page title attribute
             filters.Add(new PageTitleAttribute());
 
-            // Get from and to addresses from config
+/*            // Get from and to addresses from config
             var from = ConfigurationManager.AppSettings["ErrorFromEmailAddress"];
             var to = ConfigurationManager.AppSettings["ErrorToEmailAddress"];
 
@@ -22,7 +22,7 @@ namespace K94Warriors
             {
                 // All exception types, let view specify master
                 View = "Error",
-            });
+            });*/
         }
     }
 }

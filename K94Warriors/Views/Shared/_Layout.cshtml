@@ -7,6 +7,7 @@
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />
         <link href="~/Content/bootstrap/bootstrap.css" rel="stylesheet">
+        <link href="~/Content/font-awesome.css" rel="stylesheet">
         @Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")
     </head>
@@ -41,15 +42,15 @@
                             </li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-                            @Html.Partial(MVC.Shared.Views._LoginPartial)
+                            @Html.Partial("_LoginPartial")
                         </ul>
                     </div><!--/.nav-collapse -->
                 </div>
             </div>
 
-           
+           @RenderSection("subnav", required: false)
         </header>
-        <div class="container">
+        <div class="container content">
 
             @RenderBody()
 

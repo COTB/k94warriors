@@ -48,8 +48,8 @@ namespace K94Warriors.Controllers
         //
         // POST: /Account/LogOff
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+
+
         public virtual ActionResult LogOff()
         {
             WebSecurity.Logout();
@@ -79,7 +79,7 @@ namespace K94Warriors.Controllers
                 // Attempt to register the user
                 try
                 {
-                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
+                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new { UserTypeId= 3}, false);
                     WebSecurity.Login(model.UserName, model.Password);
                     return RedirectToAction("Index", "Home");
                 }

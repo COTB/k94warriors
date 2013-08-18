@@ -64,7 +64,8 @@ namespace K94Warriors.Controllers
 
         public ActionResult ReadDog(int id)
         {
-            throw new NotImplementedException();
+            var repo = RepoResolver.GetRepository<DogProfile>();
+            return View(repo.GetById(id));
         }
 
         [HttpGet]
@@ -80,7 +81,7 @@ namespace K94Warriors.Controllers
         {
             var repo = RepoResolver.GetRepository<DogProfile>();
             repo.Delete(id);
-            return RedirectToAction("GetDogs");
+            return RedirectToAction("Index");
         }
 
         public ActionResult GetDocuments(int id)

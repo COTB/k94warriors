@@ -4,27 +4,32 @@
 }
 @model IEnumerable<K94Warriors.Models.DogProfile>
 
-<h2>Dogs</h2>
+<div class="col col-lg-12">
+    <h2>Dogs</h2>
+    <table class="table table-bordered">
 
-<table class="table table-bordered">
-    @* TODO: Repeat me from DogEvents, foo!*@
-    <thead>
-        <tr>
-            <th>Dog Name</th>
-            <th>Breed</th>
-            <th>Age</th>
-            <th>Assigned Warrior</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var dog in Model)
-        {
+        <thead>
             <tr>
-                <td>@dog.Name</td>
-                <td>@dog.Breed</td>
-                <td>@dog.Age</td>
-                <td>@dog.WarriorInfo.FirstName  @dog.WarriorInfo.LastName</td>
+                <th class="col col-lg-3">Dog Name</th>
+                <th class="col col-lg-2">Breed</th>
+                <th class="col col-lg-2">Age</th>
+                <th class="col col-lg-3">Assigned Warrior</th>
+                <th class="col col-lg-2">Location</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var dog in Model)
+            {
+                <tr>
+                    <td class="col col-lg-3"><a href="/dog/readdog/@dog.ProfileID">@dog.Name</a></td>
+                    <td class="col col-lg-2">@dog.Breed</td>
+                    <td class="col col-lg-2">@dog.Age</td>
+                    <td class="col col-lg-3">@dog.WarriorInfo.FirstName  @dog.WarriorInfo.LastName</td>
+                    <td class="col col-lg-2">@dog.Location.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+

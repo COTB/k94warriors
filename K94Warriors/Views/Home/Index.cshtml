@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<K94Warriors.Models.DogEvent>
+@{
     ViewBag.Title = "Home Page";
 }
 <div class="well">
@@ -9,17 +10,24 @@
     @* TODO: Repeat me from DogEvents, foo!*@
     <thead>
         <tr>
-            <th>Subject
+            <th class="col col-lg-3">Dog Name
             </th>
-            <th>Date
+            <th class="col col-lg-6">Subject
+            </th>
+            <th class="col col-lg-3">Date
             </th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td></td>
-            <td></td>
-        </tr>
+@foreach (var dogEvent in Model)
+{
+    <tr>
+        <td class="col col-lg-3">@dogEvent.DogProfile.Name</td>
+        <td class="col col-lg-6">@dogEvent.Subject</td>
+        <td class="col col-lg-6">@dogEvent.EventDate.ToLongDateString()</td>
+    </tr>
+    
+}
     </tbody>
 
     @*/Repeat me from DogEvents, foo!*@

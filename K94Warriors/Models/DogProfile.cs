@@ -18,6 +18,7 @@ namespace K94Warriors.Models
         public string Breed { get; set; }
         public Nullable<int> Age { get; set; }
         public string Color { get; set; }
+        public string Gender { get; set; }
         public Nullable<System.DateTime> PickedUpDate { get; set; }
         public bool IsFixed { get; set; }
         public Nullable<System.DateTime> GraduationDate { get; set; }
