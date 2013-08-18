@@ -27,8 +27,8 @@ namespace K94Warriors.Filters
         /// <param name="smtpMailer">The SMTP mailer to use.</param>
         /// <param name="from">The from email address.</param>
         /// <param name="to">The to email address.</param>
-        /// <exception cref="System.ArgumentNullException">thrown when smtpMailer is null.</exception>
-        /// <exception cref="System.ArgumentException">thrown when from or to is null, empty, or white space.</exception>
+        /// <exception cref="System.ArgumentNullException">Thrown when smtpMailer is null.</exception>
+        /// <exception cref="System.ArgumentException">Thrown when from or to is null, empty, or white space.</exception>
         public EmailErrorAttribute(SmtpMailer smtpMailer, string from, string to)
         {
             // Sanitize

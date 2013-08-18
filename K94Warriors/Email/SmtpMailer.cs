@@ -19,7 +19,7 @@ namespace K94Warriors.Email
         /// <param name="to">The to email address.</param>
         /// <param name="subject">The subject.</param>
         /// <param name="body">The body.</param>
-        /// <exception cref="System.ArgumentException">thrown when any parameter is null, empty, or white space.</exception>
+        /// <exception cref="System.ArgumentException">Thrown when any parameter is null, empty, or white space.</exception>
         public void Send(string from, string to, string subject, string body)
         {
             // Sanitize
@@ -29,15 +29,15 @@ namespace K94Warriors.Email
             }
             if (string.IsNullOrWhiteSpace(to))
             {
-                throw new ArgumentException("cannot be null, empty, or white space", "from");
+                throw new ArgumentException("cannot be null, empty, or white space", "to");
             }
             if (string.IsNullOrWhiteSpace(subject))
             {
-                throw new ArgumentException("cannot be null, empty, or white space", "from");
+                throw new ArgumentException("cannot be null, empty, or white space", "subject");
             }
             if (string.IsNullOrWhiteSpace(body))
             {
-                throw new ArgumentException("cannot be null, empty, or white space", "from");
+                throw new ArgumentException("cannot be null, empty, or white space", "body");
             }
 
             // Create the mail message
