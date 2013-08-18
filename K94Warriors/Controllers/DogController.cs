@@ -13,10 +13,9 @@ namespace K94Warriors.Controllers
 
         public ActionResult GetDogs()
         {
-            var repo = RepoResolver.GetRepository<DogProfile>();
+            var repo = RepoResolver.GetRepository<DogProfile>("K9");
             var dogs = repo.GetAll();
-
-            throw new NotImplementedException();
+            return View(dogs);
         }
 
         public ActionResult CreateOrUpdateDog(DogProfile dogProfile)
@@ -29,9 +28,20 @@ namespace K94Warriors.Controllers
             throw new NotImplementedException();
         }
 
+        [HttpGet]
         public ActionResult DeleteDog(int id)
         {
-            throw new NotImplementedException();
+            var repo = RepoResolver.GetRepository<DogProfile>();
+            var dog = repo.GetById(id);
+            return View(dog);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteDog(int id, FormCollection formCollection)
+        {
+            var repo = RepoResolver.GetRepository<DogProfile>();
+            repo.Delete(id);
+            return RedirectToAction("GetDogs");
         }
 
         public ActionResult GetDocuments(int dogId)

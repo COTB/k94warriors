@@ -31,16 +31,16 @@ namespace K94Warriors
         private static void RegisterFilters(GlobalFilterCollection filters)
         {
 <<<<<<< HEAD
-            //filters.Add(new EmailErrorAttribute());
-            filters.Add(new HandleErrorAttribute
-=======
             // Get from and to addresses from config
             var from = ConfigurationManager.AppSettings["ErrorFromEmailAddress"];
             var to = ConfigurationManager.AppSettings["ErrorToEmailAddress"];
 
             // Add custom error handler that will email problems out
             filters.Add(new EmailErrorAttribute(new SmtpMailer(), from, to)
->>>>>>> c163029f00080693db4a8d6e50c6c9e5e791a6a7
+=======
+            //filters.Add(new EmailErrorAttribute());
+            filters.Add(new HandleErrorAttribute
+>>>>>>> e04eafba63b81ed0bc12a12fdefc46f3e476c1a8
             {
                 // All exception types, let view specify master
                 View = "Error",
