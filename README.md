@@ -15,6 +15,10 @@ k94warriors
 Connection String:
 Server=tcp:cebsw1i8lx.database.windows.net,1433;Database=k94warriors_db;User ID=k94warriors@cebsw1i8lx;Password={your_password_here};Trusted_Connection=False;Encrypt=True;Connection Timeout=30;
 
+Schema:
+------
+
+http://i.imgur.com/aXWwy3y.png
 
 Requirements:
 ------------
