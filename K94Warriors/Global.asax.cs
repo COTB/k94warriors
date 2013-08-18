@@ -30,7 +30,7 @@ namespace K94Warriors
 
         private static void RegisterFilters(GlobalFilterCollection filters)
         {
-            filters.Add(new EmailErrorAttribute());
+            //filters.Add(new EmailErrorAttribute());
             filters.Add(new HandleErrorAttribute
             {
                 View = "Error"
