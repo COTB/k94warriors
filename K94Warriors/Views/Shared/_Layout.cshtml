@@ -7,7 +7,6 @@
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />
         <link href="~/Content/bootstrap/bootstrap.css" rel="stylesheet">
-        <link href="~/Content/bootstrap/bootstrap-glyphicons.css" rel="stylesheet">
         @Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")
     </head>
@@ -25,9 +24,21 @@
                     </div>
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
-                            <li><a href="/dog">Dogs</a></li>
-                            <li><a href="/warrior">Warriors</a></li>
-                            <li><a href="/donor">Donors</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dogs <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">View Dogs</a></li>
+                                    <li><a href="#">Add Dog</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Warriors <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">View Warriors</a></li>
+                                    <li><a href="#">Add Warrior</a></li>
+                                </ul>
+                            </li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             @Html.Partial(MVC.Shared.Views._LoginPartial)

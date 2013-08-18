@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace K94Warriors.Models
 {
@@ -20,9 +21,6 @@ namespace K94Warriors.Models
 
         public DateTime PickedUpDate { get; set; }
         
-        //[Required]
-        //public int DonorID { get; set; }
-        //public virtual Donor Donor { get; set; }
 
         [Required]
         public bool IsFixed { get; set; }
@@ -31,21 +29,16 @@ namespace K94Warriors.Models
 
         [Required]
         public int WarriorID { get; set; }
+
+        [ForeignKey("WarriorID")]
         public virtual WarriorInfo WarriorInfo { get; set; }
 
         [Required]
         public bool IsApproved { get; set; }
 
         public virtual ICollection<DogMedicalRecord> DogMedicalRecords { get; set; }
-
         public virtual ICollection<DogNote> DogNotes { get; set; }
-
-        //public virtual ICollection<Donor> Donors { get; set; }
-
         public virtual ICollection<WarriorInfo> WarriorInfos { get; set; }
-
         public virtual ICollection<DogSkill> DogSkills { get; set; }
-
-        //public virtual ICollection<MetaData> MetaData { get; set; }
     }
 }

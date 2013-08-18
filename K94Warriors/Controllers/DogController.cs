@@ -21,11 +21,11 @@ namespace K94Warriors.Controllers
             _dogRepo = RepoResolver.GetRepository<DogProfile>();
         }
 
-        public ActionResult GetDogs()
+        public ActionResult Index()
         {
             var dogs = _dogRepo.GetAll();
 
-            throw new NotImplementedException();
+            return View(dogs);
         }
 
         [HttpGet]

@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "Dogs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model IEnumerable<K94Warriors.Models.DogProfile>
+
+<h2>Dogs</h2>
+
+<table class="table table-bordered">
+    @* TODO: Repeat me from DogEvents, foo!*@
+    <thead>
+        <tr>
+            <th>Dog Name</th>
+            <th>Breed</th>
+            <th>Age</th>
+            <th>Assigned Warrior</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var dog in Model)
+        {
+            <tr>
+                <td>@dog.Name</td>
+                <td>@dog.Breed</td>
+                <td>@dog.Age</td>
+                <td>@dog.WarriorInfo.FirstName  @dog.WarriorInfo.LastName</td>
+            </tr>
+        }
+    </tbody>
+</table>
