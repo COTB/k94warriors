@@ -37,7 +37,9 @@ header .navbar-header {
     .heading h3 {
         line-height: 38px;
     }
-
+.information {
+    height: 200px;
+}
 .information ul li {
     display: inline-block;
 

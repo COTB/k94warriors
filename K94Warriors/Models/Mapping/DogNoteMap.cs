@@ -18,6 +18,7 @@ namespace K94Warriors.Models.Models.Mapping
             this.Property(t => t.Note).HasColumnName("Note");
             this.Property(t => t.IsCritical).HasColumnName("IsCritical");
             this.Property(t => t.NoteTypeId).HasColumnName("NoteTypeId");
+            this.Property(t => t.CreatedDate).HasColumnName("CreatedDate");
 
             // Relationships
             this.HasRequired(t => t.DogProfile)
