@@ -20,7 +20,5 @@ namespace K94Warriors.Models
         [Required]
         public int NoteTypeID { get; set; }
         public virtual NoteType NoteType { get; set; }
-
-        public virtual ICollection<MetaData> MetaData { get; set; }
     }
 }

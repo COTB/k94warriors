@@ -5,6 +5,10 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using K94Warriors.Models;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure;
+using System.IO;
+
 
 namespace K94Warriors.Controllers
 {
@@ -34,14 +38,27 @@ namespace K94Warriors.Controllers
             throw new NotImplementedException();
         }
 
-        public ActionResult GetDocuments(int dogId)
+        public ActionResult GetDocuments(int id)
         {
-            throw new NotImplementedException();
+            var repo = RepoResolver.GetRepository<DogMedicalRecord>();
+            var documents = repo.GetAll().Where(d => d.ProfileID == id);
+            
+            return Json(documents.ToList(), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetDocument(int documentId)
+        public ActionResult GetDocument(string id)
         {
-            throw new NotImplementedException();
+            CloudStorageAccount account = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageAccountConnectionString"));
+            var client = account.CreateCloudBlobClient();
+            var container = client.GetContainerReference("images");
+            var blockBlob = container.GetBlockBlobReference(id);
+
+            var memoryStream = new MemoryStream();
+        
+            blockBlob.DownloadToStream(memoryStream);
+            memoryStream.Position = 0;
+            return File(memoryStream, "image/jpeg");
+           
         }
 
         public ActionResult CreateOrUpdateDogNote(DogNote dogNote)

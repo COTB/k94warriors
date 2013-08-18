@@ -27,6 +27,5 @@ namespace K94Warriors.Models
 
         public virtual ICollection<DogProfile> DogProfiles { get; set; }
 
-        public virtual ICollection<MetaData> Collection { get; set; }
     }
 }

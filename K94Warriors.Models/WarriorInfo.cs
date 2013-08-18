@@ -27,7 +27,5 @@ namespace K94Warriors.Models
         public string Zip { get; set; }
 
         public virtual ICollection<DogProfile> DogProfiles { get; set; }
-
-        public virtual ICollection<MetaData> MetaData { get; set; }
     }
 }
