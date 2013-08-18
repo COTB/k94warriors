@@ -1,24 +1,16 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+using System;
+using System.Collections.Generic;
 
 namespace K94Warriors.Models
 {
     public class User
     {
-        [Key]
-        public int UserID { get; set; }
-
-        [Required]
+        public System.Guid UserID { get; set; }
         public string Email { get; set; }
-
         public string Phone { get; set; }
-
         public string DisplayName { get; set; }
-
-        public DateTime CreatedTimeUTC { get; set; }
-
+        public System.DateTime CreatedTimeUTC { get; set; }
         public string PhoneProvider { get; set; }
-
-        public int UserTypeID { get; set; }
+        public int UserTypeId { get; set; }
     }
 }

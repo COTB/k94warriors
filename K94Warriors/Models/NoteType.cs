@@ -1,16 +1,17 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using System;
+using System.Collections.Generic;
 
 namespace K94Warriors.Models
 {
     public class NoteType
     {
-        [Key]
+        public NoteType()
+        {
+            this.DogNotes = new List<DogNote>();
+        }
+
         public int ID { get; set; }
-
-        [Required]
         public string Name { get; set; }
-
         public virtual ICollection<DogNote> DogNotes { get; set; }
     }
 }

@@ -86,7 +86,7 @@ namespace K94Warriors.Controllers
         public ActionResult GetDocuments(int id)
         {
             var repo = RepoResolver.GetRepository<DogMedicalRecord>();
-            var documents = repo.GetAll().Where(d => d.ProfileID == id);
+            var documents = repo.GetAll().Where(d => d.DogProfileID == id);
             
             return Json(documents.ToList(), JsonRequestBehavior.AllowGet);
         }
