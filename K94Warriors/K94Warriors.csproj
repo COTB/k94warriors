@@ -218,7 +218,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="EFRepository.cs" />
     <Compile Include="Controllers\SkillsController.cs" />
-    <Compile Include="Filters\EmailErrorAttribute.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -367,6 +366,8 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Skills\Index.cshtml" />
     <Content Include="Views\Shared\Error404.cshtml" />
+    <Content Include="Views\Dog\CreateOrUpdateDog.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DogProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

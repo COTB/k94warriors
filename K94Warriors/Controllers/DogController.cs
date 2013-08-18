@@ -10,18 +10,52 @@ namespace K94Warriors.Controllers
 {
     public class DogController : Controller
     {
+        IRepository<DogProfile> _dogRepo;
+
+        public DogController()
+        {
+            _dogRepo = RepoResolver.GetRepository<DogProfile>();
+        }
 
         public ActionResult GetDogs()
         {
-            var repo = RepoResolver.GetRepository<DogProfile>();
-            var dogs = repo.GetAll();
+            var dogs = _dogRepo.GetAll();
 
             throw new NotImplementedException();
         }
 
+        [HttpGet]
+        public ActionResult CreateOrUpdateDog(int? id)
+        {
+            DogProfile viewModel;
+
+            if (id.HasValue)
+            {
+                viewModel = _dogRepo.GetById(id.Value);
+            }
+            else
+            {
+                viewModel = new DogProfile();
+            }
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
         public ActionResult CreateOrUpdateDog(DogProfile dogProfile)
         {
-            throw new NotImplementedException();
+            var repo = RepoResolver.GetRepository<DogProfile>();
+
+            if (dogProfile.ProfileID == 0)
+            {
+                repo.Insert(dogProfile);
+            }
+            else
+            {
+                repo.Update(dogProfile);
+            }
+
+            return View(dogProfile);
         }
 
         public ActionResult ReadDog(int id)
