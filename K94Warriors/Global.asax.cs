@@ -8,7 +8,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using K94Warriors.Filters;
-using K94Warriors.Logger;
+
 
 namespace K94Warriors
 {
