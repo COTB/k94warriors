@@ -38,7 +38,7 @@ namespace K94Warriors.Filters
                         }
                     }
 
-                    WebSecurity.InitializeDatabaseConnection("K9", "Users", "UserID", "Email", autoCreateTables: true);
+                    WebSecurity.InitializeDatabaseConnection("DefaultConnection", "Users", "UserID", "Email", autoCreateTables: true);
                 }
                 catch (Exception ex)
                 {

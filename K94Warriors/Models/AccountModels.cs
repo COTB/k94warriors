@@ -12,7 +12,7 @@ namespace K94Warriors.Models
     public class UsersContext : DbContext
     {
         public UsersContext()
-            : base("K9")
+            : base("DefaultConnection")
         {
         }
 

@@ -4,7 +4,7 @@
     {
         public static IRepository<T> GetRepository<T>() where T : class
         {
-            var dbContext = new K9DbContext("K9");
+            var dbContext = new K9DbContext("DefaultConnection");
             return new EFRepository<T>(dbContext);
         }
 

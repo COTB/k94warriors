@@ -79,7 +79,7 @@ namespace K94Warriors.Controllers
                 // Attempt to register the user
                 try
                 {
-                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new { UserTypeId= 3}, false);
+                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new { UserTypeId = 3, CreatedTimeUTC = DateTime.UtcNow}, false);
                     WebSecurity.Login(model.UserName, model.Password);
                     return RedirectToAction("Index", "Home");
                 }
