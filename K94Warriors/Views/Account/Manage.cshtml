@@ -13,18 +13,18 @@
 
 @if (ViewBag.HasLocalPassword)
 {
-    @Html.Partial("_ChangePasswordPartial")
+    @Html.Partial(MVC.Account.Views._ChangePasswordPartial)
 }
 else
 { 
-    @Html.Partial("_SetPasswordPartial")
+    @Html.Partial(MVC.Account.Views._SetPasswordPartial )
 }
 
 <section id="externalLogins">
-    @Html.Action("RemoveExternalLogins")
+    @Html.Action(MVC.Account.RemoveExternalLogins())
 
     <h3>Add an external login</h3>
-    @Html.Action("ExternalLoginsList", new { ReturnUrl = ViewBag.ReturnUrl })
+    @Html.Action(MVC.Account.ExternalLoginsList(returnUrl:(string) ViewBag.ReturnUrl))
 </section>
 
 @section Scripts {
