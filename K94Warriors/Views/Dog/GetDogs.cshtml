@@ -1,0 +1,97 @@
+﻿@model IEnumerable<K94Warriors.Models.DogProfile>
+
+@{
+    ViewBag.Title = "GetDogs";
+}
+
+<h2>GetDogs</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            Details
+        </th>
+        <th>Delete</th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Breed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Age)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Color)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PickedUpDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DonorID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsFixed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GraduationDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WarriorID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsApproved)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink("Details", "GetDogs")
+        </td>
+        <td>
+            @Html.ActionLink("Delete", "Delete")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Breed)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Age)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Color)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PickedUpDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DonorID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsFixed)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GraduationDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WarriorID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsApproved)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ProfileID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ProfileID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ProfileID })
+        </td>
+    </tr>
+}
+
+</table>
