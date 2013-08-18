@@ -5,7 +5,7 @@ namespace K94Warriors.Models
 {
     public class User
     {
-        public System.Guid UserID { get; set; }
+        public int UserID { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
         public string DisplayName { get; set; }

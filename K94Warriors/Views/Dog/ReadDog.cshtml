@@ -109,7 +109,29 @@
         <h4>Last 5 Notes</h4>
         <hr/>
         <div class="col col-lg-12">
-            
+            <table class="table table-bordered">
+
+                <thead>
+                    <tr>
+                        <th class="col col-lg-3">Note Type</th>
+                        <th class="col col-lg-6">Note</th>
+                        <th class="col col-lg-3">Date</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var dogNotes in Model.DogNotes.Take(5))
+                    {
+                        <tr>
+                            <td class="col col-lg-3">@dogNotes.NoteType.Name</td>
+                            <td class="col col-lg-6"><a href="/dog/ReadDogNote/@dogNotes.NoteID">@dogNotes.Note</a></td>
+                            <td class="col col-lg-3">@dogNotes.CreatedDate.ToLongDateString()</td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
         </div>
 
     </div>

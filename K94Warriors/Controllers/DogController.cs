@@ -45,21 +45,26 @@ namespace K94Warriors.Controllers
             return View(viewModel);
         }
 
+        [Authorize]
         [HttpPost]
         public ActionResult CreateOrUpdateDog(DogProfile dogProfile)
         {
             var repo = RepoResolver.GetRepository<DogProfile>();
+            var userRep = RepoResolver.GetRepository<User>();
+            var user = userRep.Where(u => u.Email == this.HttpContext.User.Identity.Name).FirstOrDefault();
 
             if (dogProfile.ProfileID == 0)
             {
+                dogProfile.CreatedByUserID = user.UserID;
                 repo.Insert(dogProfile);
+
             }
             else
             {
                 repo.Update(dogProfile);
             }
 
-            return View(dogProfile);
+            return RedirectToAction("Index");
         }
 
         public ActionResult ReadDog(int id)

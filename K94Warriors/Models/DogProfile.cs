@@ -11,6 +11,8 @@ namespace K94Warriors.Models
             this.DogMedicalRecords = new List<DogMedicalRecord>();
             this.DogNotes = new List<DogNote>();
             this.DogSkills = new List<DogSkill>();
+            this.CreatedTimeUTC = DateTime.UtcNow;
+            this.LocationId = 1; // Hacky. Too lazy to break all foreign-key relationships to make this nullable. Location 1 is not on premise and the default until changed.
         }
 
         public int ProfileID { get; set; }
@@ -24,7 +26,7 @@ namespace K94Warriors.Models
         public Nullable<System.DateTime> GraduationDate { get; set; }
         public Nullable<int> WarriorID { get; set; }
         public System.DateTime CreatedTimeUTC { get; set; }
-        public System.Guid CreatedByUserID { get; set; }
+        public int CreatedByUserID { get; set; }
         public bool IsApproved { get; set; }
         public int LocationId { get; set; }
         public virtual ICollection<DogEvent> DogEvents { get; set; }

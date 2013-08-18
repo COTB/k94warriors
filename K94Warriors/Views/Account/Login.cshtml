@@ -11,16 +11,17 @@
     </div>
 
 
-@using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
+    @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
 
 
 
         <div class="form-group">
             <label for="UserName">Email address</label>
-                            
-             @Html.ValidationMessageFor(m => m.UserName)
+
+            @Html.ValidationMessageFor(m => m.UserName)
             <input type="email" class="form-control input-lg" name="UserName" placeholder="Enter email">
         </div>
         <div class="form-group">
@@ -29,15 +30,15 @@
             <input type="password" class="form-control input-lg" name="Password" placeholder="Password">
         </div>
 
-    <div class="form-group">
-        <div class="checkbox">
-            <label>
-                <input type="checkbox" id="RememberMe" >
-                Remember Me?
-            </label>
-        </div>
+        <div class="form-group">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="RememberMe">
+                    Remember Me?
+                </label>
+            </div>
 
-    </div>
+        </div>
         <button type="submit" class="btn btn-default">Submit</button>
 
 
