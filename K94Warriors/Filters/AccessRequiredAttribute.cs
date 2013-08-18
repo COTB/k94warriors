@@ -26,6 +26,7 @@ namespace K94Warriors.Filters
         /// The constructor.
         /// </summary>
         /// <param name="notAuthorizedUrl">The not authorized URL to redirect to when the user is not authorized.</param>
+        /// <param name="userTypes">The user types which are authorized to access the current controller action.</param>
         /// <exception cref="System.ArgumentException">Thrown when notAuthorizedUrl is null, empty, or white space.</exception>
         /// <exception cref="System.ArgumentNullException">Thrown when userTypes is null.</exception>
         public AccessRequiredAttribute(string notAuthorizedUrl, params UserTypeEnum[] userTypes)
