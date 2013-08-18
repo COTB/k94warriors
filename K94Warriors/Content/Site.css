@@ -15,3 +15,7 @@ footer {
     footer p {
         margin: 0;
     }
+
+ .control-group {
+    min-height: 90px;
+}
