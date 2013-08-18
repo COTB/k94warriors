@@ -20,17 +20,20 @@ namespace K94Warriors.Models
 
         public DateTime PickedUpDate { get; set; }
         
+<<<<<<< HEAD
+=======
         //[Required]
         //public int DonorID { get; set; }
         //public virtual Donor Donor { get; set; }
 
+>>>>>>> 90c26a08ed476672eaf4519098671f6c2ada7b08
         [Required]
         public bool IsFixed { get; set; }
 
         public DateTime GraduationDate { get; set; }
 
         [Required]
-        public int WarriorID { get; set; }
+        public int? WarriorID { get; set; }
         public virtual WarriorInfo WarriorInfo { get; set; }
 
         [Required]
@@ -41,8 +44,11 @@ namespace K94Warriors.Models
         public virtual ICollection<DogNote> DogNotes { get; set; }
 
         //public virtual ICollection<Donor> Donors { get; set; }
+<<<<<<< HEAD
+=======
 
         public virtual ICollection<WarriorInfo> WarriorInfos { get; set; }
+>>>>>>> 90c26a08ed476672eaf4519098671f6c2ada7b08
 
         public virtual ICollection<DogSkill> DogSkills { get; set; }
 

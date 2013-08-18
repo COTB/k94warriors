@@ -21,8 +21,6 @@ namespace K94Warriors
 
         public DbSet<Donor> Donors { get; set; }
 
-        public DbSet<MetaData> MetaDatas { get; set; }
-
         public DbSet<WarriorInfo> WarriorInfos { get; set; }
     }
 }
