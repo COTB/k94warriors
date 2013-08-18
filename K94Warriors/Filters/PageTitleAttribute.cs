@@ -18,11 +18,11 @@ namespace K94Warriors.Filters
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             // Get page title
-            var pageTitle = filterContext.RouteData.DataTokens["pageTitle"] as string;
+            var pageTitle = filterContext.RouteData.Values["pageTitle"] as string;
             // If not set make it the action title
             if (string.IsNullOrWhiteSpace(pageTitle))
             {
-                pageTitle = filterContext.RouteData.DataTokens["action"] as string;
+                pageTitle = filterContext.RouteData.Values["action"] as string;
             }
 
             // Save to ViewData
