@@ -226,12 +226,15 @@
     <Compile Include="EFRepository.cs" />
     <Compile Include="Controllers\SkillsController.cs" />
     <Compile Include="Email\SmtpMailer.cs" />
+    <Compile Include="Enums\UserTypeEnum.cs" />
+    <Compile Include="Filters\AccessRequiredAttribute.cs" />
     <Compile Include="Filters\EmailErrorAttribute.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Filters\PageTitleAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Handlers\LoginHandler.cs" />
     <Compile Include="HomeController.generated.cs">
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
