@@ -137,7 +137,7 @@ namespace K94Warriors.Controllers
 
             viewModel = noteId.HasValue ? repo.GetById(noteId.Value) : new DogNote {DogProfileID = dogId};
 
-            ViewBag.NoteTypeId = new SelectList(noteTypeRepo.GetAll(), "ID", "Name");
+            ViewBag.NoteTypeId = new SelectList(noteTypeRepo.GetAll(), "ID", "Name", viewModel.NoteTypeId);
             ViewBag.DogName = dog.Name;
             ViewBag.DogId = dog.ProfileID;
 

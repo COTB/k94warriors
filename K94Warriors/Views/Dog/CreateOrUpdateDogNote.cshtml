@@ -72,19 +72,19 @@
     
     <div class="form-group">
         <label>Note</label>
-        <input type="text" class="form-control input-lg" name="Note" placeholder="Note">
+        <input type="text" class="form-control input-lg" name="Note" placeholder="Note" value="@Model.Note">
         @Html.ValidationMessageFor(t => t.Note, "", new {@class = "help-block"})
     </div>
     
     <div class="checkbox">
         <label>
-            <input type="checkbox" name="IsCritical" value="true"> Is Note Critical (Will send trainer e-mail alert)
+            <input type="checkbox" name="IsCritical" value="true" @(Model.IsCritical ? "checked" : "")> Is Note Critical (Will send trainer e-mail alert)
         </label>
         @Html.ValidationMessageFor(t => t.IsCritical, "", new {@class = "help-block"})
     </div>
     
     <p>
-        <button type="submit" class="btn">Create</button>
+        <button type="submit" class="btn">Submit</button>
     </p>
 
 
