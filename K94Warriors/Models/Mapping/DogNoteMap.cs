@@ -19,14 +19,20 @@ namespace K94Warriors.Models.Models.Mapping
             this.Property(t => t.IsCritical).HasColumnName("IsCritical");
             this.Property(t => t.NoteTypeId).HasColumnName("NoteTypeId");
             this.Property(t => t.CreatedDate).HasColumnName("CreatedDate");
+            this.Property(t => t.CreatedByUserId).HasColumnName("CreatedByUserId");
 
             // Relationships
             this.HasRequired(t => t.DogProfile)
                 .WithMany(t => t.DogNotes)
                 .HasForeignKey(d => d.DogProfileID);
+
             this.HasRequired(t => t.NoteType)
                 .WithMany(t => t.DogNotes)
                 .HasForeignKey(d => d.NoteTypeId);
+
+            this.HasRequired(t => t.User)
+                .WithMany(t => t.DogNotes)
+                .HasForeignKey(t => t.CreatedByUserId);
 
         }
     }

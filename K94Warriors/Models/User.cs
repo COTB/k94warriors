@@ -12,5 +12,7 @@ namespace K94Warriors.Models
         public System.DateTime CreatedTimeUTC { get; set; }
         public string PhoneProvider { get; set; }
         public int UserTypeId { get; set; }
+        public virtual ICollection<DogNote> DogNotes { get; set; }
+        public virtual UserType UserType { get; set; }
     }
 }

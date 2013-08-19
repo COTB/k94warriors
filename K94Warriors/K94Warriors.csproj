@@ -397,6 +397,8 @@
     <Content Include="Views\Dog\Index.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Dog\ReadDog.cshtml" />
+    <Content Include="Views\Dog\CreateOrUpdateDogNote.cshtml" />
+    <Content Include="Views\Dog\GetNotes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

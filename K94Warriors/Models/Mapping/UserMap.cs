@@ -33,6 +33,10 @@ namespace K94Warriors.Models.Models.Mapping
             this.Property(t => t.CreatedTimeUTC).HasColumnName("CreatedTimeUTC");
             this.Property(t => t.PhoneProvider).HasColumnName("PhoneProvider");
             this.Property(t => t.UserTypeId).HasColumnName("UserTypeId");
+
+            this.HasRequired(t => t.UserType)
+            .WithMany(t => t.Users)
+            .HasForeignKey(t => t.UserTypeId);
         }
     }
 }

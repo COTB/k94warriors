@@ -19,15 +19,20 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var dogEvent in Model)
-{
-    <tr>
-        <td class="col col-lg-3">@dogEvent.DogProfile.Name</td>
-        <td class="col col-lg-6">@dogEvent.Subject</td>
-        <td class="col col-lg-6">@dogEvent.EventDate.ToLongDateString()</td>
-    </tr>
+        @if (Model != null)
+        {
+       
+            foreach (var dogEvent in Model)
+            {
+                <tr>
+                    <td class="col col-lg-3">@dogEvent.DogProfile.Name</td>
+                    <td class="col col-lg-6">@dogEvent.Subject</td>
+                    <td class="col col-lg-6">@dogEvent.EventDate.ToLongDateString()</td>
+                </tr>
     
-}
+            }
+        }
+
     </tbody>
 
     @*/Repeat me from DogEvents, foo!*@
