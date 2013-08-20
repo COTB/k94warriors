@@ -16,6 +16,31 @@ footer {
         margin: 0;
     }
 
- .control-group {
-    min-height: 90px;
+.validation-summary-errors ul {
+}
+
+header .navbar.navbar-static-top {
+    margin-bottom: 0;
+}
+
+header .navbar-header {
+    padding-left: 0;
+}
+.content.container {
+    margin-top: 20px;
+}
+
+.heading {
+    height: 50px;
+}
+
+    .heading h3 {
+        line-height: 38px;
+    }
+.information {
+    min-height: 200px;
+}
+.information ul li {
+    display: inline-block;
+
 }

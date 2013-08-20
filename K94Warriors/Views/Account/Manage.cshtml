@@ -13,19 +13,14 @@
 
 @if (ViewBag.HasLocalPassword)
 {
-    @Html.Partial(MVC.Account.Views._ChangePasswordPartial)
+    @Html.Partial("_ChangePasswordPartial")
 }
 else
 { 
-    @Html.Partial(MVC.Account.Views._SetPasswordPartial )
+    @Html.Partial("_SetPasswordPartial")
 }
 
-<section id="externalLogins">
-    @Html.Action(MVC.Account.RemoveExternalLogins())
 
-    <h3>Add an external login</h3>
-    @Html.Action(MVC.Account.ExternalLoginsList(returnUrl:(string) ViewBag.ReturnUrl))
-</section>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

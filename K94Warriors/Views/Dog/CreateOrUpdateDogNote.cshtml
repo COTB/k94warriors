@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.Title = "CreateOrUpdateDogNote";
+}
+@model K94Warriors.Models.DogNote
+@section subnav {
+
+    <nav class="navbar navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/dog">Return to Dog List</a>
+                <a class="navbar-brand" href="/dog/readdog/@ViewBag.DogId">View @ViewBag.DogName</a>
+            </div>
+
+
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@ViewBag.DogName's Notes <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/dog/getnotes?dogId=@ViewBag.DogId">View Notes</a></li>
+                            <li><a href="/dog/CreateOrUpdateDogNote?dogId=@ViewBag.DogId">Add Notes</a></li>
+
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@ViewBag.DogName's Medical Records <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">View Medical Records</a></li>
+                            <li><a href="#">Add Medical Records</a></li>
+
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@ViewBag.DogName's Events <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">View Events</a></li>
+                            <li><a href="#">Add Events</a></li>
+
+                        </ul>
+                    </li>
+
+
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+
+    </nav>
+
+
+}
+<div class="well">
+    <h1>Note</h1>
+    <div>Pick a note type that best fits your entry.</div>
+</div>
+@using (Html.BeginForm())
+{
+    
+    @Html.AntiForgeryToken()
+    @Html.Hidden("DogProfileId", @Model.DogProfileID)
+    <div class="form-group">
+        <label>Note Type</label>
+        @Html.DropDownList("NoteTypeId", null, "Select Note Type" ,new { @class = "form-control"})
+    </div>
+    
+    <div class="form-group">
+        <label>Note</label>
+        <input type="text" class="form-control input-lg" name="Note" placeholder="Note" value="@Model.Note">
+        @Html.ValidationMessageFor(t => t.Note, "", new {@class = "help-block"})
+    </div>
+    
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" name="IsCritical" value="true" @(Model.IsCritical ? "checked" : "")> Is Note Critical (Will send trainer e-mail alert)
+        </label>
+        @Html.ValidationMessageFor(t => t.IsCritical, "", new {@class = "help-block"})
+    </div>
+    
+    <p>
+        <button type="submit" class="btn">Submit</button>
+    </p>
+
+
+    
+}

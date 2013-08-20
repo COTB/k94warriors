@@ -1,0 +1,139 @@
+﻿@{
+    ViewBag.Title = "Dog Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model K94Warriors.Models.DogProfile
+@section subnav {
+
+    <nav class="navbar navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/dog">Return to Dog List</a>
+            </div>
+
+
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Model.Name's Notes <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/dog/getnotes?dogId=@Model.ProfileID">View Notes</a></li>
+                            <li><a href="/dog/createorupdatedognote?dogId=@Model.ProfileID">Add Notes</a></li>
+
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Model.Name's Medical Records <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">View Medical Records</a></li>
+                            <li><a href="#">Add Medical Records</a></li>
+
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Model.Name's Events <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">View Events</a></li>
+                            <li><a href="#">Add Events</a></li>
+
+                        </ul>
+                    </li>
+
+
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+
+    </nav>
+
+
+}
+
+<div class="col col-lg-12">
+    <div class="heading">
+        <h2 class="pull-left">@Model.Name</h2>
+        <h3 class="pull-right">@Model.Gender @Model.Breed, @Model.Age years old</h3>
+
+    </div>
+    <hr />
+    <div class="information">
+
+        <div class="col col-lg-4">
+            <img src="http://placehold.it/320x180" />
+        </div>
+        <div class="col col-lg-8">
+            <div class="col col-lg-4">
+                <strong>Created  Date</strong>
+                <p>@Model.CreatedTimeUTC.ToLongDateString()</p>
+            </div>
+            <div class="col col-lg-2">
+                <strong>Color</strong>
+                <p>@Model.Color</p>
+            </div>
+            <div class="col col-lg-3">
+                <strong>Gender</strong>
+                <p>@Model.Gender</p>
+            </div>
+            <div class="col col-lg-2">
+                <strong>Location</strong>
+                <p>@Model.Location.Name</p>
+            </div>
+
+            <div class="col col-lg-4">
+                <strong>Picked-Up Date</strong>
+                <p>@(Model.PickedUpDate.HasValue ? Model.PickedUpDate.Value.ToLongDateString() : "Not Picked Up")</p>
+            </div>
+
+            <div class="col col-lg-2">
+                <strong>Fixed</strong>
+                <p>@Model.IsFixed</p>
+            </div>
+            <div class="col col-lg-3">
+                <strong>Approved</strong>
+                <p>@Model.IsApproved</p>
+            </div>
+
+        </div>
+
+
+    </div>
+    <div>
+        <h4>Last 5 Notes</h4>
+        <hr/>
+        <div class="col col-lg-12">
+            <table class="table table-bordered">
+
+                <thead>
+                    <tr>
+                        <th class="col col-lg-3">Note Type</th>
+                        <th class="col col-lg-6">Note</th>
+                        <th class="col col-lg-3">Date</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var dogNotes in Model.DogNotes.Take(5))
+                    {
+                        <tr>
+                            <td class="col col-lg-3">@dogNotes.NoteType.Name</td>
+                            <td class="col col-lg-6"><a href="/dog/CreateOrUpdateDogNote?dogId=@dogNotes.DogProfileID&noteId=@dogNotes.NoteID">@dogNotes.Note</a></td>
+                            <td class="col col-lg-3">@dogNotes.CreatedDate.ToLongDateString()</td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+</div>
+

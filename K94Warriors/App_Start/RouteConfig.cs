@@ -19,6 +19,19 @@ namespace K94Warriors
                 defaults: new { controller = "Home", action = "Index", pageTitle = "Welcome" }
             );
 
+            routes.MapRoute(
+                name: "Account",
+                url: "account/{action}",
+                defaults: new { controller = "Account", action = "Register", pageTitle = "Account" }
+            );
+
+            routes.MapRoute(
+                name: "Dog",
+                url: "dog/{action}/{id}",
+                defaults: new { controller = "Dog", action = "Index", pageTitle = "Dogs", id = "" }
+            );
+   
+
             // 404 catch-all
             routes.MapRoute(
                 name: "404 Catch All",

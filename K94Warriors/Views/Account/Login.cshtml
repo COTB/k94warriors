@@ -4,42 +4,47 @@
     ViewBag.Title = "Log in";
 }
 
-<div class="well">
-    <h1>@ViewBag.Title.</h1>
-    <div>Please supply your login credentials below or <a href="/Account/Register">Register here</a> if you don't have an account.</div>
+<div class="col col-lg-12">
+    <div class="well">
+        <h1>@ViewBag.Title.</h1>
+        <div>Please enter your account information below.</div>
+    </div>
+
+
+    @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+
+
+        <div class="form-group">
+            <label for="UserName">Email address</label>
+
+            @Html.ValidationMessageFor(m => m.UserName)
+            <input type="email" class="form-control input-lg" name="UserName" placeholder="Enter email">
+        </div>
+        <div class="form-group">
+            <label for="Password">Password</label>
+            @Html.ValidationMessageFor(m => m.Password)
+            <input type="password" class="form-control input-lg" name="Password" placeholder="Password">
+        </div>
+
+        <div class="form-group">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="RememberMe">
+                    Remember Me?
+                </label>
+            </div>
+
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+
+
+    }
 </div>
 
-<section>
-@using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
-
-<!-- Text input-->
-<div class="control-group">
-  <label class="control-label">Email</label>
-  <div class="controls">
-    <input id="userName" name="userName" type="text" placeholder="email@address.com" class="input-xlarge" required="required">
-    
-  </div>
-</div>
-
-<!-- Password input-->
-<div class="control-group">
-  <label class="control-label">Password</label>
-  <div class="controls">
-    <input id="password" name="password" type="password" placeholder="" class="input-xlarge" required="required">
-  </div>
-</div>
-
-<!-- Button -->
-<div class="control-group">
-  <label class="control-label"></label>
-  <div class="controls">
-    <button type="submit" id="signIn" name="signIn" class="btn btn-primary">Sign In</button>
-  </div>
-</div>
-}
-</section>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

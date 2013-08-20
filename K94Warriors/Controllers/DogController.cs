@@ -21,11 +21,11 @@ namespace K94Warriors.Controllers
             _dogRepo = RepoResolver.GetRepository<DogProfile>();
         }
 
-        public ActionResult GetDogs()
+        public ActionResult Index()
         {
             var dogs = _dogRepo.GetAll();
 
-            throw new NotImplementedException();
+            return View(dogs);
         }
 
         [HttpGet]
@@ -33,38 +33,40 @@ namespace K94Warriors.Controllers
         {
             DogProfile viewModel;
 
-            if (id.HasValue)
-            {
-                viewModel = _dogRepo.GetById(id.Value);
-            }
-            else
-            {
-                viewModel = new DogProfile();
-            }
+            viewModel = id.HasValue ? _dogRepo.GetById(id.Value) : new DogProfile();
 
             return View(viewModel);
         }
 
+        [Authorize]
         [HttpPost]
         public ActionResult CreateOrUpdateDog(DogProfile dogProfile)
         {
             var repo = RepoResolver.GetRepository<DogProfile>();
+            var userRep = RepoResolver.GetRepository<User>();
+            var user = userRep.Where(u => u.Email == this.HttpContext.User.Identity.Name).FirstOrDefault();
+
+            if (user.UserType.Name != "ADMIN" && user.UserType.Name != "TRAINER")
+                return RedirectToAction("Index");
 
             if (dogProfile.ProfileID == 0)
             {
+                dogProfile.CreatedByUserID = user.UserID;
                 repo.Insert(dogProfile);
+
             }
             else
             {
                 repo.Update(dogProfile);
             }
 
-            return View(dogProfile);
+            return RedirectToAction("Index");
         }
 
         public ActionResult ReadDog(int id)
         {
-            throw new NotImplementedException();
+            var repo = RepoResolver.GetRepository<DogProfile>();
+            return View(repo.GetById(id));
         }
 
         [HttpGet]
@@ -80,13 +82,13 @@ namespace K94Warriors.Controllers
         {
             var repo = RepoResolver.GetRepository<DogProfile>();
             repo.Delete(id);
-            return RedirectToAction("GetDogs");
+            return RedirectToAction("Index");
         }
 
         public ActionResult GetDocuments(int id)
         {
             var repo = RepoResolver.GetRepository<DogMedicalRecord>();
-            var documents = repo.GetAll().Where(d => d.ProfileID == id);
+            var documents = repo.GetAll().Where(d => d.DogProfileID == id);
             
             return Json(documents.ToList(), JsonRequestBehavior.AllowGet);
         }
@@ -106,9 +108,40 @@ namespace K94Warriors.Controllers
            
         }
 
+        [Authorize]
+        [HttpPost]
         public ActionResult CreateOrUpdateDogNote(DogNote dogNote)
         {
-            throw new NotImplementedException();
+            if (dogNote.NoteID == 0)
+            {
+                var repo = RepoResolver.GetRepository<DogNote>();
+                var userRepo = RepoResolver.GetRepository<User>();
+                var user = userRepo.Where(u => u.Email == this.HttpContext.User.Identity.Name).FirstOrDefault();
+
+                dogNote.CreatedDate = DateTime.UtcNow;
+                dogNote.CreatedByUserId = user.UserID;
+
+                repo.Insert(dogNote);
+            }
+            return RedirectToAction("ReadDog", new {id = dogNote.DogProfileID});
+        }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult CreateOrUpdateDogNote(int dogId, int? noteId)
+        {
+            DogNote viewModel;
+            var dog = _dogRepo.GetById(dogId);
+            var repo = RepoResolver.GetRepository<DogNote>();
+            var noteTypeRepo = RepoResolver.GetRepository<NoteType>();
+
+            viewModel = noteId.HasValue ? repo.GetById(noteId.Value) : new DogNote {DogProfileID = dogId};
+
+            ViewBag.NoteTypeId = new SelectList(noteTypeRepo.GetAll(), "ID", "Name", viewModel.NoteTypeId);
+            ViewBag.DogName = dog.Name;
+            ViewBag.DogId = dog.ProfileID;
+
+            return View(viewModel);
         }
 
         public ActionResult GetNote(int id)
@@ -118,12 +151,14 @@ namespace K94Warriors.Controllers
 
         public ActionResult GetNotes(int dogId)
         {
-            throw new NotImplementedException();
-        }
+            var repo = RepoResolver.GetRepository<DogNote>();
+            var model = repo.Where(n => n.DogProfileID == dogId);
+            var dog = _dogRepo.GetById(dogId);
 
-        public ActionResult GetNotes(int dogId, int noteTypeId)
-        {
-            throw new NotImplementedException();
+            ViewBag.DogName = dog.Name;
+            ViewBag.DogId = dog.ProfileID;
+
+            return View(model);
         }
 
         public ActionResult DeleteDogNote(int id)

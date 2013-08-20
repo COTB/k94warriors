@@ -59,7 +59,7 @@ namespace K94Warriors.Models
     public class LoginModel
     {
         [Required]
-        [Display(Name = "User name")]
+        [Display(Name = "E-mail")]
         public string UserName { get; set; }
 
         [Required]

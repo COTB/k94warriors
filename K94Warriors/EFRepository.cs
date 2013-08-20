@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace K94Warriors
 {
@@ -61,6 +62,11 @@ namespace K94Warriors
             var dbOjb = DbContext.Entry(entity);
             dbOjb.State = EntityState.Deleted;
             DbContext.SaveChanges();
+        }
+
+        public IQueryable<T> Where(Expression<Func<T, bool>> predicate)
+        {
+            return DbSet.Where(predicate);
         }
     }
 }
