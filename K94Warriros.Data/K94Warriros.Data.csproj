@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4E933833-89A5-428D-82F6-E3B972B0C7B0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>K94Warriros.Data</RootNamespace>
+    <AssemblyName>K94Warriros.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Class1.cs" />
+    <Compile Include="DogEvent.cs">
+      <DependentUpon>K9.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DogMedicalRecord.cs">
+      <DependentUpon>K9.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DogNote.cs">
+      <DependentUpon>K9.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DogProfile.cs">
+      <DependentUpon>K9.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DogSkill.cs">
+      <DependentUpon>K9.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DogSkillName.cs">
+      <DependentUpon>K9.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EventType.cs">
+      <DependentUpon>K9.tt</DependentUpon>
+    </Compile>
+    <Compile Include="K9.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>K9.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="K9.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>K9.tt</DependentUpon>
+    </Compile>
+    <Compile Include="K9.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>K9.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Location.cs">
+      <DependentUpon>K9.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NoteType.cs">
+      <DependentUpon>K9.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="User.cs">
+      <DependentUpon>K9.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserType.cs">
+      <DependentUpon>K9.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WarriorInfo.cs">
+      <DependentUpon>K9.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <EntityDeploy Include="K9.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>K9.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="K9.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>K9.edmx</DependentUpon>
+      <LastGenOutput>K9.Context.cs</LastGenOutput>
+    </None>
+    <None Include="K9.edmx.diagram">
+      <DependentUpon>K9.edmx</DependentUpon>
+    </None>
+    <None Include="K9.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>K9.edmx</DependentUpon>
+      <LastGenOutput>K9.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

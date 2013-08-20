@@ -1,0 +1,759 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="k94warriors_dbModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="k94warriors_dbModelStoreContainer">
+          <EntitySet Name="DogEvents" EntityType="k94warriors_dbModel.Store.DogEvents" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="DogMedicalRecords" EntityType="k94warriors_dbModel.Store.DogMedicalRecords" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="DogNotes" EntityType="k94warriors_dbModel.Store.DogNotes" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="DogProfiles" EntityType="k94warriors_dbModel.Store.DogProfiles" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="DogSkillNames" EntityType="k94warriors_dbModel.Store.DogSkillNames" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="DogSkills" EntityType="k94warriors_dbModel.Store.DogSkills" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="EventTypes" EntityType="k94warriors_dbModel.Store.EventTypes" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Locations" EntityType="k94warriors_dbModel.Store.Locations" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="NoteTypes" EntityType="k94warriors_dbModel.Store.NoteTypes" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Users" EntityType="k94warriors_dbModel.Store.Users" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UserTypes" EntityType="k94warriors_dbModel.Store.UserTypes" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="WarriorInfo" EntityType="k94warriors_dbModel.Store.WarriorInfo" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK__DogEvents__DogPr__59063A47" Association="k94warriors_dbModel.Store.FK__DogEvents__DogPr__59063A47">
+            <End Role="DogProfiles" EntitySet="DogProfiles" />
+            <End Role="DogEvents" EntitySet="DogEvents" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DogNotes__DogPro__3D5E1FD2" Association="k94warriors_dbModel.Store.FK__DogNotes__DogPro__3D5E1FD2">
+            <End Role="DogProfiles" EntitySet="DogProfiles" />
+            <End Role="DogNotes" EntitySet="DogNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DogProfil__Warri__3F466844" Association="k94warriors_dbModel.Store.FK__DogProfil__Warri__3F466844">
+            <End Role="WarriorInfo" EntitySet="WarriorInfo" />
+            <End Role="DogProfiles" EntitySet="DogProfiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DogRecord__DogPr__403A8C7D" Association="k94warriors_dbModel.Store.FK__DogRecord__DogPr__403A8C7D">
+            <End Role="DogProfiles" EntitySet="DogProfiles" />
+            <End Role="DogMedicalRecords" EntitySet="DogMedicalRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DogSkills__DogPr__412EB0B6" Association="k94warriors_dbModel.Store.FK__DogSkills__DogPr__412EB0B6">
+            <End Role="DogProfiles" EntitySet="DogProfiles" />
+            <End Role="DogSkills" EntitySet="DogSkills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventTypeId" Association="k94warriors_dbModel.Store.FK_EventTypeId">
+            <End Role="EventTypes" EntitySet="EventTypes" />
+            <End Role="DogEvents" EntitySet="DogEvents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LocationId" Association="k94warriors_dbModel.Store.FK_LocationId">
+            <End Role="Locations" EntitySet="Locations" />
+            <End Role="DogProfiles" EntitySet="DogProfiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NoteTypeId" Association="k94warriors_dbModel.Store.FK_NoteTypeId">
+            <End Role="NoteTypes" EntitySet="NoteTypes" />
+            <End Role="DogNotes" EntitySet="DogNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SkillNameId" Association="k94warriors_dbModel.Store.FK_SkillNameId">
+            <End Role="DogSkillNames" EntitySet="DogSkillNames" />
+            <End Role="DogSkills" EntitySet="DogSkills" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="DogEvents">
+          <Key>
+            <PropertyRef Name="EventID" />
+          </Key>
+          <Property Name="EventID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Subject" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="Body" Type="varchar(max)" />
+          <Property Name="IsComplete" Type="bit" Nullable="false" />
+          <Property Name="EventDate" Type="date" Nullable="false" />
+          <Property Name="DogProfileID" Type="int" Nullable="false" />
+          <Property Name="EventTypeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DogMedicalRecords">
+          <Key>
+            <PropertyRef Name="RecordID" />
+          </Key>
+          <Property Name="RecordID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="DogProfileID" Type="int" Nullable="false" />
+          <Property Name="RecordType" Type="varchar" MaxLength="200" />
+          <Property Name="Title" Type="varchar" MaxLength="200" />
+          <Property Name="RecordExpirationDate" Type="date" />
+          <Property Name="RecordURL" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="DogNotes">
+          <Key>
+            <PropertyRef Name="NoteID" />
+          </Key>
+          <Property Name="NoteID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="DogProfileID" Type="int" Nullable="false" />
+          <Property Name="Note" Type="varchar(max)" />
+          <Property Name="IsCritical" Type="bit" Nullable="false" />
+          <Property Name="NoteTypeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DogProfiles">
+          <Key>
+            <PropertyRef Name="ProfileID" />
+          </Key>
+          <Property Name="ProfileID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" MaxLength="200" />
+          <Property Name="Breed" Type="varchar" MaxLength="200" />
+          <Property Name="Age" Type="int" />
+          <Property Name="Color" Type="varchar" MaxLength="200" />
+          <Property Name="PickedUpDate" Type="date" />
+          <Property Name="IsFixed" Type="bit" Nullable="false" />
+          <Property Name="GraduationDate" Type="date" />
+          <Property Name="WarriorID" Type="int" />
+          <Property Name="CreatedTimeUTC" Type="datetime" Nullable="false" />
+          <Property Name="CreatedByUserID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IsApproved" Type="bit" Nullable="false" />
+          <Property Name="LocationId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DogSkillNames">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="DogSkills">
+          <Key>
+            <PropertyRef Name="DogSkilID" />
+          </Key>
+          <Property Name="DogSkilID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="DogProfileID" Type="int" Nullable="false" />
+          <Property Name="Level" Type="int" Nullable="false" />
+          <Property Name="SkillNameId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EventTypes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Locations">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="NoteTypes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Email" Type="varchar" Nullable="false" MaxLength="300" />
+          <Property Name="Phone" Type="varchar" MaxLength="30" />
+          <Property Name="DisplayName" Type="varchar" MaxLength="200" />
+          <Property Name="CreatedTimeUTC" Type="datetime" Nullable="false" />
+          <Property Name="PhoneProvider" Type="varchar" MaxLength="200" />
+          <Property Name="UserTypeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserTypes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="WarriorInfo">
+          <Key>
+            <PropertyRef Name="WarriorID" />
+          </Key>
+          <Property Name="WarriorID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" />
+          <Property Name="GraduationDate" Type="date" />
+          <Property Name="Phone" Type="varchar" MaxLength="30" />
+          <Property Name="Email" Type="varchar" MaxLength="200" />
+          <Property Name="Address" Type="varchar" MaxLength="200" />
+          <Property Name="City" Type="varchar" MaxLength="100" />
+          <Property Name="State" Type="varchar" MaxLength="2" />
+          <Property Name="Zip" Type="varchar" MaxLength="10" />
+          <Property Name="CreatedTimeUTC" Type="datetime" Nullable="false" />
+          <Property Name="CreatedByUserID" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__DogEvents__DogPr__59063A47">
+          <End Role="DogProfiles" Type="k94warriors_dbModel.Store.DogProfiles" Multiplicity="1" />
+          <End Role="DogEvents" Type="k94warriors_dbModel.Store.DogEvents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DogProfiles">
+              <PropertyRef Name="ProfileID" />
+            </Principal>
+            <Dependent Role="DogEvents">
+              <PropertyRef Name="DogProfileID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DogNotes__DogPro__3D5E1FD2">
+          <End Role="DogProfiles" Type="k94warriors_dbModel.Store.DogProfiles" Multiplicity="1" />
+          <End Role="DogNotes" Type="k94warriors_dbModel.Store.DogNotes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DogProfiles">
+              <PropertyRef Name="ProfileID" />
+            </Principal>
+            <Dependent Role="DogNotes">
+              <PropertyRef Name="DogProfileID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DogProfil__Warri__3F466844">
+          <End Role="WarriorInfo" Type="k94warriors_dbModel.Store.WarriorInfo" Multiplicity="0..1" />
+          <End Role="DogProfiles" Type="k94warriors_dbModel.Store.DogProfiles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WarriorInfo">
+              <PropertyRef Name="WarriorID" />
+            </Principal>
+            <Dependent Role="DogProfiles">
+              <PropertyRef Name="WarriorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DogRecord__DogPr__403A8C7D">
+          <End Role="DogProfiles" Type="k94warriors_dbModel.Store.DogProfiles" Multiplicity="1" />
+          <End Role="DogMedicalRecords" Type="k94warriors_dbModel.Store.DogMedicalRecords" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DogProfiles">
+              <PropertyRef Name="ProfileID" />
+            </Principal>
+            <Dependent Role="DogMedicalRecords">
+              <PropertyRef Name="DogProfileID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DogSkills__DogPr__412EB0B6">
+          <End Role="DogProfiles" Type="k94warriors_dbModel.Store.DogProfiles" Multiplicity="1" />
+          <End Role="DogSkills" Type="k94warriors_dbModel.Store.DogSkills" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DogProfiles">
+              <PropertyRef Name="ProfileID" />
+            </Principal>
+            <Dependent Role="DogSkills">
+              <PropertyRef Name="DogProfileID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventTypeId">
+          <End Role="EventTypes" Type="k94warriors_dbModel.Store.EventTypes" Multiplicity="1" />
+          <End Role="DogEvents" Type="k94warriors_dbModel.Store.DogEvents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EventTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DogEvents">
+              <PropertyRef Name="EventTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LocationId">
+          <End Role="Locations" Type="k94warriors_dbModel.Store.Locations" Multiplicity="1" />
+          <End Role="DogProfiles" Type="k94warriors_dbModel.Store.DogProfiles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Locations">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DogProfiles">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NoteTypeId">
+          <End Role="NoteTypes" Type="k94warriors_dbModel.Store.NoteTypes" Multiplicity="1" />
+          <End Role="DogNotes" Type="k94warriors_dbModel.Store.DogNotes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NoteTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DogNotes">
+              <PropertyRef Name="NoteTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SkillNameId">
+          <End Role="DogSkillNames" Type="k94warriors_dbModel.Store.DogSkillNames" Multiplicity="1" />
+          <End Role="DogSkills" Type="k94warriors_dbModel.Store.DogSkills" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DogSkillNames">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DogSkills">
+              <PropertyRef Name="SkillNameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="k94warriors_dbModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="k94warriors_dbEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DogEvents" EntityType="k94warriors_dbModel.DogEvent" />
+          <EntitySet Name="DogMedicalRecords" EntityType="k94warriors_dbModel.DogMedicalRecord" />
+          <EntitySet Name="DogNotes" EntityType="k94warriors_dbModel.DogNote" />
+          <EntitySet Name="DogProfiles" EntityType="k94warriors_dbModel.DogProfile" />
+          <EntitySet Name="DogSkillNames" EntityType="k94warriors_dbModel.DogSkillName" />
+          <EntitySet Name="DogSkills" EntityType="k94warriors_dbModel.DogSkill" />
+          <EntitySet Name="EventTypes" EntityType="k94warriors_dbModel.EventType" />
+          <EntitySet Name="Locations" EntityType="k94warriors_dbModel.Location" />
+          <EntitySet Name="NoteTypes" EntityType="k94warriors_dbModel.NoteType" />
+          <EntitySet Name="Users" EntityType="k94warriors_dbModel.User" />
+          <EntitySet Name="UserTypes" EntityType="k94warriors_dbModel.UserType" />
+          <EntitySet Name="WarriorInfoes" EntityType="k94warriors_dbModel.WarriorInfo" />
+          <AssociationSet Name="FK__DogEvents__DogPr__59063A47" Association="k94warriors_dbModel.FK__DogEvents__DogPr__59063A47">
+            <End Role="DogProfiles" EntitySet="DogProfiles" />
+            <End Role="DogEvents" EntitySet="DogEvents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventTypeId" Association="k94warriors_dbModel.FK_EventTypeId">
+            <End Role="EventTypes" EntitySet="EventTypes" />
+            <End Role="DogEvents" EntitySet="DogEvents" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DogRecord__DogPr__403A8C7D" Association="k94warriors_dbModel.FK__DogRecord__DogPr__403A8C7D">
+            <End Role="DogProfiles" EntitySet="DogProfiles" />
+            <End Role="DogMedicalRecords" EntitySet="DogMedicalRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DogNotes__DogPro__3D5E1FD2" Association="k94warriors_dbModel.FK__DogNotes__DogPro__3D5E1FD2">
+            <End Role="DogProfiles" EntitySet="DogProfiles" />
+            <End Role="DogNotes" EntitySet="DogNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NoteTypeId" Association="k94warriors_dbModel.FK_NoteTypeId">
+            <End Role="NoteTypes" EntitySet="NoteTypes" />
+            <End Role="DogNotes" EntitySet="DogNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DogProfil__Warri__3F466844" Association="k94warriors_dbModel.FK__DogProfil__Warri__3F466844">
+            <End Role="WarriorInfo" EntitySet="WarriorInfoes" />
+            <End Role="DogProfiles" EntitySet="DogProfiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DogSkills__DogPr__412EB0B6" Association="k94warriors_dbModel.FK__DogSkills__DogPr__412EB0B6">
+            <End Role="DogProfiles" EntitySet="DogProfiles" />
+            <End Role="DogSkills" EntitySet="DogSkills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LocationId" Association="k94warriors_dbModel.FK_LocationId">
+            <End Role="Locations" EntitySet="Locations" />
+            <End Role="DogProfiles" EntitySet="DogProfiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SkillNameId" Association="k94warriors_dbModel.FK_SkillNameId">
+            <End Role="DogSkillNames" EntitySet="DogSkillNames" />
+            <End Role="DogSkills" EntitySet="DogSkills" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="DogEvent">
+          <Key>
+            <PropertyRef Name="EventID" />
+          </Key>
+          <Property Name="EventID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Subject" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
+          <Property Name="Body" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="IsComplete" Type="Boolean" Nullable="false" />
+          <Property Name="EventDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DogProfileID" Type="Int32" Nullable="false" />
+          <Property Name="EventTypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DogProfile" Relationship="k94warriors_dbModel.FK__DogEvents__DogPr__59063A47" FromRole="DogEvents" ToRole="DogProfiles" />
+          <NavigationProperty Name="EventType" Relationship="k94warriors_dbModel.FK_EventTypeId" FromRole="DogEvents" ToRole="EventTypes" />
+        </EntityType>
+        <EntityType Name="DogMedicalRecord">
+          <Key>
+            <PropertyRef Name="RecordID" />
+          </Key>
+          <Property Name="RecordID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DogProfileID" Type="Int32" Nullable="false" />
+          <Property Name="RecordType" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
+          <Property Name="Title" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
+          <Property Name="RecordExpirationDate" Type="DateTime" Precision="0" />
+          <Property Name="RecordURL" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="DogProfile" Relationship="k94warriors_dbModel.FK__DogRecord__DogPr__403A8C7D" FromRole="DogMedicalRecords" ToRole="DogProfiles" />
+        </EntityType>
+        <EntityType Name="DogNote">
+          <Key>
+            <PropertyRef Name="NoteID" />
+          </Key>
+          <Property Name="NoteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DogProfileID" Type="Int32" Nullable="false" />
+          <Property Name="Note" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="IsCritical" Type="Boolean" Nullable="false" />
+          <Property Name="NoteTypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DogProfile" Relationship="k94warriors_dbModel.FK__DogNotes__DogPro__3D5E1FD2" FromRole="DogNotes" ToRole="DogProfiles" />
+          <NavigationProperty Name="NoteType" Relationship="k94warriors_dbModel.FK_NoteTypeId" FromRole="DogNotes" ToRole="NoteTypes" />
+        </EntityType>
+        <EntityType Name="DogProfile">
+          <Key>
+            <PropertyRef Name="ProfileID" />
+          </Key>
+          <Property Name="ProfileID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
+          <Property Name="Breed" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
+          <Property Name="Age" Type="Int32" />
+          <Property Name="Color" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
+          <Property Name="PickedUpDate" Type="DateTime" Precision="0" />
+          <Property Name="IsFixed" Type="Boolean" Nullable="false" />
+          <Property Name="GraduationDate" Type="DateTime" Precision="0" />
+          <Property Name="WarriorID" Type="Int32" />
+          <Property Name="CreatedTimeUTC" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedByUserID" Type="Guid" Nullable="false" />
+          <Property Name="IsApproved" Type="Boolean" Nullable="false" />
+          <Property Name="LocationId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DogEvents" Relationship="k94warriors_dbModel.FK__DogEvents__DogPr__59063A47" FromRole="DogProfiles" ToRole="DogEvents" />
+          <NavigationProperty Name="DogMedicalRecords" Relationship="k94warriors_dbModel.FK__DogRecord__DogPr__403A8C7D" FromRole="DogProfiles" ToRole="DogMedicalRecords" />
+          <NavigationProperty Name="DogNotes" Relationship="k94warriors_dbModel.FK__DogNotes__DogPro__3D5E1FD2" FromRole="DogProfiles" ToRole="DogNotes" />
+          <NavigationProperty Name="WarriorInfo" Relationship="k94warriors_dbModel.FK__DogProfil__Warri__3F466844" FromRole="DogProfiles" ToRole="WarriorInfo" />
+          <NavigationProperty Name="DogSkills" Relationship="k94warriors_dbModel.FK__DogSkills__DogPr__412EB0B6" FromRole="DogProfiles" ToRole="DogSkills" />
+          <NavigationProperty Name="Location" Relationship="k94warriors_dbModel.FK_LocationId" FromRole="DogProfiles" ToRole="Locations" />
+        </EntityType>
+        <EntityType Name="DogSkillName">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="DogSkills" Relationship="k94warriors_dbModel.FK_SkillNameId" FromRole="DogSkillNames" ToRole="DogSkills" />
+        </EntityType>
+        <EntityType Name="DogSkill">
+          <Key>
+            <PropertyRef Name="DogSkilID" />
+          </Key>
+          <Property Name="DogSkilID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DogProfileID" Type="Int32" Nullable="false" />
+          <Property Name="Level" Type="Int32" Nullable="false" />
+          <Property Name="SkillNameId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DogProfile" Relationship="k94warriors_dbModel.FK__DogSkills__DogPr__412EB0B6" FromRole="DogSkills" ToRole="DogProfiles" />
+          <NavigationProperty Name="DogSkillName" Relationship="k94warriors_dbModel.FK_SkillNameId" FromRole="DogSkills" ToRole="DogSkillNames" />
+        </EntityType>
+        <EntityType Name="EventType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="DogEvents" Relationship="k94warriors_dbModel.FK_EventTypeId" FromRole="EventTypes" ToRole="DogEvents" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="DogProfiles" Relationship="k94warriors_dbModel.FK_LocationId" FromRole="Locations" ToRole="DogProfiles" />
+        </EntityType>
+        <EntityType Name="NoteType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="DogNotes" Relationship="k94warriors_dbModel.FK_NoteTypeId" FromRole="NoteTypes" ToRole="DogNotes" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Guid" Nullable="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="300" Unicode="false" FixedLength="false" />
+          <Property Name="Phone" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
+          <Property Name="DisplayName" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
+          <Property Name="CreatedTimeUTC" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PhoneProvider" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
+          <Property Name="UserTypeId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="WarriorInfo">
+          <Key>
+            <PropertyRef Name="WarriorID" />
+          </Key>
+          <Property Name="WarriorID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="GraduationDate" Type="DateTime" Precision="0" />
+          <Property Name="Phone" Type="String" MaxLength="30" Unicode="false" FixedLength="false" />
+          <Property Name="Email" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
+          <Property Name="Address" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
+          <Property Name="City" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="State" Type="String" MaxLength="2" Unicode="false" FixedLength="false" />
+          <Property Name="Zip" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="CreatedTimeUTC" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedByUserID" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="DogProfiles" Relationship="k94warriors_dbModel.FK__DogProfil__Warri__3F466844" FromRole="WarriorInfo" ToRole="DogProfiles" />
+        </EntityType>
+        <Association Name="FK__DogEvents__DogPr__59063A47">
+          <End Role="DogProfiles" Type="k94warriors_dbModel.DogProfile" Multiplicity="1" />
+          <End Role="DogEvents" Type="k94warriors_dbModel.DogEvent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DogProfiles">
+              <PropertyRef Name="ProfileID" />
+            </Principal>
+            <Dependent Role="DogEvents">
+              <PropertyRef Name="DogProfileID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventTypeId">
+          <End Role="EventTypes" Type="k94warriors_dbModel.EventType" Multiplicity="1" />
+          <End Role="DogEvents" Type="k94warriors_dbModel.DogEvent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EventTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DogEvents">
+              <PropertyRef Name="EventTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DogRecord__DogPr__403A8C7D">
+          <End Role="DogProfiles" Type="k94warriors_dbModel.DogProfile" Multiplicity="1" />
+          <End Role="DogMedicalRecords" Type="k94warriors_dbModel.DogMedicalRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DogProfiles">
+              <PropertyRef Name="ProfileID" />
+            </Principal>
+            <Dependent Role="DogMedicalRecords">
+              <PropertyRef Name="DogProfileID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DogNotes__DogPro__3D5E1FD2">
+          <End Role="DogProfiles" Type="k94warriors_dbModel.DogProfile" Multiplicity="1" />
+          <End Role="DogNotes" Type="k94warriors_dbModel.DogNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DogProfiles">
+              <PropertyRef Name="ProfileID" />
+            </Principal>
+            <Dependent Role="DogNotes">
+              <PropertyRef Name="DogProfileID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NoteTypeId">
+          <End Role="NoteTypes" Type="k94warriors_dbModel.NoteType" Multiplicity="1" />
+          <End Role="DogNotes" Type="k94warriors_dbModel.DogNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NoteTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DogNotes">
+              <PropertyRef Name="NoteTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DogProfil__Warri__3F466844">
+          <End Role="WarriorInfo" Type="k94warriors_dbModel.WarriorInfo" Multiplicity="0..1" />
+          <End Role="DogProfiles" Type="k94warriors_dbModel.DogProfile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WarriorInfo">
+              <PropertyRef Name="WarriorID" />
+            </Principal>
+            <Dependent Role="DogProfiles">
+              <PropertyRef Name="WarriorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DogSkills__DogPr__412EB0B6">
+          <End Role="DogProfiles" Type="k94warriors_dbModel.DogProfile" Multiplicity="1" />
+          <End Role="DogSkills" Type="k94warriors_dbModel.DogSkill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DogProfiles">
+              <PropertyRef Name="ProfileID" />
+            </Principal>
+            <Dependent Role="DogSkills">
+              <PropertyRef Name="DogProfileID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LocationId">
+          <End Role="Locations" Type="k94warriors_dbModel.Location" Multiplicity="1" />
+          <End Role="DogProfiles" Type="k94warriors_dbModel.DogProfile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Locations">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DogProfiles">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SkillNameId">
+          <End Role="DogSkillNames" Type="k94warriors_dbModel.DogSkillName" Multiplicity="1" />
+          <End Role="DogSkills" Type="k94warriors_dbModel.DogSkill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DogSkillNames">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DogSkills">
+              <PropertyRef Name="SkillNameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="k94warriors_dbModelStoreContainer" CdmEntityContainer="k94warriors_dbEntities1">
+          <EntitySetMapping Name="DogEvents">
+            <EntityTypeMapping TypeName="k94warriors_dbModel.DogEvent">
+              <MappingFragment StoreEntitySet="DogEvents">
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="Body" ColumnName="Body" />
+                <ScalarProperty Name="IsComplete" ColumnName="IsComplete" />
+                <ScalarProperty Name="EventDate" ColumnName="EventDate" />
+                <ScalarProperty Name="DogProfileID" ColumnName="DogProfileID" />
+                <ScalarProperty Name="EventTypeId" ColumnName="EventTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DogMedicalRecords">
+            <EntityTypeMapping TypeName="k94warriors_dbModel.DogMedicalRecord">
+              <MappingFragment StoreEntitySet="DogMedicalRecords">
+                <ScalarProperty Name="RecordID" ColumnName="RecordID" />
+                <ScalarProperty Name="DogProfileID" ColumnName="DogProfileID" />
+                <ScalarProperty Name="RecordType" ColumnName="RecordType" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="RecordExpirationDate" ColumnName="RecordExpirationDate" />
+                <ScalarProperty Name="RecordURL" ColumnName="RecordURL" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DogNotes">
+            <EntityTypeMapping TypeName="k94warriors_dbModel.DogNote">
+              <MappingFragment StoreEntitySet="DogNotes">
+                <ScalarProperty Name="NoteID" ColumnName="NoteID" />
+                <ScalarProperty Name="DogProfileID" ColumnName="DogProfileID" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="IsCritical" ColumnName="IsCritical" />
+                <ScalarProperty Name="NoteTypeId" ColumnName="NoteTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DogProfiles">
+            <EntityTypeMapping TypeName="k94warriors_dbModel.DogProfile">
+              <MappingFragment StoreEntitySet="DogProfiles">
+                <ScalarProperty Name="ProfileID" ColumnName="ProfileID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Breed" ColumnName="Breed" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="PickedUpDate" ColumnName="PickedUpDate" />
+                <ScalarProperty Name="IsFixed" ColumnName="IsFixed" />
+                <ScalarProperty Name="GraduationDate" ColumnName="GraduationDate" />
+                <ScalarProperty Name="WarriorID" ColumnName="WarriorID" />
+                <ScalarProperty Name="CreatedTimeUTC" ColumnName="CreatedTimeUTC" />
+                <ScalarProperty Name="CreatedByUserID" ColumnName="CreatedByUserID" />
+                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DogSkillNames">
+            <EntityTypeMapping TypeName="k94warriors_dbModel.DogSkillName">
+              <MappingFragment StoreEntitySet="DogSkillNames">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DogSkills">
+            <EntityTypeMapping TypeName="k94warriors_dbModel.DogSkill">
+              <MappingFragment StoreEntitySet="DogSkills">
+                <ScalarProperty Name="DogSkilID" ColumnName="DogSkilID" />
+                <ScalarProperty Name="DogProfileID" ColumnName="DogProfileID" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="SkillNameId" ColumnName="SkillNameId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EventTypes">
+            <EntityTypeMapping TypeName="k94warriors_dbModel.EventType">
+              <MappingFragment StoreEntitySet="EventTypes">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Locations">
+            <EntityTypeMapping TypeName="k94warriors_dbModel.Location">
+              <MappingFragment StoreEntitySet="Locations">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NoteTypes">
+            <EntityTypeMapping TypeName="k94warriors_dbModel.NoteType">
+              <MappingFragment StoreEntitySet="NoteTypes">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="k94warriors_dbModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="CreatedTimeUTC" ColumnName="CreatedTimeUTC" />
+                <ScalarProperty Name="PhoneProvider" ColumnName="PhoneProvider" />
+                <ScalarProperty Name="UserTypeId" ColumnName="UserTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserTypes">
+            <EntityTypeMapping TypeName="k94warriors_dbModel.UserType">
+              <MappingFragment StoreEntitySet="UserTypes">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WarriorInfoes">
+            <EntityTypeMapping TypeName="k94warriors_dbModel.WarriorInfo">
+              <MappingFragment StoreEntitySet="WarriorInfo">
+                <ScalarProperty Name="WarriorID" ColumnName="WarriorID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="GraduationDate" ColumnName="GraduationDate" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="CreatedTimeUTC" ColumnName="CreatedTimeUTC" />
+                <ScalarProperty Name="CreatedByUserID" ColumnName="CreatedByUserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
