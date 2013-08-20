@@ -1,0 +1,47 @@
+﻿@model IEnumerable<K94Warriors.Models.DogEvent>
+@{
+    ViewBag.Title = "Home Page";
+}
+<div class="well">
+    <h1>Upcoming Events</h1>
+    <div>View important upcoming events for dogs.</div>
+</div>
+<table class="table table-bordered">
+    @* TODO: Repeat me from DogEvents, foo!*@
+<<<<<<< HEAD
+    <tr>
+        <td><input type="checkbox" /></td>
+        <td>Subject Goes Here</td>
+        <td>Date Goes Here</td>
+    </tr>
+=======
+    <thead>
+        <tr>
+            <th class="col col-lg-3">Dog Name
+            </th>
+            <th class="col col-lg-6">Subject
+            </th>
+            <th class="col col-lg-3">Date
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+       
+            foreach (var dogEvent in Model)
+            {
+                <tr>
+                    <td class="col col-lg-3">@dogEvent.DogProfile.Name</td>
+                    <td class="col col-lg-6">@dogEvent.Subject</td>
+                    <td class="col col-lg-6">@dogEvent.EventDate.ToLongDateString()</td>
+                </tr>
+    
+            }
+        }
+
+    </tbody>
+
+>>>>>>> c5eb150094231dd024a8f054b05e3ea6f3d8cc73
+    @*/Repeat me from DogEvents, foo!*@
+</table>
