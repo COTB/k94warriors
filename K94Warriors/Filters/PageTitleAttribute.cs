@@ -17,6 +17,8 @@ namespace K94Warriors.Filters
         /// <param name="filterContext">The filter context.</param>
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            base.OnActionExecuting(filterContext);
+
             // Get page title
             var pageTitle = filterContext.RouteData.Values["pageTitle"] as string;
             // If not set make it the action title
@@ -27,8 +29,6 @@ namespace K94Warriors.Filters
 
             // Save to ViewData
             filterContext.Controller.ViewData["PageTitle"] = pageTitle;
-
-            base.OnActionExecuting(filterContext);
         }
     }
 }
