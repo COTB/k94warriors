@@ -1,29 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using K94Warriors.Data;
+using K94Warriors.Enums;
 using K94Warriors.Handlers;
 using K94Warriors.Models;
-using K94Warriors.Enums;
 
 namespace K94Warriors.Filters
 {
     /// <summary>
-    /// Enforces that the user is logged in and the appropriate user type before granting access.
+    ///     Enforces that the user is logged in and the appropriate user type before granting access.
     /// </summary>
     public class AccessRequiredAttribute : ActionFilterAttribute
     {
         // The login handler
-        private static readonly LoginHandler _loginHandler = new LoginHandler(RepoResolver.GetRepository<User>());
+        private static readonly LoginHandler _loginHandler = 
+            new LoginHandler(DependencyResolver.Current.GetService<IRepository<User>>()); //new LoginHandler(_userRepo);
         // The not authorized URL
-        private readonly string _notAuthorizedUrl = null;
+        private readonly string _notAuthorizedUrl;
         // The user types
-        private readonly UserTypeEnum[] _userTypes = null;
-        
+        private readonly UserTypeEnum[] _userTypes;
+
 
         /// <summary>
-        /// The constructor.
+        ///     The constructor.
         /// </summary>
         /// <param name="notAuthorizedUrl">The not authorized URL to redirect to when the user is not authorized.</param>
         /// <param name="userTypes">The user types which are authorized to access the current controller action.</param>
@@ -47,7 +47,7 @@ namespace K94Warriors.Filters
         }
 
         /// <summary>
-        /// Occurs just before the Action is executed.
+        ///     Occurs just before the Action is executed.
         /// </summary>
         /// <param name="filterContext">The filter context.</param>
         public override void OnActionExecuting(ActionExecutingContext filterContext)
@@ -66,13 +66,9 @@ namespace K94Warriors.Filters
             var user = _loginHandler.GetUser(filterContext.HttpContext.Session);
 
             // Logged in, ensure user is an appropriately authorized type
-            for (int i = 0; i < _userTypes.Length; i++)
+            if (_userTypes.Any(t => (int) t == user.UserTypeID))
             {
-                if ((int)_userTypes[i] == user.UserTypeID)
-                {
-                    // yup
-                    return;
-                }
+                return;
             }
 
             // Not authorized

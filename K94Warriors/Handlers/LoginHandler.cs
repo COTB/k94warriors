@@ -1,23 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
+using K94Warriors.Data;
 using K94Warriors.Models;
 
 namespace K94Warriors.Handlers
 {
     /// <summary>
-    /// Handles login functionality.
+    ///     Handles login functionality.
     /// </summary>
     public class LoginHandler
     {
         // The user repository
-        private readonly IRepository<User> _userRepository = null;
         // The session is logged in key
         private const string _sessionLoggedInKey = "__IsLoggedIn_";
+        private readonly IRepository<User> _userRepository;
 
         /// <summary>
-        /// The constructor.
+        ///     The constructor.
         /// </summary>
         /// <param name="userRepository">The user repository.</param>
         /// <exception cref="System.ArgumentNullException">Thrown when userRepository is null.</exception>
@@ -34,7 +33,7 @@ namespace K94Warriors.Handlers
         }
 
         /// <summary>
-        /// Attempts to login a user.
+        ///     Attempts to login a user.
         /// </summary>
         /// <param name="session">The user's session.</param>
         /// <param name="username">The username.</param>
@@ -59,7 +58,8 @@ namespace K94Warriors.Handlers
             }
 
             // Try and find the user by username and password
-            var user = (User)null;// TODO: need a password! --> _userRepository.GetAll().FirstOrDefault(i => i.Email == username && i.Password == password);
+            var user = (User) null;
+                // TODO: need a password! --> _userRepository.GetAll().FirstOrDefault(i => i.Email == username && i.Password == password);
 
             // If no user the login was unsuccessful
             if (user == null)
@@ -73,7 +73,7 @@ namespace K94Warriors.Handlers
         }
 
         /// <summary>
-        /// Attempts to logout a user.
+        ///     Attempts to logout a user.
         /// </summary>
         /// <param name="session">The user's session.</param>
         /// <returns>true if logout was successful, false otherwise.</returns>
@@ -87,7 +87,7 @@ namespace K94Warriors.Handlers
             }
 
             // Get object from session
-            var result = session[_sessionLoggedInKey];
+            object result = session[_sessionLoggedInKey];
             // Check if we found something
             if (result == null)
             {
@@ -101,7 +101,7 @@ namespace K94Warriors.Handlers
         }
 
         /// <summary>
-        /// Checks whether the user is logged in.
+        ///     Checks whether the user is logged in.
         /// </summary>
         /// <param name="session">The user's session.</param>
         /// <returns>true if the user is logged in, false otherwise.</returns>
@@ -119,7 +119,7 @@ namespace K94Warriors.Handlers
         }
 
         /// <summary>
-        /// Gets the user if the user is logged in.
+        ///     Gets the user if the user is logged in.
         /// </summary>
         /// <param name="session">The user's session.</param>
         /// <returns>The user, or null if the user is not logged in.</returns>

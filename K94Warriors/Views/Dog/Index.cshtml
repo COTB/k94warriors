@@ -2,7 +2,7 @@
     ViewBag.Title = "Dogs";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@using System.Diagnostics.Eventing.Reader
+@using K94Warriors.Models
 @model IEnumerable<K94Warriors.Models.DogProfile>
 
 <div class="col col-lg-12">
@@ -19,14 +19,17 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var dog in Model)
+            @foreach (DogProfile dog in Model)
             {
                 <tr>
                     <td class="col col-lg-3"><a href="/dog/readdog/@dog.ProfileID">@dog.Name</a></td>
                     <td class="col col-lg-2">@dog.Breed</td>
                     <td class="col col-lg-2">@dog.Age</td>
-                    <td class="col col-lg-3">@if(dog.WarriorInfo != null) 
-                                             {@dog.WarriorInfo.FirstName  @dog.WarriorInfo.LastName}
+                    <td class="col col-lg-3">@if (dog.WarriorInfo != null)
+                                             {
+                                                 @dog.WarriorInfo.FirstName
+                                                 @dog.WarriorInfo.LastName
+                                             }
                                              else
                                              {
                                                  <text>
@@ -38,5 +41,3 @@
         </tbody>
     </table>
 </div>
-
-

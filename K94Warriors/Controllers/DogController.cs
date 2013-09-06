@@ -1,24 +1,52 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.UI.WebControls;
-using K94Warriors.Models;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure;
 using System.IO;
-
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using K94Warriors.Data;
+using K94Warriors.Models;
 
 namespace K94Warriors.Controllers
 {
     public class DogController : Controller
     {
-        IRepository<DogProfile> _dogRepo;
+        private readonly IRepository<DogProfile> _dogRepo;
+        private readonly IRepository<User> _userRepo;
+        private readonly IRepository<DogMedicalRecord> _recordRepo;
+        private readonly IRepository<DogNote> _dogNoteRepo;
+        private readonly IRepository<NoteType> _noteTypeRepo;
+        private readonly IBlobRepository _blobRepo;
 
-        public DogController()
+        public DogController(IRepository<DogProfile> dogRepo,
+                                IRepository<User> userRepo,
+                                IRepository<DogMedicalRecord> recordRepo,
+                                IRepository<DogNote> dogNoteRepo,
+                                IRepository<NoteType> noteTypeRepo,
+                                IBlobRepository blobRepo)
         {
-            _dogRepo = RepoResolver.GetRepository<DogProfile>();
+            if (dogRepo == null)
+                throw new ArgumentNullException("dogRepo");
+            _dogRepo = dogRepo;
+
+            if (userRepo == null)
+                throw new ArgumentNullException("userRepo");
+            _userRepo = userRepo;
+
+            if (recordRepo == null)
+                throw new ArgumentNullException("recordRepo");
+            _recordRepo = recordRepo;
+
+            if (dogNoteRepo == null)
+                throw new ArgumentNullException("dogNoteRepo");
+            _dogNoteRepo = dogNoteRepo;
+
+            if (noteTypeRepo == null)
+                throw new ArgumentNullException("noteTypeRepo");
+            _noteTypeRepo = noteTypeRepo;
+
+            if (blobRepo == null)
+                throw new ArgumentNullException("blobRepo");
+            _blobRepo = blobRepo;
         }
 
         public ActionResult Index()
@@ -42,9 +70,7 @@ namespace K94Warriors.Controllers
         [HttpPost]
         public ActionResult CreateOrUpdateDog(DogProfile dogProfile)
         {
-            var repo = RepoResolver.GetRepository<DogProfile>();
-            var userRep = RepoResolver.GetRepository<User>();
-            var user = userRep.Where(u => u.Email == this.HttpContext.User.Identity.Name).FirstOrDefault();
+            var user = _userRepo.Where(u => u.Email == HttpContext.User.Identity.Name).FirstOrDefault();
 
             if (user.UserType.Name != "ADMIN" && user.UserType.Name != "TRAINER")
                 return RedirectToAction("Index");
@@ -52,12 +78,11 @@ namespace K94Warriors.Controllers
             if (dogProfile.ProfileID == 0)
             {
                 dogProfile.CreatedByUserID = user.UserID;
-                repo.Insert(dogProfile);
-
+                _dogRepo.Insert(dogProfile);
             }
             else
             {
-                repo.Update(dogProfile);
+                _dogRepo.Update(dogProfile);
             }
 
             return RedirectToAction("Index");
@@ -65,47 +90,34 @@ namespace K94Warriors.Controllers
 
         public ActionResult ReadDog(int id)
         {
-            var repo = RepoResolver.GetRepository<DogProfile>();
-            return View(repo.GetById(id));
+            return View(_dogRepo.GetById(id));
         }
 
         [HttpGet]
         public ActionResult DeleteDog(int id)
         {
-            var repo = RepoResolver.GetRepository<DogProfile>();
-            var dog = repo.GetById(id);
+            var dog = _dogRepo.GetById(id);
             return View(dog);
         }
 
         [HttpPost]
         public ActionResult DeleteDog(int id, FormCollection formCollection)
         {
-            var repo = RepoResolver.GetRepository<DogProfile>();
-            repo.Delete(id);
+            _dogRepo.Delete(id);
             return RedirectToAction("Index");
         }
 
         public ActionResult GetDocuments(int id)
         {
-            var repo = RepoResolver.GetRepository<DogMedicalRecord>();
-            var documents = repo.GetAll().Where(d => d.DogProfileID == id);
-            
+            var documents = _recordRepo.GetAll().Where(d => d.DogProfileID == id);
+
             return Json(documents.ToList(), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetDocument(string id)
+        public async Task<ActionResult> GetDocument(string id)
         {
-            CloudStorageAccount account = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("StorageAccountConnectionString"));
-            var client = account.CreateCloudBlobClient();
-            var container = client.GetContainerReference("images");
-            var blockBlob = container.GetBlockBlobReference(id);
-
-            var memoryStream = new MemoryStream();
-        
-            blockBlob.DownloadToStream(memoryStream);
-            memoryStream.Position = 0;
+            var memoryStream = await _blobRepo.GetImageAsync<MemoryStream>("images", id);
             return File(memoryStream, "image/jpeg");
-           
         }
 
         [Authorize]
@@ -114,16 +126,14 @@ namespace K94Warriors.Controllers
         {
             if (dogNote.NoteID == 0)
             {
-                var repo = RepoResolver.GetRepository<DogNote>();
-                var userRepo = RepoResolver.GetRepository<User>();
-                var user = userRepo.Where(u => u.Email == this.HttpContext.User.Identity.Name).FirstOrDefault();
+                var user = _userRepo.Where(u => u.Email == HttpContext.User.Identity.Name).FirstOrDefault();
 
                 dogNote.CreatedDate = DateTime.UtcNow;
                 dogNote.CreatedByUserId = user.UserID;
 
-                repo.Insert(dogNote);
+                _dogNoteRepo.Insert(dogNote);
             }
-            return RedirectToAction("ReadDog", new {id = dogNote.DogProfileID});
+            return RedirectToAction("ReadDog", new { id = dogNote.DogProfileID });
         }
 
         [Authorize]
@@ -132,12 +142,10 @@ namespace K94Warriors.Controllers
         {
             DogNote viewModel;
             var dog = _dogRepo.GetById(dogId);
-            var repo = RepoResolver.GetRepository<DogNote>();
-            var noteTypeRepo = RepoResolver.GetRepository<NoteType>();
 
-            viewModel = noteId.HasValue ? repo.GetById(noteId.Value) : new DogNote {DogProfileID = dogId};
+            viewModel = noteId.HasValue ? _dogNoteRepo.GetById(noteId.Value) : new DogNote { DogProfileID = dogId };
 
-            ViewBag.NoteTypeId = new SelectList(noteTypeRepo.GetAll(), "ID", "Name", viewModel.NoteTypeId);
+            ViewBag.NoteTypeId = new SelectList(_noteTypeRepo.GetAll(), "ID", "Name", viewModel.NoteTypeId);
             ViewBag.DogName = dog.Name;
             ViewBag.DogId = dog.ProfileID;
 
@@ -151,8 +159,7 @@ namespace K94Warriors.Controllers
 
         public ActionResult GetNotes(int dogId)
         {
-            var repo = RepoResolver.GetRepository<DogNote>();
-            var model = repo.Where(n => n.DogProfileID == dogId);
+            var model = _dogNoteRepo.Where(n => n.DogProfileID == dogId);
             var dog = _dogRepo.GetById(dogId);
 
             ViewBag.DogName = dog.Name;

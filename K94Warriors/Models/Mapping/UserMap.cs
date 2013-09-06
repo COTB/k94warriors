@@ -1,42 +1,41 @@
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
-namespace K94Warriors.Models.Models.Mapping
+namespace K94Warriors.Models.Mapping
 {
     public class UserMap : EntityTypeConfiguration<User>
     {
         public UserMap()
         {
             // Primary Key
-            this.HasKey(t => t.UserID);
+            HasKey(t => t.UserID);
 
             // Properties
-            this.Property(t => t.Email)
+            Property(t => t.Email)
                 .IsRequired()
                 .HasMaxLength(300);
 
-            this.Property(t => t.Phone)
+            Property(t => t.Phone)
                 .HasMaxLength(30);
 
-            this.Property(t => t.DisplayName)
+            Property(t => t.DisplayName)
                 .HasMaxLength(200);
 
-            this.Property(t => t.PhoneProvider)
+            Property(t => t.PhoneProvider)
                 .HasMaxLength(200);
 
             // Table & Column Mappings
-            this.ToTable("Users");
-            this.Property(t => t.UserID).HasColumnName("UserID");
-            this.Property(t => t.Email).HasColumnName("Email");
-            this.Property(t => t.Phone).HasColumnName("Phone");
-            this.Property(t => t.DisplayName).HasColumnName("DisplayName");
-            this.Property(t => t.CreatedTimeUTC).HasColumnName("CreatedTimeUTC");
-            this.Property(t => t.PhoneProvider).HasColumnName("PhoneProvider");
-            this.Property(t => t.UserTypeId).HasColumnName("UserTypeId");
+            ToTable("Users");
+            Property(t => t.UserID).HasColumnName("UserID");
+            Property(t => t.Email).HasColumnName("Email");
+            Property(t => t.Phone).HasColumnName("Phone");
+            Property(t => t.DisplayName).HasColumnName("DisplayName");
+            Property(t => t.CreatedTimeUTC).HasColumnName("CreatedTimeUTC");
+            Property(t => t.PhoneProvider).HasColumnName("PhoneProvider");
+            Property(t => t.UserTypeID).HasColumnName("UserTypeId");
 
-            this.HasRequired(t => t.UserType)
-            .WithMany(t => t.Users)
-            .HasForeignKey(t => t.UserTypeId);
+            HasRequired(t => t.UserType)
+                .WithMany(t => t.Users)
+                .HasForeignKey(t => t.UserTypeID);
         }
     }
 }

@@ -9,9 +9,9 @@ namespace K94Warriors.Models
         public string Email { get; set; }
         public string Phone { get; set; }
         public string DisplayName { get; set; }
-        public System.DateTime CreatedTimeUTC { get; set; }
+        public DateTime CreatedTimeUTC { get; set; }
         public string PhoneProvider { get; set; }
-        public int UserTypeId { get; set; }
+        public int UserTypeID { get; set; }
         public virtual ICollection<DogNote> DogNotes { get; set; }
         public virtual UserType UserType { get; set; }
     }

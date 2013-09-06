@@ -1,6 +1,7 @@
 ﻿@{
     ViewBag.Title = "GetNotes";
 }
+@using K94Warriors.Models
 @model IEnumerable<K94Warriors.Models.DogNote>
 @section subnav {
 
@@ -72,7 +73,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var dogNotes in Model)
+                @foreach (DogNote dogNotes in Model)
                 {
                     <tr>
                         <td class="col col-lg-2">@dogNotes.NoteType.Name</td>

@@ -1,14 +1,14 @@
 ﻿@if (Request.IsAuthenticated)
 {
     <text>
-    <li>@Html.ActionLink(HttpContext.Current.User.Identity.Name, "Manage", "Account")</li>
+        <li>@Html.ActionLink(HttpContext.Current.User.Identity.Name, "Manage", "Account")</li>
 
-    <li>
-        <a href="/account/logoff"> Log off</a>
-</li>
+        <li>
+            <a href="/account/logoff"> Log off</a>
+        </li>
     </text>
 }
 else
 {
-    <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new {id = "loginLink"})</li>
 }

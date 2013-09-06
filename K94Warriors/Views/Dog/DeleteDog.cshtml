@@ -11,69 +11,70 @@
     <legend>DogProfile</legend>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Name)
+        @Html.DisplayNameFor(model => model.Name)
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Name)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Breed)
+        @Html.DisplayNameFor(model => model.Breed)
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Breed)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Age)
+        @Html.DisplayNameFor(model => model.Age)
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Age)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Color)
+        @Html.DisplayNameFor(model => model.Color)
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Color)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.PickedUpDate)
+        @Html.DisplayNameFor(model => model.PickedUpDate)
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.PickedUpDate)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.IsFixed)
+        @Html.DisplayNameFor(model => model.IsFixed)
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.IsFixed)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.GraduationDate)
+        @Html.DisplayNameFor(model => model.GraduationDate)
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.GraduationDate)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.WarriorID)
+        @Html.DisplayNameFor(model => model.WarriorID)
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.WarriorID)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.IsApproved)
+        @Html.DisplayNameFor(model => model.IsApproved)
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.IsApproved)
     </div>
 </fieldset>
-@using (Html.BeginForm()) {
+@using (Html.BeginForm())
+{
     @Html.AntiForgeryToken()
     <p>
         <input type="submit" value="Delete" /> |
