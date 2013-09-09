@@ -232,9 +232,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Handlers\LoginHandler.cs" />
-    <Compile Include="HomeController.generated.cs">
-      <DependentUpon>T4MVC.tt</DependentUpon>
-    </Compile>
     <Compile Include="IRepository.cs" />
     <Compile Include="K9DbContext.cs" />
     <Compile Include="Models\AccountModels.cs" />
@@ -405,6 +402,12 @@
     <Content Include="Views\Dog\ReadDog.cshtml" />
     <Content Include="Views\Dog\CreateOrUpdateDogNote.cshtml" />
     <Content Include="Views\Dog\GetNotes.cshtml" />
+    <Content Include="Views\Shared\Error403.cshtml.cshtml" />
+    <Content Include="Views\Dog\CreateOrUpdateDogEvent.cshtml" />
+    <Content Include="Views\Dog\GetDogEvent.cshtml" />
+    <Content Include="Views\Dog\GetDogEvents.cshtml" />
+    <Content Include="Views\Dog\GetDocuments.cshtml" />
+    <Content Include="Views\Shared\_DogSection.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

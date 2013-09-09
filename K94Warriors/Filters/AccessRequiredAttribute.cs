@@ -68,7 +68,7 @@ namespace K94Warriors.Filters
             // Logged in, ensure user is an appropriately authorized type
             for (int i = 0; i < _userTypes.Length; i++)
             {
-                if ((int)_userTypes[i] == user.UserTypeID)
+                if ((int)_userTypes[i] == user.UserTypeId)
                 {
                     // yup
                     return;

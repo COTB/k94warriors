@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
+using K94Warriors.Enums;
 using K94Warriors.Models;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure;
@@ -12,6 +13,7 @@ using System.IO;
 
 namespace K94Warriors.Controllers
 {
+    [Authorize]
     public class DogController : Controller
     {
         IRepository<DogProfile> _dogRepo;
@@ -38,7 +40,7 @@ namespace K94Warriors.Controllers
             return View(viewModel);
         }
 
-        [Authorize]
+
         [HttpPost]
         public ActionResult CreateOrUpdateDog(DogProfile dogProfile)
         {
@@ -46,8 +48,8 @@ namespace K94Warriors.Controllers
             var userRep = RepoResolver.GetRepository<User>();
             var user = userRep.Where(u => u.Email == this.HttpContext.User.Identity.Name).FirstOrDefault();
 
-            if (user.UserType.Name != "ADMIN" && user.UserType.Name != "TRAINER")
-                return RedirectToAction("Index");
+            if (!user.IsUserAdminOrTrainer())
+                return RedirectToAction("Error403", "Error");;
 
             if (dogProfile.ProfileID == 0)
             {
@@ -66,6 +68,7 @@ namespace K94Warriors.Controllers
         public ActionResult ReadDog(int id)
         {
             var repo = RepoResolver.GetRepository<DogProfile>();
+            ViewBag.DogId = id;
             return View(repo.GetById(id));
         }
 
@@ -89,8 +92,9 @@ namespace K94Warriors.Controllers
         {
             var repo = RepoResolver.GetRepository<DogMedicalRecord>();
             var documents = repo.GetAll().Where(d => d.DogProfileID == id);
-            
-            return Json(documents.ToList(), JsonRequestBehavior.AllowGet);
+
+            ViewBag.DogId = id;
+            return View(documents);
         }
 
         public ActionResult GetDocument(string id)
@@ -108,25 +112,33 @@ namespace K94Warriors.Controllers
            
         }
 
-        [Authorize]
+
         [HttpPost]
         public ActionResult CreateOrUpdateDogNote(DogNote dogNote)
         {
+            var repo = RepoResolver.GetRepository<DogNote>();
+            var userRepo = RepoResolver.GetRepository<User>();
+            var user = userRepo.Where(u => u.Email == this.HttpContext.User.Identity.Name).FirstOrDefault();
+
+
             if (dogNote.NoteID == 0)
             {
-                var repo = RepoResolver.GetRepository<DogNote>();
-                var userRepo = RepoResolver.GetRepository<User>();
-                var user = userRepo.Where(u => u.Email == this.HttpContext.User.Identity.Name).FirstOrDefault();
-
                 dogNote.CreatedDate = DateTime.UtcNow;
                 dogNote.CreatedByUserId = user.UserID;
 
                 repo.Insert(dogNote);
             }
+            else
+            {
+                // No update columns on note. How to specify what user edited a note and when? Overwriting for now with last edit wins.
+                dogNote.CreatedByUserId = user.UserID;
+                dogNote.CreatedDate = DateTime.UtcNow;
+                repo.Update(dogNote);
+            }
             return RedirectToAction("ReadDog", new {id = dogNote.DogProfileID});
         }
 
-        [Authorize]
+
         [HttpGet]
         public ActionResult CreateOrUpdateDogNote(int dogId, int? noteId)
         {
@@ -138,7 +150,7 @@ namespace K94Warriors.Controllers
             viewModel = noteId.HasValue ? repo.GetById(noteId.Value) : new DogNote {DogProfileID = dogId};
 
             ViewBag.NoteTypeId = new SelectList(noteTypeRepo.GetAll(), "ID", "Name", viewModel.NoteTypeId);
-            ViewBag.DogName = dog.Name;
+
             ViewBag.DogId = dog.ProfileID;
 
             return View(viewModel);
@@ -155,7 +167,6 @@ namespace K94Warriors.Controllers
             var model = repo.Where(n => n.DogProfileID == dogId);
             var dog = _dogRepo.GetById(dogId);
 
-            ViewBag.DogName = dog.Name;
             ViewBag.DogId = dog.ProfileID;
 
             return View(model);
@@ -163,37 +174,126 @@ namespace K94Warriors.Controllers
 
         public ActionResult DeleteDogNote(int id)
         {
-            throw new NotImplementedException();
+            var repo = RepoResolver.GetRepository<DogNote>();
+            repo.Delete(id);
+            return RedirectToAction("Index");
         }
 
+
+        [HttpPost]
         public ActionResult CreateOrUpdateDogEvent(DogEvent dogEvent)
-        {
-            throw new NotImplementedException();
+        {                
+            
+            var userRepo = RepoResolver.GetRepository<User>();
+            var user = userRepo.Where(u => u.Email == this.HttpContext.User.Identity.Name).FirstOrDefault();
+
+            if (user.IsUserAdminOrTrainer())
+            {
+                var repo = RepoResolver.GetRepository<DogEvent>();
+
+                if (dogEvent.EventID == 0)
+                {
+                    repo.Insert(dogEvent);
+                }
+                else
+                {
+                    repo.Update(dogEvent);
+                }
+                return RedirectToAction("ReadDog", new { id = dogEvent.DogProfileID });
+            }
+
+            return RedirectToAction("Error403", "Error");
         }
 
-        public ActionResult ReadDogEvent(int id)
+
+        [HttpGet]
+        public ActionResult CreateOrUpdateDogEvent(int dogId, int? eventId)
         {
-            throw new NotImplementedException();
+            DogEvent model;
+            var dog = _dogRepo.GetById(dogId);
+            var repo = RepoResolver.GetRepository<DogEvent>();
+            var eventTypeRepo = RepoResolver.GetRepository<EventType>();
+
+            model = eventId.HasValue ? repo.GetById(eventId.Value) : new DogEvent { DogProfileID = dogId };
+
+            ViewBag.NoteTypeId = new SelectList(eventTypeRepo.GetAll(), "ID", "Name", model.EventTypeId);
+            ViewBag.DogId = dog.ProfileID;
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult GetDogEvent(int dogId, int id)
+        {
+            ViewBag.DogId = dogId;
+            var repo = RepoResolver.GetRepository<DogEvent>();
+            return View(repo.GetById(id));
+        }
+
+        [HttpGet]
+        public ActionResult GetDogEvents(int dogId)
+        {
+            var repo = RepoResolver.GetRepository<DogEvent>();
+            ViewBag.DogId = dogId;
+            return View(repo.Where(d => d.DogProfileID == dogId));
         }
 
         public ActionResult DeleteDogEvent(int id)
         {
-            throw new NotImplementedException();
+            var repo = RepoResolver.GetRepository<DogEvent>();
+            repo.Delete(id);
+            return RedirectToAction("ReadDog", new { id = repo.GetById(id).DogProfileID });
         }
 
+        [HttpPost]
         public ActionResult CreateOrUpdateDogSkill(DogSkill dogSkill)
+        {
+            var userRepo = RepoResolver.GetRepository<User>();
+            var user = userRepo.Where(u => u.Email == this.HttpContext.User.Identity.Name).FirstOrDefault();
+
+            if (user.IsUserAdminOrTrainer())
+            {
+                var repo = RepoResolver.GetRepository<DogSkill>();
+
+                if (dogSkill.DogSkilID == 0)
+                {
+                    repo.Insert(dogSkill);
+                }
+                else
+                {
+                    repo.Update(dogSkill);
+                }
+                return RedirectToAction("ReadDog", new { id = dogSkill.DogProfileID });
+            }
+
+            return RedirectToAction("Error403", "Error");
+        }
+
+        public ActionResult CreateOrUpdateDogSkill(int dogId, int? dogskillId)
         {
             throw new NotImplementedException();
         }
 
-        public ActionResult ReadDogSkill(int id)
+        public ActionResult GetDogSkill(int id)
         {
             throw new NotImplementedException();
         }
 
         public ActionResult DeleteDogSkill(int id)
         {
-            throw new NotImplementedException();
+            var repo = RepoResolver.GetRepository<DogSkill>();
+            repo.Delete(id);
+            return RedirectToAction("ReadDog", new { id = repo.GetById(id).DogProfileID });
+        }
+
+        [ChildActionOnly]
+        public ActionResult GetDogsection(int dogId)
+        {
+            var dog = _dogRepo.GetById(dogId);
+            ViewBag.DogName = dog.Name;
+            ViewBag.DogId = dog.ProfileID;
+
+            return View("_DogSection");
         }
     }
 }

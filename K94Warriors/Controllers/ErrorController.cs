@@ -17,5 +17,11 @@ namespace K94Warriors.Controllers
             Response.StatusCode = (int)HttpStatusCode.NotFound;
             return View();
         }
+
+        public ActionResult Error403()
+        {
+            Response.StatusCode = (int) HttpStatusCode.Forbidden;
+            return View();
+        }
     }
 }
