@@ -128,7 +128,7 @@ namespace K94Warriors.Controllers
 
         public async Task<ActionResult> GetDocument(string id)
         {
-            var memoryStream = await _blobRepo.GetImageAsync<MemoryStream>("images", id);
+            var memoryStream = await _blobRepo.GetImageAsync<MemoryStream>(id);
             return File(memoryStream, "image/jpeg");
         }
 

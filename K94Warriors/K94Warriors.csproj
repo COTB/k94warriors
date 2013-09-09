@@ -177,7 +177,7 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Core\AsyncExtensions\CloudBlockBlobExtensions.cs" />
-    <Compile Include="Data\BlockBlobRepository.cs" />
+    <Compile Include="Data\K9BlobRepository.cs" />
     <Compile Include="Data\EFRepository.cs" />
     <Compile Include="Controllers\SkillsController.cs" />
     <Compile Include="Data\IBlobRepository.cs" />
