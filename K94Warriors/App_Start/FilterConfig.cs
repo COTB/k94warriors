@@ -1,8 +1,5 @@
-﻿using System.Web;
-using System.Web.Mvc;
-using System.Configuration;
+﻿using System.Web.Mvc;
 using K94Warriors.Filters;
-using K94Warriors.Email;
 
 namespace K94Warriors
 {

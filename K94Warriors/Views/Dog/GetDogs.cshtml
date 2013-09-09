@@ -1,4 +1,5 @@
-﻿@model IEnumerable<K94Warriors.Models.DogProfile>
+﻿@using K94Warriors.Models
+@model IEnumerable<K94Warriors.Models.DogProfile>
 
 @{
     ViewBag.Title = "GetDogs";
@@ -46,47 +47,48 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.ActionLink("Details", "GetDogs")
-        </td>
-        <td>
-            @Html.ActionLink("Delete", "Delete")
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Breed)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Age)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Color)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PickedUpDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsFixed)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.GraduationDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.WarriorID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsApproved)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ProfileID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ProfileID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ProfileID })
-        </td>
-    </tr>
-}
+    @foreach (DogProfile item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink("Details", "GetDogs")
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Breed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Age)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Color)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PickedUpDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsFixed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GraduationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WarriorID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsApproved)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new {id = item.ProfileID}) |
+                @Html.ActionLink("Details", "Details", new {id = item.ProfileID}) |
+                @Html.ActionLink("Delete", "Delete", new {id = item.ProfileID})
+            </td>
+        </tr>
+    }
 
 </table>

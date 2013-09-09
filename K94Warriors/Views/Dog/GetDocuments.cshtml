@@ -1,0 +1,41 @@
+﻿@model System.Linq.IQueryable<K94Warriors.Models.DogMedicalRecord>
+
+@{
+    ViewBag.Title = "title";
+}
+@section subnav {
+    @{
+        Html.RenderAction("GetDogsection", "Dog", new {dogId = ViewBag.DogId });
+    }
+}
+
+<div class="col col-lg-12">
+    <h4>View All Medical Records</h4>
+    <hr/>
+    <div class="col col-lg-12">
+        <table class="table table-bordered">
+
+            <thead>
+                <tr>
+                    <th class="col col-lg-3">Record Expiration Date</th>
+                    <th class="col col-lg-7">Title</th>
+                    <th class="col col-lg-2"></th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var dogRecord in Model)
+                {
+                    <tr>
+                        <td class="col col-lg-3">@dogRecord.RecordExpirationDate.Value.ToLongDateString()</td>
+                        <td class="col col-lg-7">@dogRecord.Title</td>
+                        <td class="col col-lg-2"><a href="@dogRecord.RecordURL">View</a></td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+</div>

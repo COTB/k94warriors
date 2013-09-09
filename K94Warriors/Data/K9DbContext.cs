@@ -1,15 +1,14 @@
 ﻿using System.Data.Entity;
 using K94Warriors.Models;
-using K94Warriors.Models.Models;
-using K94Warriors.Models.Models.Mapping;
+using K94Warriors.Models.Mapping;
 
-
-
-namespace K94Warriors
+namespace K94Warriors.Data
 {
     public class K9DbContext : DbContext
     {
-        public K9DbContext(string nameOrConnectionString) : base(nameOrConnectionString) { }
+        public K9DbContext(string nameOrConnectionString) : base(nameOrConnectionString)
+        {
+        }
 
 
         public DbSet<DogEvent> DogEvents { get; set; }

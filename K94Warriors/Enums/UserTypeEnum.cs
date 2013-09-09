@@ -1,27 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace K94Warriors.Enums
+﻿namespace K94Warriors.Enums
 {
     /// <summary>
-    /// Represents the possible types of users.
+    ///     Represents the possible types of users.
     /// </summary>
     public enum UserTypeEnum
     {
         /// <summary>
-        /// Administrator.
+        ///     Administrator.
         /// </summary>
         Administrator = 0,
 
         /// <summary>
-        /// Trainer.
+        ///     Trainer.
         /// </summary>
         Trainer,
 
         /// <summary>
-        /// Volunteer.
+        ///     Volunteer.
         /// </summary>
         Volunteer
     }

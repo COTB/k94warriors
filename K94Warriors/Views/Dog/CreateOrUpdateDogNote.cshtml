@@ -14,31 +14,27 @@
 </div>
 @using (Html.BeginForm())
 {
-    
     @Html.AntiForgeryToken()
     @Html.Hidden("DogProfileId", @Model.DogProfileID)
     <div class="form-group">
         <label>Note Type</label>
-        @Html.DropDownList("NoteTypeId", null, "Select Note Type" ,new { @class = "form-control"})
+        @Html.DropDownList("NoteTypeId", null, "Select Note Type", new {@class = "form-control"})
     </div>
-    
+
     <div class="form-group">
         <label>Note</label>
         <textarea class="form-control input-lg" name="Note" placeholder="Note">@Model.Note</textarea>
         @Html.ValidationMessageFor(t => t.Note, "", new {@class = "help-block"})
     </div>
-    
+
     <div class="checkbox">
         <label>
             <input type="checkbox" name="IsCritical" value="true" @(Model.IsCritical ? "checked" : "")> Is Note Critical (Will send trainer e-mail alert)
         </label>
         @Html.ValidationMessageFor(t => t.IsCritical, "", new {@class = "help-block"})
     </div>
-    
+
     <p>
         <button type="submit" class="btn">Submit</button>
     </p>
-
-
-    
 }

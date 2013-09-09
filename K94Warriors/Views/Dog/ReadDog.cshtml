@@ -2,6 +2,7 @@
     ViewBag.Title = "Dog Detail";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@using K94Warriors.Models
 @model K94Warriors.Models.DogProfile
 
 @section subnav {
@@ -74,7 +75,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var dogNotes in Model.DogNotes.Take(5))
+                    @foreach (DogNote dogNotes in Model.DogNotes.Take(5))
                     {
                         <tr>
                             <td class="col col-lg-3">@dogNotes.NoteType.Name</td>
@@ -90,4 +91,3 @@
 
     </div>
 </div>
-

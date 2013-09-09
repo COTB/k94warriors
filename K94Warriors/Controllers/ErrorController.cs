@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Web;
+﻿using System.Net;
 using System.Web.Mvc;
 
 namespace K94Warriors.Controllers
@@ -14,7 +10,7 @@ namespace K94Warriors.Controllers
 
         public ActionResult Error404()
         {
-            Response.StatusCode = (int)HttpStatusCode.NotFound;
+            Response.StatusCode = (int) HttpStatusCode.NotFound;
             return View();
         }
 

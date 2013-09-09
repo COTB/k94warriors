@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Web.WebPages.OAuth;
-using K94Warriors.Models;
-
-namespace K94Warriors
+﻿namespace K94Warriors
 {
     public static class AuthConfig
     {
