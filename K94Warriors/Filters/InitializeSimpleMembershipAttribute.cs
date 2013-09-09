@@ -3,8 +3,8 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Threading;
 using System.Web.Mvc;
-using WebMatrix.WebData;
 using K94Warriors.Models;
+using WebMatrix.WebData;
 
 namespace K94Warriors.Filters
 {
@@ -34,15 +34,18 @@ namespace K94Warriors.Filters
                         if (!context.Database.Exists())
                         {
                             // Create the SimpleMembership database without Entity Framework migration schema
-                            ((IObjectContextAdapter)context).ObjectContext.CreateDatabase();
+                            ((IObjectContextAdapter) context).ObjectContext.CreateDatabase();
                         }
                     }
-
                     WebSecurity.InitializeDatabaseConnection("K9", "Users", "UserID", "Email", autoCreateTables: true);
+
+
                 }
                 catch (Exception ex)
                 {
-                    throw new InvalidOperationException("The ASP.NET Simple Membership database could not be initialized. For more information, please see http://go.microsoft.com/fwlink/?LinkId=256588", ex);
+                    throw new InvalidOperationException(
+                        "The ASP.NET Simple Membership database could not be initialized. For more information, please see http://go.microsoft.com/fwlink/?LinkId=256588",
+                        ex);
                 }
             }
         }
