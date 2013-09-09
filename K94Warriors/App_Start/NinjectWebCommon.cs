@@ -65,9 +65,11 @@ namespace K94Warriors.App_Start
             kernel.Bind<DbContext>().To<K9DbContext>()
                   .WithConstructorArgument("nameOrConnectionString", connectionString);
 
-            kernel.Bind<IBlobRepository>().To<BlockBlobRepository>()
+            kernel.Bind<IBlobRepository>().To<K9BlobRepository>()
                   .WithConstructorArgument("connectionString",
-                     ConfigurationManager.AppSettings["StorageAccountConnectionString"]);
+                                           ConfigurationManager.AppSettings["StorageAccountConnectionString"])
+                  .WithConstructorArgument("imageContainer",
+                                           ConfigurationManager.AppSettings["ImageBlobContainerName"]);
         }        
     }
 }
