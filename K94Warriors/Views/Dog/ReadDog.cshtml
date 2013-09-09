@@ -2,60 +2,15 @@
     ViewBag.Title = "Dog Detail";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@using K94Warriors.Models
 @model K94Warriors.Models.DogProfile
+
 @section subnav {
-
-    <nav class="navbar navbar-inverse" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/dog">Return to Dog List</a>
-            </div>
-
-
-            <div class="collapse navbar-collapse navbar-ex1-collapse">
-                <ul class="nav navbar-nav">
-
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Model.Name's Notes <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="/dog/getnotes?dogId=@Model.ProfileID">View Notes</a></li>
-                            <li><a href="/dog/createorupdatedognote?dogId=@Model.ProfileID">Add Notes</a></li>
-
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Model.Name's Medical Records <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">View Medical Records</a></li>
-                            <li><a href="#">Add Medical Records</a></li>
-
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Model.Name's Events <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">View Events</a></li>
-                            <li><a href="#">Add Events</a></li>
-
-                        </ul>
-                    </li>
-
-
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-
-    </nav>
-
-
+    @{
+        Html.RenderAction("GetDogsection", "Dog", new {dogId = ViewBag.DogId });
+    }
 }
+
 
 <div class="col col-lg-12">
     <div class="heading">
@@ -120,7 +75,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var dogNotes in Model.DogNotes.Take(5))
+                    @foreach (DogNote dogNotes in Model.DogNotes.Take(5))
                     {
                         <tr>
                             <td class="col col-lg-3">@dogNotes.NoteType.Name</td>
@@ -136,4 +91,3 @@
 
     </div>
 </div>
-

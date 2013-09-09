@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace K94Warriors.Models
@@ -7,7 +6,7 @@ namespace K94Warriors.Models
     {
         public Location()
         {
-            this.DogProfiles = new List<DogProfile>();
+            DogProfiles = new List<DogProfile>();
         }
 
         public int ID { get; set; }

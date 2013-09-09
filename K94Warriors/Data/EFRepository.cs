@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace K94Warriors
+namespace K94Warriors.Data
 {
     public class EFRepository<T> : IRepository<T>
         where T : class
     {
         private readonly DbContext _dbContext;
-        protected DbContext DbContext { get { return _dbContext; } }
 
         private readonly DbSet<T> _dbSet;
-        protected DbSet<T> DbSet { get { return _dbSet; } }
 
         public EFRepository(DbContext dbContext)
         {
@@ -22,6 +21,16 @@ namespace K94Warriors
 
             _dbContext = dbContext;
             _dbSet = dbContext.Set<T>();
+        }
+
+        protected DbContext DbContext
+        {
+            get { return _dbContext; }
+        }
+
+        protected DbSet<T> DbSet
+        {
+            get { return _dbSet; }
         }
 
         public IQueryable<T> GetAll()
@@ -36,7 +45,7 @@ namespace K94Warriors
 
         public void Update(T entity)
         {
-            var dbObj = DbContext.Entry(entity);
+            DbEntityEntry<T> dbObj = DbContext.Entry(entity);
             dbObj.State = EntityState.Modified;
             DbContext.SaveChanges();
         }
@@ -49,17 +58,17 @@ namespace K94Warriors
 
         public void Delete(T entity)
         {
-            var dbObj = DbContext.Entry(entity);
+            DbEntityEntry<T> dbObj = DbContext.Entry(entity);
             dbObj.State = EntityState.Deleted;
             DbContext.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            var entity = DbSet.Find(id);
+            T entity = DbSet.Find(id);
             if (entity == null) return;
 
-            var dbOjb = DbContext.Entry(entity);
+            DbEntityEntry<T> dbOjb = DbContext.Entry(entity);
             dbOjb.State = EntityState.Deleted;
             DbContext.SaveChanges();
         }

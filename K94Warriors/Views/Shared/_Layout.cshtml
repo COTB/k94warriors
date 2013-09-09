@@ -1,5 +1,4 @@
-﻿@using System.Web.UI.WebControls
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
@@ -48,7 +47,7 @@
                 </div>
             </div>
 
-           @RenderSection("subnav", required: false)
+            @RenderSection("subnav", required: false)
         </header>
         <div class="container content">
 
@@ -60,7 +59,7 @@
         </footer>
 
         @Scripts.Render("~/bundles/jquery")
-        <script src="~/Scripts/bootstrap.js" type="text/javascript"></script>
+        <script src="~/Scripts/bootstrap.js" type="text/javascript"> </script>
         @RenderSection("scripts", required: false)
     </body>
 </html>

@@ -1,37 +1,40 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Objects;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using K94Warriors.Data;
 using K94Warriors.Models;
 
 namespace K94Warriors.Controllers
 {
-    public partial class HomeController : Controller
+    public class HomeController : Controller
     {
-        private IRepository<DogEvent> _dogEventRepo;
+        private readonly IRepository<DogEvent> _dogEventRepo;
 
-        public HomeController()
+        public HomeController(IRepository<DogEvent> dogEventRepo)
         {
-            _dogEventRepo = RepoResolver.GetRepository<DogEvent>();
+            if (dogEventRepo == null)
+                throw new ArgumentNullException("dogEventRepo");
+            _dogEventRepo = dogEventRepo;
         }
 
         public virtual ActionResult Index()
         {
-            var events =
-                _dogEventRepo.Where(f => f.EventDate > DateTime.UtcNow && f.EventDate < EntityFunctions.AddDays(DateTime.Now, 7));
+            IQueryable<DogEvent> events =
+                _dogEventRepo.Where(
+                    f => f.EventDate > DateTime.UtcNow && f.EventDate < EntityFunctions.AddDays(DateTime.Now, 7));
 
             return View(events);
         }
 
-        [OutputCache(Duration=240)]
+        [OutputCache(Duration = 240)]
         public virtual ActionResult About()
         {
             ViewBag.Message = "Your app description page.";
 
             return View();
         }
+
         [OutputCache(Duration = 240)]
         public virtual ActionResult Contact()
         {

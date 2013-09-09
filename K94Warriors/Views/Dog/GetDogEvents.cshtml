@@ -1,0 +1,39 @@
+﻿@model System.Linq.IQueryable<K94Warriors.Models.DogEvent>
+
+@{
+    ViewBag.Title = "title";
+
+}
+@section subnav {
+    @{
+        Html.RenderAction("GetDogsection", "Dog", new {dogId = ViewBag.DogId });
+    }
+}
+<div class="col col-lg-12">
+    <h4>View All Events</h4>
+    <hr/>
+    <div class="col col-lg-12">
+        <table class="table table-bordered">
+
+            <thead>
+                <tr>
+                    <th class="col col-lg-3">Event Type</th>
+                    <th class="col col-lg-7">Subject</th>
+                    <th class="col col-lg-2">Completed?</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var dogEvent in Model)
+                {
+                    <tr>
+                        <td class="col col-lg-3">@dogEvent.EventType.Name</td>
+                        <td class="col col-lg-7"><a href="/dog/CreateOrUpdateDogEvent?dogId=@dogEvent.DogProfileID&eventId=@dogEvent.EventID">@dogEvent.Subject</a></td>
+                        <td class="col col-lg-2">@dogEvent.IsComplete</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+</div>

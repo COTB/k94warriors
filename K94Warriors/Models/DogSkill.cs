@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace K94Warriors.Models
 {
     public class DogSkill

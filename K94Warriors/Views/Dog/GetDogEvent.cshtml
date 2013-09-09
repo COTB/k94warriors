@@ -1,0 +1,12 @@
+﻿@model K94Warriors.Models.DogEvent
+
+@{
+    ViewBag.Title = "title";
+
+}
+@section subnav {
+    @{
+        Html.RenderAction("GetDogsection", "Dog", new {dogId = ViewBag.DogId });
+    }
+}
+

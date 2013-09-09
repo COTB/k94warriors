@@ -1,0 +1,9 @@
+﻿@{
+    ViewBag.Title = "CreateOrUpdateDogEvent";
+}
+
+@section subnav {
+    @{
+        Html.RenderAction("GetDogsection", "Dog", new {dogId = ViewBag.DogId });
+    }
+}
