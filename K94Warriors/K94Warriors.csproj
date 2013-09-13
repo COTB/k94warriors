@@ -192,6 +192,15 @@
     <Compile Include="Handlers\LoginHandler.cs" />
     <Compile Include="Data\IRepository.cs" />
     <Compile Include="Data\K9DbContext.cs" />
+    <Compile Include="Migrations\201309131837115_Initial.cs" />
+    <Compile Include="Migrations\201309131837115_Initial.Designer.cs">
+      <DependentUpon>201309131837115_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201309131854177_InitialUserTypes.cs" />
+    <Compile Include="Migrations\201309131854177_InitialUserTypes.Designer.cs">
+      <DependentUpon>201309131854177_InitialUserTypes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\DogEvent.cs" />
     <Compile Include="Models\DogEventsReport.cs" />
@@ -202,6 +211,7 @@
     <Compile Include="Models\DogSkill.cs" />
     <Compile Include="Models\DogSkillName.cs" />
     <Compile Include="Models\EventType.cs" />
+    <Compile Include="Models\Initialization\K9DbInitializer.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Mapping\DogEventMap.cs" />
     <Compile Include="Models\Mapping\DogEventsReportMap.cs" />
@@ -374,6 +384,14 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201309131837115_Initial.resx">
+      <DependentUpon>201309131837115_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201309131854177_InitialUserTypes.resx">
+      <DependentUpon>201309131854177_InitialUserTypes.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

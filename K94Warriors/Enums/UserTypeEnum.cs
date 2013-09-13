@@ -5,10 +5,12 @@
     /// </summary>
     public enum UserTypeEnum
     {
+        Unknown = 0,
+
         /// <summary>
         ///     Administrator.
         /// </summary>
-        Administrator = 0,
+        Administrator = 1,
 
         /// <summary>
         ///     Trainer.
