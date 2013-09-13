@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using K94Warriors.Data;
+using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -13,6 +14,8 @@ namespace K94Warriors
     {
         protected void Application_Start()
         {
+            //K9DbContext.ForceInitialize();
+
             AreaRegistration.RegisterAllAreas();
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             RegisterFilters(GlobalFilters.Filters);

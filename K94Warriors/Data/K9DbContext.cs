@@ -1,11 +1,31 @@
 ﻿using System.Data.Entity;
 using K94Warriors.Models;
 using K94Warriors.Models.Mapping;
+using K94Warriors.Models.Initialization;
 
 namespace K94Warriors.Data
 {
     public class K9DbContext : DbContext
     {
+        static K9DbContext()
+        {
+            //Database.SetInitializer<K9DbContext>(new K9DbInitializer());
+        }
+
+        //public static void ForceInitialize()
+        //{
+        //    using (var ctx = new K9DbContext("K9"))
+        //    {
+        //        new K9DbInitializer().InitializeDatabase(ctx);
+        //    }
+        //}
+
+        public K9DbContext()
+            : this("K9")
+        {
+
+        }
+
         public K9DbContext(string nameOrConnectionString) : base(nameOrConnectionString)
         {
         }

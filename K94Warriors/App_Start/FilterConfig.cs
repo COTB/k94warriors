@@ -20,6 +20,8 @@ namespace K94Warriors
                 // All exception types, let view specify master
                 View = "Error",
             });*/
+
+            filters.Add(new AuthorizeAttribute());
         }
     }
 }
