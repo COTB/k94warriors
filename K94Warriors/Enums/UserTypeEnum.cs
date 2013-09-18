@@ -8,7 +8,7 @@
         /// <summary>
         ///     Administrator.
         /// </summary>
-        Administrator = 0,
+        Administrator = 1,
 
         /// <summary>
         ///     Trainer.

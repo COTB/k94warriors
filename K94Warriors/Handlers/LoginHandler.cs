@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web;
 using K94Warriors.Data;
+using K94Warriors.Data.Contracts;
 using K94Warriors.Models;
 
 namespace K94Warriors.Handlers

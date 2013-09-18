@@ -5,8 +5,10 @@ using System.Transactions;
 using System.Web.Mvc;
 using System.Web.Security;
 using DotNetOpenAuth.AspNet;
+using K94Warriors.Data;
 using K94Warriors.Filters;
 using K94Warriors.Models;
+using K94Warriors.Models.Accounts;
 using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
 
@@ -277,7 +279,7 @@ namespace K94Warriors.Controllers
             if (ModelState.IsValid)
             {
                 // Insert a new user into the database
-                using (var db = new UsersContext())
+                using (var db = new K9UsersContext())
                 {
                     UserProfile user =
                         db.UserProfiles.FirstOrDefault(u => u.UserName.ToLower() == model.UserName.ToLower());

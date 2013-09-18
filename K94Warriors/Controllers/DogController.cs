@@ -3,10 +3,10 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
-using K94Warriors.Enums;
 using K94Warriors.Data;
+using K94Warriors.Data.Contracts;
 using K94Warriors.Models;
+using K94Warriors.ViewModels;
 
 namespace K94Warriors.Controllers
 {
@@ -21,14 +21,17 @@ namespace K94Warriors.Controllers
         private readonly IBlobRepository _blobRepo;
         private readonly IRepository<DogEvent> _dogEventRepo;
         private readonly IRepository<EventType> _dogEventTypeRepo;
-        private readonly IRepository<DogSkill> _dogSkillRepo; 
+        private readonly IRepository<DogSkill> _dogSkillRepo;
 
         public DogController(IRepository<DogProfile> dogRepo,
                                 IRepository<User> userRepo,
                                 IRepository<DogMedicalRecord> recordRepo,
                                 IRepository<DogNote> dogNoteRepo,
                                 IRepository<NoteType> noteTypeRepo,
-                                IBlobRepository blobRepo, IRepository<DogEvent> dogEventRepo, IRepository<EventType> dogEventTypeRepo, IRepository<DogSkill> dogSkillRepo)
+                                IBlobRepository blobRepo,
+                                IRepository<DogEvent> dogEventRepo,
+                                IRepository<EventType> dogEventTypeRepo,
+                                IRepository<DogSkill> dogSkillRepo)
         {
             if (dogRepo == null)
                 throw new ArgumentNullException("dogRepo");
@@ -68,9 +71,13 @@ namespace K94Warriors.Controllers
         [HttpGet]
         public ActionResult CreateOrUpdateDog(int? id)
         {
-            DogProfile viewModel;
+            //DogProfile viewModel;
 
-            viewModel = id.HasValue ? _dogRepo.GetById(id.Value) : new DogProfile();
+            //viewModel = id.HasValue ? _dogRepo.GetById(id.Value) : new DogProfile();
+
+            var viewModel = id.HasValue
+                                ? DogProfileViewModel.FromDogProfile(_dogRepo.GetById(id.Value))
+                                : new DogProfileViewModel();
 
             return View(viewModel);
         }
@@ -82,7 +89,7 @@ namespace K94Warriors.Controllers
             var user = _userRepo.Where(u => u.Email == HttpContext.User.Identity.Name).FirstOrDefault();
 
             if (!user.IsUserAdminOrTrainer())
-                return RedirectToAction("Error403", "Error");;
+                return RedirectToAction("Error403", "Error"); ;
 
             if (dogProfile.ProfileID == 0)
             {
@@ -118,7 +125,7 @@ namespace K94Warriors.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult GetDocuments(int id)
+        public ActionResult GetMedicalRecords(int id)
         {
             var documents = _recordRepo.GetAll().Where(d => d.DogProfileID == id);
 
@@ -126,7 +133,7 @@ namespace K94Warriors.Controllers
             return View(documents);
         }
 
-        public async Task<ActionResult> GetDocument(string id)
+        public async Task<ActionResult> GetImage(string id)
         {
             var memoryStream = await _blobRepo.GetImageAsync<MemoryStream>(id);
             return File(memoryStream, "image/jpeg");
@@ -152,7 +159,7 @@ namespace K94Warriors.Controllers
                 dogNote.CreatedDate = DateTime.UtcNow;
                 _dogNoteRepo.Update(dogNote);
             }
-            return RedirectToAction("ReadDog", new {id = dogNote.DogProfileID});
+            return RedirectToAction("ReadDog", new { id = dogNote.DogProfileID });
 
         }
 
@@ -160,9 +167,8 @@ namespace K94Warriors.Controllers
         [HttpGet]
         public ActionResult CreateOrUpdateDogNote(int dogId, int? noteId)
         {
-            DogNote viewModel;
             var dog = _dogRepo.GetById(dogId);
-            viewModel = noteId.HasValue ? _dogNoteRepo.GetById(noteId.Value) : new DogNote { DogProfileID = dogId };
+            var viewModel = noteId.HasValue ? _dogNoteRepo.GetById(noteId.Value) : new DogNote { DogProfileID = dogId };
             ViewBag.NoteTypeId = new SelectList(_noteTypeRepo.GetAll(), "ID", "Name", viewModel.NoteTypeId);
             ViewBag.DogId = dog.ProfileID;
 
@@ -193,11 +199,11 @@ namespace K94Warriors.Controllers
 
         [HttpPost]
         public ActionResult CreateOrUpdateDogEvent(DogEvent dogEvent)
-        {                
+        {
 
-            var user = _userRepo.Where(u => u.Email == this.HttpContext.User.Identity.Name).FirstOrDefault();
+            var user = _userRepo.Where(u => u.Email == HttpContext.User.Identity.Name).FirstOrDefault();
 
-            if (user.IsUserAdminOrTrainer())
+            if (user != null && user.IsUserAdminOrTrainer())
             {
 
                 if (dogEvent.EventID == 0)
@@ -218,10 +224,9 @@ namespace K94Warriors.Controllers
         [HttpGet]
         public ActionResult CreateOrUpdateDogEvent(int dogId, int? eventId)
         {
-            DogEvent model;
             var dog = _dogRepo.GetById(dogId);
 
-            model = eventId.HasValue ? _dogEventRepo.GetById(eventId.Value) : new DogEvent { DogProfileID = dogId };
+            var model = eventId.HasValue ? _dogEventRepo.GetById(eventId.Value) : new DogEvent { DogProfileID = dogId };
 
             ViewBag.NoteTypeId = new SelectList(_dogEventTypeRepo.GetAll(), "ID", "Name", model.EventTypeId);
             ViewBag.DogId = dog.ProfileID;
@@ -255,9 +260,9 @@ namespace K94Warriors.Controllers
         public ActionResult CreateOrUpdateDogSkill(DogSkill dogSkill)
         {
 
-            var user = _userRepo.Where(u => u.Email == this.HttpContext.User.Identity.Name).FirstOrDefault();
+            var user = _userRepo.Where(u => u.Email == HttpContext.User.Identity.Name).FirstOrDefault();
 
-            if (user.IsUserAdminOrTrainer())
+            if (user != null && user.IsUserAdminOrTrainer())
             {
 
                 if (dogSkill.DogSkilID == 0)

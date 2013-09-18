@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace K94Warriors.Core.AsyncExtensions
@@ -46,16 +45,16 @@ namespace K94Warriors.Core.AsyncExtensions
             await tcs.Task;
         }
 
-        public static async Task DeleteIfExists(this CloudBlockBlob blob)
+        public static async Task<bool> DeleteIfExistsAsync(this CloudBlockBlob blob)
         {
-            var tcs = new TaskCompletionSource<object>();
+            var tcs = new TaskCompletionSource<bool>();
             blob.BeginDeleteIfExists(iar =>
                 {
-                    try { blob.EndDownloadToStream(iar); tcs.TrySetResult(null); }
+                    try { tcs.TrySetResult(blob.EndDeleteIfExists(iar)); }
                     catch (OperationCanceledException) { tcs.TrySetCanceled(); }
                     catch (Exception ex) { tcs.TrySetException(ex); }
                 }, null);
-            await tcs.Task;
+            return await tcs.Task;
         }
     }
 }

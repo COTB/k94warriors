@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace K94Warriors.Data
+namespace K94Warriors.Data.Contracts
 {
     public interface IRepository<T>
         where T : class

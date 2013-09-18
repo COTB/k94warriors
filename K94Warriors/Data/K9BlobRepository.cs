@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using K94Warriors.Core.AsyncExtensions;
+using K94Warriors.Data.Contracts;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 
@@ -21,7 +22,7 @@ namespace K94Warriors.Data
             _account = CloudStorageAccount.Parse(connectionString);
             _client = _account.CreateCloudBlobClient();
 
-            if (string.IsNullOrEmpty(_imageContainer))
+            if (string.IsNullOrEmpty(imageContainer))
                 throw new ArgumentNullException("imageContainer");
 
             try
@@ -49,6 +50,13 @@ namespace K94Warriors.Data
             var container = _client.GetContainerReference(_imageContainer);
             var blockBlob = container.GetBlockBlobReference(id);
             await blockBlob.UploadFromStreamAsync(stream);
+        }
+
+        public async Task<bool> DeleteImageIfExistsAsync(string id)
+        {
+            var container = _client.GetContainerReference(_imageContainer);
+            var blockBlob = container.GetBlockBlobReference(id);
+            return await blockBlob.DeleteIfExistsAsync();
         }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using K94Warriors.Enums;
 
 namespace K94Warriors.Models
 {
@@ -21,7 +22,7 @@ namespace K94Warriors.Models
         public string Breed { get; set; }
         public int? Age { get; set; }
         public string Color { get; set; }
-        public string Gender { get; set; }
+        public GenderEnum Gender { get; set; }
         public DateTime? PickedUpDate { get; set; }
         public bool IsFixed { get; set; }
         public DateTime? GraduationDate { get; set; }

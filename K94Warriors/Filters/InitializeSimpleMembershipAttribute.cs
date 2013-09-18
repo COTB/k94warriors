@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Threading;
 using System.Web.Mvc;
+using K94Warriors.Data;
 using K94Warriors.Models;
 using WebMatrix.WebData;
 
@@ -25,11 +26,11 @@ namespace K94Warriors.Filters
         {
             public SimpleMembershipInitializer()
             {
-                Database.SetInitializer<UsersContext>(null);
+                Database.SetInitializer<K9UsersContext>(null);
 
                 try
                 {
-                    using (var context = new UsersContext())
+                    using (var context = new K9UsersContext())
                     {
                         if (!context.Database.Exists())
                         {

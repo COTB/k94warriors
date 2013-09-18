@@ -1,4 +1,5 @@
-﻿@model K94Warriors.Models.DogProfile
+﻿@model K94Warriors.ViewModels.DogProfileViewModel
+@using K94Warriors.Core.HtmlHelperExtensions
 
 @{
     ViewBag.Title = "CreateOrUpdateDog";
@@ -20,7 +21,8 @@
     </div>
     <div class="form-group">
         <label>Gender</label>
-        <input type="text" class="form-control input-lg" name="Gender" placeholder="Dog Gender">
+        @*        <input type="text" class="form-control input-lg" name="Gender" placeholder="Dog Gender">*@
+        @Html.EnumDropDownListFor(t => t.Name, "Select a gender...")
         @Html.ValidationMessageFor(t => t.Gender, "", new {@class = "help-block"})
     </div>
 

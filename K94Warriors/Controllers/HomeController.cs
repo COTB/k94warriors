@@ -3,6 +3,7 @@ using System.Data.Objects;
 using System.Linq;
 using System.Web.Mvc;
 using K94Warriors.Data;
+using K94Warriors.Data.Contracts;
 using K94Warriors.Models;
 
 namespace K94Warriors.Controllers
