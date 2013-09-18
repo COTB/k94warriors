@@ -11,6 +11,8 @@ using K94Warriors.Models;
 using K94Warriors.Models.Accounts;
 using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
+using K94Warriors.Enums;
+using K94Warriors.Data;
 
 namespace K94Warriors.Controllers
 {
@@ -80,7 +82,7 @@ namespace K94Warriors.Controllers
                 try
                 {
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password,
-                                                     new {UserTypeId = 3, CreatedTimeUTC = DateTime.UtcNow}, false);
+                                                     new {UserTypeId = (int)UserTypeEnum.Volunteer, CreatedTimeUTC = DateTime.UtcNow}, false);
                     WebSecurity.Login(model.UserName, model.Password);
                     return RedirectToAction("Index", "Home");
                 }
