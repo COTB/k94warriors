@@ -195,6 +195,10 @@
     <Compile Include="Handlers\LoginHandler.cs" />
     <Compile Include="Data\Contracts\IRepository.cs" />
     <Compile Include="Data\K9DbContext.cs" />
+    <Compile Include="Migrations\201309181925507_DogGenderDataType.cs" />
+    <Compile Include="Migrations\201309181925507_DogGenderDataType.Designer.cs">
+      <DependentUpon>201309181925507_DogGenderDataType.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Accounts\ExternalLogin.cs" />
     <Compile Include="Models\Accounts\LocalPasswordModel.cs" />
     <Compile Include="Models\Accounts\LoginModel.cs" />
@@ -210,7 +214,6 @@
       <DependentUpon>201309131854177_InitialUserTypes.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\DogEvent.cs" />
     <Compile Include="Models\DogEventsReport.cs" />
     <Compile Include="Models\DogMedicalRecord.cs" />
@@ -401,6 +404,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201309131854177_InitialUserTypes.resx">
       <DependentUpon>201309131854177_InitialUserTypes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201309181925507_DogGenderDataType.resx">
+      <DependentUpon>201309181925507_DogGenderDataType.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
