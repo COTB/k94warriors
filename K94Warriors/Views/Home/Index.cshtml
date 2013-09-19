@@ -13,9 +13,11 @@
         <tr>
             <th class="col col-lg-3">Dog Name
             </th>
-            <th class="col col-lg-6">Subject
+            <th class="col col-lg-4">Subject
             </th>
             <th class="col col-lg-3">Date
+            </th>
+            <th class="col col-lg-2">Days From Now
             </th>
         </tr>
     </thead>
@@ -25,9 +27,10 @@
             foreach (DogEvent dogEvent in Model)
             {
                 <tr>
-                    <td class="col col-lg-3">@dogEvent.DogProfile.Name</td>
-                    <td class="col col-lg-6">@dogEvent.Subject</td>
-                    <td class="col col-lg-6">@dogEvent.EventDate.ToLongDateString()</td>
+                    <td class="col col-lg-3"><a href="/dog/readdog/@dogEvent.DogProfileID">@dogEvent.DogProfile.Name</a></td>
+                    <td class="col col-lg-4"><a href="/dog/CreateOrUpdateDogEvent?dogId=@dogEvent.DogProfileID&eventId=@dogEvent.EventID">@dogEvent.Subject</a></td>
+                    <td class="col col-lg-3">@dogEvent.EventDate.ToLongDateString()</td>
+                    <td class="col col-lg-2">@((dogEvent.EventDate - DateTime.UtcNow).Days)</td>
                 </tr>
             }
         }
