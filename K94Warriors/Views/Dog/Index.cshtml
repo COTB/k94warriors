@@ -13,8 +13,8 @@
             <tr>
                 <th class="col col-lg-6">Dog Name</th>
                 <th class="col col-lg-2">Breed</th>
-                <th class="col col-lg-2">Age</th>
-                <th class="col col-lg-2">Location</th>
+                <th class="col col-lg-2 hidden-xs">Age</th>
+                <th class="col col-lg-2 hidden-xs">Location</th>
             </tr>
         </thead>
         <tbody>
@@ -38,8 +38,8 @@
                         @*<a href="/dog/readdog/@dog.ProfileID">@dog.Name</a>*@
                     </td>
                     <td class="col col-lg-2">@dog.Breed</td>
-                    <td class="col col-lg-2">@{ @(DateTime.Now.Year - dog.BirthYear) }</td>
-                    <td class="col col-lg-2">@dog.Location.Name</td>
+                    <td class="col col-lg-2 hidden-xs">@{ @(DateTime.Now.Year - dog.BirthYear) }</td>
+                    <td class="col col-lg-2 hidden-xs">@dog.Location.Name</td>
                 </tr>
             }
         </tbody>
