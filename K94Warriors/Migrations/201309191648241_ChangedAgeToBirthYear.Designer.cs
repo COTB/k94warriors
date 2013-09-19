@@ -5,13 +5,13 @@ namespace K94Warriors.Migrations
     using System.Data.Entity.Migrations.Infrastructure;
     using System.Resources;
     
-    public sealed partial class ChangedAgeToBirthYear : IMigrationMetadata
+    public sealed partial class Changes : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ChangedAgeToBirthYear));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Changes));
         
         string IMigrationMetadata.Id
         {
-            get { return "201309191424209_ChangedAgeToBirthYear"; }
+            get { return "201309191648241_Changes"; }
         }
         
         string IMigrationMetadata.Source

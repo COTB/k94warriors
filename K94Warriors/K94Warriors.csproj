@@ -199,10 +199,6 @@
     <Compile Include="Migrations\201309181925507_DogGenderDataType.Designer.cs">
       <DependentUpon>201309181925507_DogGenderDataType.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201309191424209_ChangedAgeToBirthYear.cs" />
-    <Compile Include="Migrations\201309191424209_ChangedAgeToBirthYear.Designer.cs">
-      <DependentUpon>201309191424209_ChangedAgeToBirthYear.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201309191538278_DogImages.cs" />
     <Compile Include="Migrations\201309191538278_DogImages.Designer.cs">
       <DependentUpon>201309191538278_DogImages.cs</DependentUpon>
@@ -210,6 +206,10 @@
     <Compile Include="Migrations\201309191447378_SeedLocationDefault.cs" />
     <Compile Include="Migrations\201309191447378_SeedLocationDefault.Designer.cs">
       <DependentUpon>201309191447378_SeedLocationDefault.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201309191648241_ChangedAgeToBirthYear.cs" />
+    <Compile Include="Migrations\201309191648241_ChangedAgeToBirthYear.Designer.cs">
+      <DependentUpon>201309191648241_ChangedAgeToBirthYear.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Accounts\ExternalLogin.cs" />
     <Compile Include="Models\Accounts\LocalPasswordModel.cs" />
@@ -426,6 +426,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201309191447378_SeedLocationDefault.resx">
       <DependentUpon>201309191447378_SeedLocationDefault.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201309191648241_ChangedAgeToBirthYear.resx">
+      <DependentUpon>201309191648241_ChangedAgeToBirthYear.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

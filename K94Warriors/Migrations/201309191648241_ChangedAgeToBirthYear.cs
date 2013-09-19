@@ -7,12 +7,14 @@ namespace K94Warriors.Migrations
     {
         public override void Up()
         {
-            RenameColumn("dbo.DogProfiles", "Age", "BirthYear");
+            AddColumn("dbo.DogProfiles", "BirthYear", c => c.Int());
+            DropColumn("dbo.DogProfiles", "Age");
         }
         
         public override void Down()
         {
-            RenameColumn("dbo.DogProfiles", "BirthYear", "Age");
+            AddColumn("dbo.DogProfiles", "Age", c => c.Int());
+            DropColumn("dbo.DogProfiles", "BirthYear");
         }
     }
 }
