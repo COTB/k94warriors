@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using K94Warriors.Data;
 using K94Warriors.Data.Contracts;
@@ -80,7 +82,7 @@ namespace K94Warriors.Controllers
 
 
         [HttpPost]
-        public ActionResult CreateOrUpdateDog(DogProfileViewModel viewModel)
+        public ActionResult CreateOrUpdateDog(DogProfileViewModel viewModel, IEnumerable<HttpPostedFileBase> images)
         {
             var user = _userRepo.Where(u => u.Email == HttpContext.User.Identity.Name).FirstOrDefault();
 
@@ -101,9 +103,8 @@ namespace K94Warriors.Controllers
                 _dogRepo.Update(dogProfile);
             }
 
-
             // Handle upload of images to blob storage
-            foreach (var image in viewModel.File)
+            foreach (var image in images)
             {
                 // TODO: verify correct file type for security?
                 // TODO: no idea how we want to name these blobs...
@@ -116,7 +117,9 @@ namespace K94Warriors.Controllers
         public ActionResult ReadDog(int id)
         {
             ViewBag.DogId = id;
-            return View(_dogRepo.GetById(id));
+            var dog = _dogRepo.GetById(id);
+
+            return View(DogProfileViewModel.FromDogProfile(dog));
 
         }
 

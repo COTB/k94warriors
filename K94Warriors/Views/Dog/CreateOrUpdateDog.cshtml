@@ -10,7 +10,7 @@
     <div>Adding a new dog to the system allows you to manage its medical records, add notes and view events related to the dog.</div>
 </div>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("CreateOrUpdateDog", "Dog", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -67,7 +67,7 @@
     
     <div class="form-group">
         <label>Upload an Image</label>
-        <input type="file" name="ImageUpload" class="form-control input-lg" title="Upload an image..." accept="image/*" multiple />
+        <input type="file" name="images" class="form-control input-lg" title="Upload an image..." accept="image/*" multiple />
     </div>
 
 
