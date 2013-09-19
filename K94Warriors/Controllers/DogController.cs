@@ -126,7 +126,9 @@ namespace K94Warriors.Controllers
         public ActionResult ReadDog(int id)
         {
             ViewBag.DogId = id;
-            return View(_dogRepo.GetById(id));
+            var dog = _dogRepo.GetById(id);
+
+            return View(DogProfileViewModel.FromDogProfile(dog));
 
         }
 

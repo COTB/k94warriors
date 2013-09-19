@@ -18,7 +18,9 @@ namespace K94Warriors.ViewModels
         public bool IsFixed { get; set; }
         public bool IsApproved { get; set; }
         public int CreatedByUserID { get; set; }
-        public IEnumerable<HttpPostedFileBase> File { get; set; }
+        public DateTime DateCreated { get; set; }
+        public Location Location { get; set; }
+        public IEnumerable<DogNote> Notes { get; set; }
 
         /// <summary>
         /// Returns a DogProfile object updated with the viewmodel's data. 
@@ -34,7 +36,7 @@ namespace K94Warriors.ViewModels
             profile.Name = Name;
             profile.Gender = Gender;
             profile.Breed = Breed;
-            profile.Age = Age;
+            profile.BirthYear = DateTime.Now.Year - Age;
             profile.Color = Color;
             profile.PickedUpDate = PickedUpDate;
             profile.IsFixed = IsFixed;
@@ -51,11 +53,14 @@ namespace K94Warriors.ViewModels
                     Name = dogProfile.Name,
                     Gender = dogProfile.Gender,
                     Breed = dogProfile.Breed,
-                    Age = dogProfile.Age,
+                    Age = DateTime.Now.Year - dogProfile.BirthYear,
                     Color = dogProfile.Color,
                     PickedUpDate = dogProfile.PickedUpDate,
                     IsFixed = dogProfile.IsFixed,
-                    IsApproved = dogProfile.IsApproved
+                    IsApproved = dogProfile.IsApproved,
+                    DateCreated = dogProfile.CreatedTimeUTC,
+                    Location = dogProfile.Location,
+                    Notes = dogProfile.DogNotes
                 };
         }
     }

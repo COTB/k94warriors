@@ -24,7 +24,7 @@ namespace K94Warriors.Models.Mapping
             Property(t => t.ProfileID).HasColumnName("ProfileID");
             Property(t => t.Name).HasColumnName("Name");
             Property(t => t.Breed).HasColumnName("Breed");
-            Property(t => t.Age).HasColumnName("Age");
+            Property(t => t.BirthYear).HasColumnName("BirthYear");
             Property(t => t.Color).HasColumnName("Color");
             Property(t => t.Gender).HasColumnName("Gender");
             Property(t => t.PickedUpDate).HasColumnName("PickedUpDate");
