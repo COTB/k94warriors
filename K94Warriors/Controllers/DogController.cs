@@ -240,7 +240,7 @@ namespace K94Warriors.Controllers
 
             var model = eventId.HasValue ? _dogEventRepo.GetById(eventId.Value) : new DogEvent { DogProfileID = dogId };
 
-            ViewBag.NoteTypeId = new SelectList(_dogEventTypeRepo.GetAll(), "ID", "Name", model.EventTypeId);
+            ViewBag.EventTypeId = new SelectList(_dogEventTypeRepo.GetAll(), "ID", "Name", model.EventTypeId);
             ViewBag.DogId = dog.ProfileID;
 
             return View(model);

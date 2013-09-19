@@ -23,7 +23,7 @@
                 <tr>
                     <td class="col col-lg-6"><a href="/dog/readdog/@dog.ProfileID">@dog.Name</a></td>
                     <td class="col col-lg-2">@dog.Breed</td>
-                    <td class="col col-lg-2">@dog.BirthYear</td>
+                    <td class="col col-lg-2">@{ @(DateTime.Now.Year - dog.BirthYear) }</td>
                     <td class="col col-lg-2">@dog.Location.Name</td>
                 </tr>
             }

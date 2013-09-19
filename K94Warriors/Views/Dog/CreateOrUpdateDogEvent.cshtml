@@ -1,9 +1,47 @@
-﻿@{
+﻿
+@{
     ViewBag.Title = "CreateOrUpdateDogEvent";
 }
-
+@model K94Warriors.Models.DogEvent
 @section subnav {
     @{
         Html.RenderAction("GetDogsection", "Dog", new {dogId = ViewBag.DogId });
     }
+}
+<div class="well">
+    <h1>Event</h1>
+    <div>Add an upcoming event</div>
+</div>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("DogProfileID", @Model.DogProfileID)
+    <div class="form-group">
+        <label>Note Type</label>
+        @Html.DropDownList("EventTypeId", null, "Select Event Type", new {@class = "form-control"})
+    </div>
+
+    <div class="form-group">
+        <label>Event Subject</label>
+        <input class="form-control input-lg" name="Subject" placeholder="Note" value="@Model.Subject" type="text"/>
+        @Html.ValidationMessageFor(t => t.Subject, "", new {@class = "help-block"})
+    </div>
+    
+    <div class="form-group">
+        <label>Event Description</label>
+        <textarea class="form-control input-lg" name="Body" placeholder="Note">@Model.Body</textarea>
+        @Html.ValidationMessageFor(t => t.Body, "", new {@class = "help-block"})
+    </div>
+    
+
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" name="IsCritical" value="true" @(Model.IsComplete ? "checked" : "")> Is Event Completed
+        </label>
+        @Html.ValidationMessageFor(t => t.IsComplete, "", new {@class = "help-block"})
+    </div>
+
+    <p>
+        <button type="submit" class="btn">Submit</button>
+    </p>
 }
