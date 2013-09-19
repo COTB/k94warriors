@@ -22,7 +22,7 @@
     <div class="information">
 
         <div class="col col-lg-4">
-            <img src="http://placehold.it/320x180" />
+            @Html.Action("DogImagesPartial", new { id = ViewBag.DogId })
         </div>
         <div class="col col-lg-8">
             <div class="col col-lg-4">

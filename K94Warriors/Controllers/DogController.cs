@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using K94Warriors.Core.ImageResizing;
 using K94Warriors.Data.Contracts;
 using K94Warriors.Models;
 using K94Warriors.ViewModels;
@@ -15,7 +16,7 @@ namespace K94Warriors.Controllers
     public class DogController : Controller
     {
         private readonly IRepository<DogProfile> _dogRepo;
-        private readonly IRepository<DogImage> _dogImageRepo; 
+        private readonly IRepository<DogImage> _dogImageRepo;
         private readonly IRepository<User> _userRepo;
         private readonly IRepository<DogMedicalRecord> _recordRepo;
         private readonly IRepository<DogNote> _dogNoteRepo;
@@ -87,7 +88,7 @@ namespace K94Warriors.Controllers
 
 
         [HttpPost]
-        public ActionResult CreateOrUpdateDog(DogProfileViewModel viewModel, IEnumerable<HttpPostedFileBase> images)
+        public async Task<ActionResult> CreateOrUpdateDog(DogProfileViewModel viewModel, IEnumerable<HttpPostedFileBase> images)
         {
             var user = _userRepo.Where(u => u.Email == HttpContext.User.Identity.Name).FirstOrDefault();
 
@@ -115,9 +116,9 @@ namespace K94Warriors.Controllers
             {
                 // TODO: verify correct file type for security?
                 var blobKey = Guid.NewGuid();
-                var dogImage = new DogImage {BlobKey = blobKey, DogProfileID = viewModel.ProfileID};
+                var dogImage = new DogImage { BlobKey = blobKey, DogProfileID = dogProfile.ProfileID, MimeType = image.ContentType };
                 dogImages.Add(dogImage);
-                _blobRepo.InsertOrUpdateImageAsync(blobKey.ToString(), image.InputStream);
+                await _blobRepo.InsertOrUpdateImageAsync(blobKey.ToString(), image.InputStream);
             }
             _dogImageRepo.Insert(dogImages);
 
@@ -130,7 +131,20 @@ namespace K94Warriors.Controllers
             var dog = _dogRepo.GetById(id);
 
             return View(DogProfileViewModel.FromDogProfile(dog));
+        }
 
+        [ChildActionOnly]
+        public ActionResult DogImagesPartial(int id)
+        {
+            var viewModel = _dogImageRepo.Where(x => x.DogProfileID == id).ToList();
+            return PartialView("_DogImagesPartial", viewModel);
+        }
+
+        public async Task<ActionResult> ImageForBlobKey(string blobKey, string mimeType, int height, int width)
+        {
+            var image = await _blobRepo.GetImageAsync<MemoryStream>(blobKey);
+            var resized = ImageResizer.ResizeToByteArray(image, 320, 180, false);
+            return new FileContentResult(resized, mimeType);
         }
 
         [HttpGet]

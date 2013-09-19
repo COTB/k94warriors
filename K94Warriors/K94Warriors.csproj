@@ -103,6 +103,7 @@
     <Reference Include="System.Data.Entity">
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Extensions">
       <HintPath>..\packages\Microsoft.Net.Http.2.2.13\lib\net45\System.Net.Http.Extensions.dll</HintPath>
@@ -178,6 +179,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Core\AsyncExtensions\CloudBlockBlobExtensions.cs" />
     <Compile Include="Core\HtmlHelperExtensions\EnumDropdownHelper.cs" />
+    <Compile Include="Core\ImageResizing\ImageResizer.cs" />
     <Compile Include="Data\K9BlobRepository.cs" />
     <Compile Include="Data\EFRepository.cs" />
     <Compile Include="Controllers\SkillsController.cs" />
@@ -210,6 +212,10 @@
     <Compile Include="Migrations\201309191651599_ChangedAgeToBirthYear.cs" />
     <Compile Include="Migrations\201309191651599_ChangedAgeToBirthYear.Designer.cs">
       <DependentUpon>201309191651599_ChangedAgeToBirthYear.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201309191731519_DogImageMimeType.cs" />
+    <Compile Include="Migrations\201309191731519_DogImageMimeType.Designer.cs">
+      <DependentUpon>201309191731519_DogImageMimeType.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Accounts\ExternalLogin.cs" />
     <Compile Include="Models\Accounts\LocalPasswordModel.cs" />
@@ -401,6 +407,7 @@
     <Content Include="Views\Dog\GetDogEvents.cshtml" />
     <Content Include="Views\Dog\GetMedicalRecords.cshtml" />
     <Content Include="Views\Shared\_DogSection.cshtml" />
+    <Content Include="Views\Dog\_DogImagesPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -429,6 +436,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201309191651599_ChangedAgeToBirthYear.resx">
       <DependentUpon>201309191651599_ChangedAgeToBirthYear.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201309191731519_DogImageMimeType.resx">
+      <DependentUpon>201309191731519_DogImageMimeType.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

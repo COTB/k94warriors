@@ -25,12 +25,8 @@ namespace K94Warriors.Data
             if (string.IsNullOrEmpty(imageContainer))
                 throw new ArgumentNullException("imageContainer");
 
-            try
-            {
-                var container = _client.GetContainerReference(imageContainer);
-                container.FetchAttributes();
-            }
-            catch (StorageException ex) { throw new ArgumentException("The provided image container does not exist."); }
+            var container = _client.GetContainerReference(imageContainer);
+            container.CreateIfNotExists();
 
             _imageContainer = imageContainer;
         }

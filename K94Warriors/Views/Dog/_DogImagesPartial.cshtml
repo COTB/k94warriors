@@ -1,0 +1,17 @@
+﻿@model IList<K94Warriors.Models.DogImage>
+
+<div id="dog-image-carousel" class="carousel slide">
+    <!-- Carousel items -->
+    <div class="carousel-inner">
+        @for (var i = 0; i < Model.Count; i++)
+        {
+            var image = Model[i];
+            <div class="item @(i == 0 ? "active" : "")">
+                <img src="@Url.Action("ImageForBlobKey", new { blobKey = image.BlobKey, mimeType = image.MimeType, height = 180, width = 340 })"/>
+            </div>
+        }
+    </div>
+    <!-- Carousel nav -->
+    <a class="carousel-control left" href="#dog-image-carousel" data-slide="prev">‹</a>
+    <a class="carousel-control right" href="#dog-image-carousel" data-slide="next">›</a>
+</div>

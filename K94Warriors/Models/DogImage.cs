@@ -12,6 +12,8 @@ namespace K94Warriors.Models
 
         public Guid BlobKey { get; set; }
 
+        public string MimeType { get; set; }
+
         public virtual DogProfile DogProfile { get; set; }
     }
 }
