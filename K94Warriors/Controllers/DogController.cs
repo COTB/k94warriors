@@ -76,12 +76,26 @@ namespace K94Warriors.Controllers
             return View(dogs);
         }
 
+        public async Task<ActionResult> DogThumbnail(int dogId, int size)
+        {
+            var dogImage = _dogImageRepo
+                                .GetAll()
+                                .FirstOrDefault(i => i.DogProfileID == dogId);
+
+            if (dogImage == null)
+                return null;
+
+            var imageStream = await _blobRepo.GetImageAsync<MemoryStream>(dogImage.BlobKey.ToString());
+            var sizedImage = ImageResizer.ResizeToByteArray(imageStream, size, size, false);
+            return new FileContentResult(sizedImage, dogImage.MimeType);
+        }
+
         [HttpGet]
         public ActionResult CreateOrUpdateDog(int? id)
         {
             var viewModel = id.HasValue
                                 ? DogProfileViewModel.FromDogProfile(_dogRepo.GetById(id.Value))
-                                : new DogProfileViewModel() {PickedUpDate = DateTime.UtcNow};
+                                : new DogProfileViewModel() { PickedUpDate = DateTime.UtcNow };
 
             return View(viewModel);
         }
@@ -262,7 +276,7 @@ namespace K94Warriors.Controllers
         {
             var dog = _dogRepo.GetById(dogId);
 
-            var model = eventId.HasValue ? _dogEventRepo.GetById(eventId.Value) : new DogEvent { DogProfileID = dogId, EventDate = DateTime.UtcNow};
+            var model = eventId.HasValue ? _dogEventRepo.GetById(eventId.Value) : new DogEvent { DogProfileID = dogId, EventDate = DateTime.UtcNow };
 
             ViewBag.EventTypeId = new SelectList(_dogEventTypeRepo.GetAll(), "ID", "Name", model.EventTypeId);
             ViewBag.DogId = dog.ProfileID;

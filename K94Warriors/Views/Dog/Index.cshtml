@@ -21,7 +21,22 @@
             @foreach (DogProfile dog in Model)
             {
                 <tr>
-                    <td class="col col-lg-6"><a href="/dog/readdog/@dog.ProfileID">@dog.Name</a></td>
+                    @{
+                        const int thumbSize = 32;
+                        var imageResult = Url.Action("DogThumbnail", new { dogId = dog.ProfileID, size = thumbSize })
+                                          ?? "http://placehold.it/" + thumbSize + "x" + thumbSize;
+                    }
+                    <td class="col col-lg-6">
+                        <div class="media">
+                            <a class="pull-left" href="@Url.Action("ReadDog", new { id = dog.ProfileID})">
+                                <img class="media-object" src="@imageResult"/>
+                            </a>
+                            <div class="media-body">
+                                <h4 class="media-heading"><a href="@Url.Action("ReadDog", new { id = dog.ProfileID})">@dog.Name</a></h4>
+                            </div>
+                        </div>
+                        @*<a href="/dog/readdog/@dog.ProfileID">@dog.Name</a>*@
+                    </td>
                     <td class="col col-lg-2">@dog.Breed</td>
                     <td class="col col-lg-2">@{ @(DateTime.Now.Year - dog.BirthYear) }</td>
                     <td class="col col-lg-2">@dog.Location.Name</td>
