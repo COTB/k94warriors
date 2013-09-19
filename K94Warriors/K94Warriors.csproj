@@ -199,6 +199,10 @@
     <Compile Include="Migrations\201309181925507_DogGenderDataType.Designer.cs">
       <DependentUpon>201309181925507_DogGenderDataType.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201309191424209_ChangedAgeToBirthYear.cs" />
+    <Compile Include="Migrations\201309191424209_ChangedAgeToBirthYear.Designer.cs">
+      <DependentUpon>201309191424209_ChangedAgeToBirthYear.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201309191538278_DogImages.cs" />
     <Compile Include="Migrations\201309191538278_DogImages.Designer.cs">
       <DependentUpon>201309191538278_DogImages.cs</DependentUpon>
