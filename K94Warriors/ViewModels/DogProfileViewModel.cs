@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Web;
 using K94Warriors.Enums;
 using K94Warriors.Models;
 
@@ -15,6 +17,31 @@ namespace K94Warriors.ViewModels
         public DateTime? PickedUpDate { get; set; }
         public bool IsFixed { get; set; }
         public bool IsApproved { get; set; }
+        public int CreatedByUserID { get; set; }
+        public IEnumerable<HttpPostedFileBase> File { get; set; }
+
+        /// <summary>
+        /// Returns a DogProfile object updated with the viewmodel's data. 
+        /// A new DogProfile if no parameter is provided. Updates an existing
+        /// DogProfile if one is provided.
+        /// </summary>
+        /// <param name="profileToUpdate"></param>
+        /// <returns></returns>
+        public DogProfile ToDogProfile(DogProfile profileToUpdate = null)
+        {
+            var profile = profileToUpdate ?? new DogProfile();
+
+            profile.Name = Name;
+            profile.Gender = Gender;
+            profile.Breed = Breed;
+            profile.Age = Age;
+            profile.Color = Color;
+            profile.PickedUpDate = PickedUpDate;
+            profile.IsFixed = IsFixed;
+            profile.IsApproved = IsApproved;
+
+            return profile;
+        }
 
         public static DogProfileViewModel FromDogProfile(DogProfile dogProfile)
         {

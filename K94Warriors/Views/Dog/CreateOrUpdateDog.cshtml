@@ -17,50 +17,57 @@
     <div class="form-group">
         <label>Name</label>
         <input type="text" class="form-control input-lg" name="Name" placeholder="Dog Name">
-        @Html.ValidationMessageFor(t => t.Name, "", new {@class = "help-block"})
+        @Html.ValidationMessageFor(t => t.Name, "", new { @class = "help-block" })
     </div>
     <div class="form-group">
         <label>Gender</label>
         @*        <input type="text" class="form-control input-lg" name="Gender" placeholder="Dog Gender">*@
-        @Html.EnumDropDownListFor(t => t.Name, "Select a gender...")
-        @Html.ValidationMessageFor(t => t.Gender, "", new {@class = "help-block"})
+        @Html.EnumDropDownListFor(t => t.Gender, "Select a gender...", new Dictionary<string, object> { { "class", "form-control input-lg" } })
+        @Html.ValidationMessageFor(t => t.Gender, "", new { @class = "help-block" })
     </div>
 
     <div class="form-group">
         <label>Breed</label>
         <input type="text" class="form-control input-lg" name="Breed" placeholder="Dog Breed">
-        @Html.ValidationMessageFor(t => t.Breed, "", new {@class = "help-block"})
+        @Html.ValidationMessageFor(t => t.Breed, "", new { @class = "help-block" })
     </div>
 
     <div class="form-group">
         <label>Age</label>
         <input type="text" class="form-control input-lg" name="Age" placeholder="Dog Age">
-        @Html.ValidationMessageFor(t => t.Age, "", new {@class = "help-block"})
+        @Html.ValidationMessageFor(t => t.Age, "", new { @class = "help-block" })
     </div>
 
     <div class="form-group">
         <label>Color</label>
         <input type="text" class="form-control input-lg" name="Color" placeholder="Dog Color">
-        @Html.ValidationMessageFor(t => t.Color, "", new {@class = "help-block"})
+        @Html.ValidationMessageFor(t => t.Color, "", new { @class = "help-block" })
     </div>
 
     <div class="form-group">
         <label>Picked-Up Date (Optional) </label>
-        <input type="text" class="form-control input-lg" name="PickedUpDate" placeholder="Picked-Up Date">
-        @Html.ValidationMessageFor(t => t.PickedUpDate, "", new {@class = "help-block"})
+        <input type="date" class="form-control input-lg" name="PickedUpDate" placeholder="Picked-Up Date">
+        @Html.ValidationMessageFor(t => t.PickedUpDate, "", new { @class = "help-block" })
     </div>
 
     <div class="checkbox">
         <label>
-            <input type="checkbox" name="IsFixed" value="true"> Is Dog Fixed?
+            <input type="checkbox" name="IsFixed" value="true">
+            Is Dog Fixed?
         </label>
-        @Html.ValidationMessageFor(t => t.IsFixed, "", new {@class = "help-block"})
+        @Html.ValidationMessageFor(t => t.IsFixed, "", new { @class = "help-block" })
     </div>
     <div class="checkbox">
         <label>
-            <input type="checkbox" name="IsApproved" value="true"> Is Dog Approved?
+            <input type="checkbox" name="IsApproved" value="true">
+            Is Dog Approved?
         </label>
-        @Html.ValidationMessageFor(t => t.IsApproved, "", new {@class = "help-block"})
+        @Html.ValidationMessageFor(t => t.IsApproved, "", new { @class = "help-block" })
+    </div>
+    
+    <div class="form-group">
+        <label>Upload an Image</label>
+        <input type="file" name="ImageUpload" class="form-control input-lg" title="Upload an image..." accept="image/*" multiple />
     </div>
 
 

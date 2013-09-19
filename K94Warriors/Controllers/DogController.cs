@@ -71,10 +71,6 @@ namespace K94Warriors.Controllers
         [HttpGet]
         public ActionResult CreateOrUpdateDog(int? id)
         {
-            //DogProfile viewModel;
-
-            //viewModel = id.HasValue ? _dogRepo.GetById(id.Value) : new DogProfile();
-
             var viewModel = id.HasValue
                                 ? DogProfileViewModel.FromDogProfile(_dogRepo.GetById(id.Value))
                                 : new DogProfileViewModel();
@@ -84,21 +80,34 @@ namespace K94Warriors.Controllers
 
 
         [HttpPost]
-        public ActionResult CreateOrUpdateDog(DogProfile dogProfile)
+        public ActionResult CreateOrUpdateDog(DogProfileViewModel viewModel)
         {
             var user = _userRepo.Where(u => u.Email == HttpContext.User.Identity.Name).FirstOrDefault();
 
             if (!user.IsUserAdminOrTrainer())
                 return RedirectToAction("Error403", "Error"); ;
 
-            if (dogProfile.ProfileID == 0)
+            DogProfile dogProfile;
+
+            if (viewModel.ProfileID == 0)
             {
+                dogProfile = viewModel.ToDogProfile();
                 dogProfile.CreatedByUserID = user.UserID;
                 _dogRepo.Insert(dogProfile);
             }
             else
             {
+                dogProfile = viewModel.ToDogProfile(_dogRepo.GetById(viewModel.ProfileID));
                 _dogRepo.Update(dogProfile);
+            }
+
+
+            // Handle upload of images to blob storage
+            foreach (var image in viewModel.File)
+            {
+                // TODO: verify correct file type for security?
+                // TODO: no idea how we want to name these blobs...
+                _blobRepo.InsertOrUpdateImageAsync(dogProfile.ProfileID + "_" + image.FileName, image.InputStream);
             }
 
             return RedirectToAction("Index");
