@@ -207,9 +207,9 @@
     <Compile Include="Migrations\201309191447378_SeedLocationDefault.Designer.cs">
       <DependentUpon>201309191447378_SeedLocationDefault.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201309191648241_ChangedAgeToBirthYear.cs" />
-    <Compile Include="Migrations\201309191648241_ChangedAgeToBirthYear.Designer.cs">
-      <DependentUpon>201309191648241_ChangedAgeToBirthYear.cs</DependentUpon>
+    <Compile Include="Migrations\201309191651599_ChangedAgeToBirthYear.cs" />
+    <Compile Include="Migrations\201309191651599_ChangedAgeToBirthYear.Designer.cs">
+      <DependentUpon>201309191651599_ChangedAgeToBirthYear.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Accounts\ExternalLogin.cs" />
     <Compile Include="Models\Accounts\LocalPasswordModel.cs" />
@@ -427,8 +427,8 @@
     <EmbeddedResource Include="Migrations\201309191447378_SeedLocationDefault.resx">
       <DependentUpon>201309191447378_SeedLocationDefault.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201309191648241_ChangedAgeToBirthYear.resx">
-      <DependentUpon>201309191648241_ChangedAgeToBirthYear.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201309191651599_ChangedAgeToBirthYear.resx">
+      <DependentUpon>201309191651599_ChangedAgeToBirthYear.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
