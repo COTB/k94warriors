@@ -80,7 +80,7 @@ namespace K94Warriors.Controllers
         {
             var viewModel = id.HasValue
                                 ? DogProfileViewModel.FromDogProfile(_dogRepo.GetById(id.Value))
-                                : new DogProfileViewModel();
+                                : new DogProfileViewModel() {PickedUpDate = DateTime.UtcNow};
 
             return View(viewModel);
         }
@@ -236,7 +236,7 @@ namespace K94Warriors.Controllers
                 {
                     _dogEventRepo.Update(dogEvent);
                 }
-                return RedirectToAction("ReadDog", new { id = dogEvent.DogProfileID });
+                return RedirectToAction("GetDogEvents", new { dogId = dogEvent.DogProfileID });
             }
 
             return RedirectToAction("Error403", "Error");
@@ -248,7 +248,7 @@ namespace K94Warriors.Controllers
         {
             var dog = _dogRepo.GetById(dogId);
 
-            var model = eventId.HasValue ? _dogEventRepo.GetById(eventId.Value) : new DogEvent { DogProfileID = dogId };
+            var model = eventId.HasValue ? _dogEventRepo.GetById(eventId.Value) : new DogEvent { DogProfileID = dogId, EventDate = DateTime.UtcNow};
 
             ViewBag.EventTypeId = new SelectList(_dogEventTypeRepo.GetAll(), "ID", "Name", model.EventTypeId);
             ViewBag.DogId = dog.ProfileID;

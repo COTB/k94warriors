@@ -46,7 +46,7 @@
 
     <div class="form-group">
         <label>Picked-Up Date (Optional) </label>
-        <input type="date" class="form-control input-lg" name="PickedUpDate" placeholder="Picked-Up Date">
+        <input type="date" class="form-control input-lg" name="PickedUpDate" placeholder="Picked-Up Date" data-value="@Model.PickedUpDate.Value.ToString("yyyy-MM-dd")">
         @Html.ValidationMessageFor(t => t.PickedUpDate, "", new { @class = "help-block" })
     </div>
 
