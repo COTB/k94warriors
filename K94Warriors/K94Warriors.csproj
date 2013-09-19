@@ -419,6 +419,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201309191538278_DogImages.resx">
       <DependentUpon>201309191538278_DogImages.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201309191424209_ChangedAgeToBirthYear.resx">
       <DependentUpon>201309191424209_ChangedAgeToBirthYear.cs</DependentUpon>
     </EmbeddedResource>
