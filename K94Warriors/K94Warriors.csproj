@@ -199,9 +199,9 @@
     <Compile Include="Migrations\201309181925507_DogGenderDataType.Designer.cs">
       <DependentUpon>201309181925507_DogGenderDataType.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201309191424209_ChangedAgeToBirthYear.cs" />
-    <Compile Include="Migrations\201309191424209_ChangedAgeToBirthYear.Designer.cs">
-      <DependentUpon>201309191424209_ChangedAgeToBirthYear.cs</DependentUpon>
+    <Compile Include="Migrations\201309191538278_DogImages.cs" />
+    <Compile Include="Migrations\201309191538278_DogImages.Designer.cs">
+      <DependentUpon>201309191538278_DogImages.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201309191447378_SeedLocationDefault.cs" />
     <Compile Include="Migrations\201309191447378_SeedLocationDefault.Designer.cs">
@@ -231,6 +231,7 @@
     <Compile Include="Models\DogSkill.cs" />
     <Compile Include="Models\DogSkillName.cs" />
     <Compile Include="Models\EventType.cs" />
+    <Compile Include="Models\DogImage.cs" />
     <Compile Include="Models\Initialization\K9DbInitializer.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Mapping\DogEventMap.cs" />
@@ -415,6 +416,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201309181925507_DogGenderDataType.resx">
       <DependentUpon>201309181925507_DogGenderDataType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201309191538278_DogImages.resx">
+      <DependentUpon>201309191538278_DogImages.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201309191424209_ChangedAgeToBirthYear.resx">
       <DependentUpon>201309191424209_ChangedAgeToBirthYear.cs</DependentUpon>

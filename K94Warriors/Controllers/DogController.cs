@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
-using K94Warriors.Data;
 using K94Warriors.Data.Contracts;
 using K94Warriors.Models;
 using K94Warriors.ViewModels;
@@ -16,6 +14,7 @@ namespace K94Warriors.Controllers
     public class DogController : Controller
     {
         private readonly IRepository<DogProfile> _dogRepo;
+        private readonly IRepository<DogImage> _dogImageRepo; 
         private readonly IRepository<User> _userRepo;
         private readonly IRepository<DogMedicalRecord> _recordRepo;
         private readonly IRepository<DogNote> _dogNoteRepo;
@@ -26,6 +25,7 @@ namespace K94Warriors.Controllers
         private readonly IRepository<DogSkill> _dogSkillRepo;
 
         public DogController(IRepository<DogProfile> dogRepo,
+                                IRepository<DogImage> dogImageRepo,
                                 IRepository<User> userRepo,
                                 IRepository<DogMedicalRecord> recordRepo,
                                 IRepository<DogNote> dogNoteRepo,
@@ -38,6 +38,10 @@ namespace K94Warriors.Controllers
             if (dogRepo == null)
                 throw new ArgumentNullException("dogRepo");
             _dogRepo = dogRepo;
+
+            if (dogImageRepo == null)
+                throw new ArgumentNullException("dogImageRepo");
+            _dogImageRepo = dogImageRepo;
 
             if (userRepo == null)
                 throw new ArgumentNullException("userRepo");
@@ -82,7 +86,7 @@ namespace K94Warriors.Controllers
 
 
         [HttpPost]
-        public ActionResult CreateOrUpdateDog(DogProfileViewModel viewModel, IEnumerable<HttpPostedFileBase> images)
+        public ActionResult CreateOrUpdateDog(DogProfileViewModel viewModel)
         {
             var user = _userRepo.Where(u => u.Email == HttpContext.User.Identity.Name).FirstOrDefault();
 
@@ -103,13 +107,18 @@ namespace K94Warriors.Controllers
                 _dogRepo.Update(dogProfile);
             }
 
+
             // Handle upload of images to blob storage
-            foreach (var image in images)
+            var dogImages = new List<DogImage>();
+            foreach (var image in viewModel.File)
             {
                 // TODO: verify correct file type for security?
-                // TODO: no idea how we want to name these blobs...
-                _blobRepo.InsertOrUpdateImageAsync(dogProfile.ProfileID + "_" + image.FileName, image.InputStream);
+                var blobKey = Guid.NewGuid();
+                var dogImage = new DogImage {BlobKey = blobKey, DogProfileID = viewModel.ProfileID};
+                dogImages.Add(dogImage);
+                _blobRepo.InsertOrUpdateImageAsync(blobKey.ToString(), image.InputStream);
             }
+            _dogImageRepo.Insert(dogImages);
 
             return RedirectToAction("Index");
         }

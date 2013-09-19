@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Linq.Expressions;
 using K94Warriors.Data.Contracts;
@@ -46,8 +46,17 @@ namespace K94Warriors.Data
 
         public void Update(T entity)
         {
-            DbEntityEntry<T> dbObj = DbContext.Entry(entity);
+            var dbObj = DbContext.Entry(entity);
             dbObj.State = EntityState.Modified;
+            DbContext.SaveChanges();
+        }
+
+        public void Update(IEnumerable<T> entities)
+        {
+            foreach (var dbObj in entities.Select(entity => DbContext.Entry(entity)))
+            {
+                dbObj.State = EntityState.Modified;
+            }
             DbContext.SaveChanges();
         }
 
@@ -57,21 +66,41 @@ namespace K94Warriors.Data
             DbContext.SaveChanges();
         }
 
+        public void Insert(IEnumerable<T> entities)
+        {
+            foreach (var entity in entities)
+                DbSet.Add(entity);
+            DbContext.SaveChanges();
+        }
+
         public void Delete(T entity)
         {
-            DbEntityEntry<T> dbObj = DbContext.Entry(entity);
+            var dbObj = DbContext.Entry(entity);
             dbObj.State = EntityState.Deleted;
+            DbContext.SaveChanges();
+        }
+
+        public void Delete(IEnumerable<T> entities)
+        {
+            foreach (var dbObj in entities.Select(entity => DbContext.Entry(entity)))
+            {
+                dbObj.State = EntityState.Deleted;
+            }
             DbContext.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            T entity = DbSet.Find(id);
+            var entity = DbSet.Find(id);
             if (entity == null) return;
 
-            DbEntityEntry<T> dbOjb = DbContext.Entry(entity);
-            dbOjb.State = EntityState.Deleted;
-            DbContext.SaveChanges();
+            Delete(entity);
+        }
+
+        public void Delete(IEnumerable<int> ids)
+        {
+            var entities = ids.Select(id => DbSet.Find(id)).ToList();
+            Delete(entities);
         }
 
         public IQueryable<T> Where(Expression<Func<T, bool>> predicate)
