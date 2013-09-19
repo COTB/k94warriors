@@ -34,7 +34,7 @@ namespace K94Warriors.ViewModels
             profile.Name = Name;
             profile.Gender = Gender;
             profile.Breed = Breed;
-            profile.Age = Age;
+            profile.BirthYear = DateTime.Now.Year - Age;
             profile.Color = Color;
             profile.PickedUpDate = PickedUpDate;
             profile.IsFixed = IsFixed;
@@ -51,7 +51,7 @@ namespace K94Warriors.ViewModels
                     Name = dogProfile.Name,
                     Gender = dogProfile.Gender,
                     Breed = dogProfile.Breed,
-                    Age = dogProfile.Age,
+                    Age = DateTime.Now.Year - dogProfile.BirthYear,
                     Color = dogProfile.Color,
                     PickedUpDate = dogProfile.PickedUpDate,
                     IsFixed = dogProfile.IsFixed,

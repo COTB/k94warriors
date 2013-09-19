@@ -20,7 +20,7 @@ namespace K94Warriors.Models
         public int ProfileID { get; set; }
         public string Name { get; set; }
         public string Breed { get; set; }
-        public int? Age { get; set; }
+        public int? BirthYear { get; set; }
         public string Color { get; set; }
         public GenderEnum Gender { get; set; }
         public DateTime? PickedUpDate { get; set; }
