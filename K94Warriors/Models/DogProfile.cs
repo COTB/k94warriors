@@ -37,5 +37,6 @@ namespace K94Warriors.Models
         public virtual WarriorInfo WarriorInfo { get; set; }
         public virtual ICollection<DogSkill> DogSkills { get; set; }
         public virtual Location Location { get; set; }
+        public virtual ICollection<DogImage> Images { get; set; }
     }
 }

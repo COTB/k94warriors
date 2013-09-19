@@ -8,7 +8,7 @@
 <h2>GetDogs</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "CreateOrUpdateDog")
 </p>
 <table>
     <tr>
@@ -51,10 +51,10 @@
     {
         <tr>
             <td>
-                @Html.ActionLink("Details", "GetDogs")
+                @Html.ActionLink("Details", "ReadDog")
             </td>
             <td>
-                @Html.ActionLink("Delete", "Delete")
+                @Html.ActionLink("Delete", "DeleteDog")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
