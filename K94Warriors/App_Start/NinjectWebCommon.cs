@@ -1,5 +1,6 @@
 using System.Configuration;
 using System.Data.Entity;
+using K94Warriors.Controllers;
 using K94Warriors.Data;
 using K94Warriors.Data.Contracts;
 
@@ -58,16 +59,27 @@ namespace K94Warriors.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
+            // Bind Entity Framework repository and DbContext
             kernel.Bind(typeof(IRepository<>)).To(typeof(EFRepository<>));
             kernel.Bind<DbContext>().To<K9DbContext>()
                   .WithConstructorArgument("nameOrConnectionString",
                                            ConfigurationManager.ConnectionStrings["K9"].ConnectionString);
 
+            // Bind to the Images blob container for DogController
             kernel.Bind<IBlobRepository>().To<K9BlobRepository>()
+                  .WhenInjectedInto<DogController>()
                   .WithConstructorArgument("connectionString",
                                            ConfigurationManager.AppSettings["StorageAccountConnectionString"])
                   .WithConstructorArgument("imageContainer",
                                            ConfigurationManager.AppSettings["ImageBlobContainerName"]);
+
+            // Bind to the Medical Records blob container for MedicalRecordsController
+            kernel.Bind<IBlobRepository>().To<K9BlobRepository>()
+                  .WhenInjectedInto<MedicalRecordsController>()
+                  .WithConstructorArgument("connectionString",
+                                           ConfigurationManager.AppSettings["StorageAccountConnectionString"])
+                  .WithConstructorArgument("imageContainer",
+                                           ConfigurationManager.AppSettings["MedicalRecordBlobContainerName"]);
         }
     }
 }

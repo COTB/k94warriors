@@ -10,8 +10,8 @@ namespace K94Warriors.Models.Mapping
             HasKey(t => t.RecordID);
 
             // Properties
-            Property(t => t.RecordType)
-                .HasMaxLength(200);
+            //Property(t => t.RecordType)
+            //    .HasMaxLength(200);
 
             Property(t => t.Title)
                 .HasMaxLength(200);

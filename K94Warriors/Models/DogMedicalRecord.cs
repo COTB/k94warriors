@@ -6,7 +6,7 @@ namespace K94Warriors.Models
     {
         public int RecordID { get; set; }
         public int DogProfileID { get; set; }
-        public string RecordType { get; set; }
+        public MedicalRecordType RecordType { get; set; }
         public string Title { get; set; }
         public DateTime? RecordExpirationDate { get; set; }
         public string RecordURL { get; set; }

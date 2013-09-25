@@ -45,6 +45,8 @@ namespace K94Warriors.Data
         public DbSet<WarriorInfo> WarriorInfoes { get; set; }
         public DbSet<DogEventsReport> DogEventsReports { get; set; }
         public DbSet<DogNotesReport> DogNotesReports { get; set; }
+        public DbSet<DogImage> DogImages { get; set; }
+        public DbSet<DogMedicalRecordImage> DogMedicalRecordImages { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

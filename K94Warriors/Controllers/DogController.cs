@@ -347,7 +347,7 @@ namespace K94Warriors.Controllers
         }
 
         [ChildActionOnly]
-        public ActionResult GetDogsection(int dogId)
+        public ActionResult GetDogSection(int dogId)
         {
             var dog = _dogRepo.GetById(dogId);
             ViewBag.DogName = dog.Name;

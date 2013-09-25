@@ -1,0 +1,44 @@
+﻿@using K94Warriors.Models
+@model IEnumerable<K94Warriors.Models.DogMedicalRecord>
+
+@{
+    ViewBag.Title = string.Format("{0}'s Medical Records", ViewBag.DogName);
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section subnav {
+    @{
+        Html.RenderAction("GetDogSection", "Dog", new {dogId = ViewBag.DogId});
+    }
+}
+
+<h2>@ViewBag.Title</h2>
+<table class="table table-bordered">
+    <tr>
+        <th class="col col-lg-3">Title </th>
+        <th class="col col-lg-2">Record Type</th>
+        <th class="col col-lg-2 hidden-xs">Expiration Date</th>
+        <th class="col col-lg-5 hidden-xs">URL</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td class="col col-lg-3">
+                <h4>
+                    @Html.ActionLink(item.Title, "Edit", new { dogMedicalRecordId = item.RecordID })
+                </h4>
+            </td>
+            <td class="col col-lg-2">
+                @Enum.GetName(typeof(MedicalRecordType), item.RecordType)
+            </td>
+            <td class="col col-lg-2 hidden-xs">
+                @Html.DisplayFor(modelItem => item.RecordExpirationDate)
+            </td>
+            <td class="col col-lg-5 hidden-xs">
+                <a href="@item.RecordURL" target="_blank">@item.RecordURL</a>
+            </td>
+        </tr>
+    }
+
+</table>
