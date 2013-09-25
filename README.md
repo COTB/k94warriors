@@ -9,7 +9,7 @@ http://i.imgur.com/aXWwy3y.png
 Requirements:
 ------------
 
-Core Requirements:
+Core Requirements
 
 	* Must have some sort of alerting - Immediate SMS?  Immediate email?  Daily Report? 
 	* Must be able to create dog records based on initial evaluation of dog
