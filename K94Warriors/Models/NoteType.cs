@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace K94Warriors.Models
 {
@@ -9,8 +10,13 @@ namespace K94Warriors.Models
             DogNotes = new List<DogNote>();
         }
 
+        [Key]
         public int ID { get; set; }
+        
+        [Required]
+        [StringLength(100)]
         public string Name { get; set; }
+        
         public virtual ICollection<DogNote> DogNotes { get; set; }
     }
 }

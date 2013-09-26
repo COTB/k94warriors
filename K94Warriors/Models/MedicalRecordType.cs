@@ -1,3 +1,5 @@
+using System;
+
 namespace K94Warriors.Models
 {
     public enum MedicalRecordType
