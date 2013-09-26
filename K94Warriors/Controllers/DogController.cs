@@ -123,18 +123,7 @@ namespace K94Warriors.Controllers
                 _dogRepo.Update(dogProfile);
             }
 
-
-            // Handle upload of images to blob storage
-            var dogImages = new List<DogImage>();
-            foreach (var image in images)
-            {
-                // TODO: verify correct file type for security?
-                var blobKey = Guid.NewGuid();
-                var dogImage = new DogImage { BlobKey = blobKey, DogProfileID = dogProfile.ProfileID, MimeType = image.ContentType };
-                dogImages.Add(dogImage);
-                await _blobRepo.InsertOrUpdateImageAsync(blobKey.ToString(), image.InputStream);
-            }
-            _dogImageRepo.Insert(dogImages);
+            await UploadFiles(dogProfile.ProfileID, images);
 
             return RedirectToAction("Index");
         }
@@ -354,6 +343,21 @@ namespace K94Warriors.Controllers
             ViewBag.DogId = dog.ProfileID;
 
             return View("_DogSection");
+        }
+
+
+        private async Task UploadFiles(int dogProfileId, IEnumerable<HttpPostedFileBase> files)
+        {
+            var dogImages = new List<DogImage>();
+            foreach (var file in files)
+            {
+                // TODO: verify correct file type?
+                var blobKey = Guid.NewGuid();
+                var dogImage = new DogImage { BlobKey = blobKey, DogProfileID = dogProfileId, MimeType = file.ContentType };
+                dogImages.Add(dogImage);
+                await _blobRepo.InsertOrUpdateImageAsync(blobKey.ToString(), file.InputStream);
+            }
+            _dogImageRepo.Insert(dogImages);
         }
     }
 }
