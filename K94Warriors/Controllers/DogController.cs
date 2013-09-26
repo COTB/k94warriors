@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -71,7 +72,8 @@ namespace K94Warriors.Controllers
 
         public ActionResult Index()
         {
-            var dogs = _dogRepo.GetAll();
+            var dogs = _dogRepo.GetAll()
+                .Include(d => d.Location).ToList();
 
             return View(dogs);
         }
@@ -94,47 +96,40 @@ namespace K94Warriors.Controllers
         public ActionResult CreateOrUpdateDog(int? id)
         {
             var viewModel = id.HasValue
-                                ? DogProfileViewModel.FromDogProfile(_dogRepo.GetById(id.Value))
-                                : new DogProfileViewModel() { PickedUpDate = DateTime.UtcNow };
+                                ? _dogRepo.GetById(id.Value)
+                                : new DogProfile { PickedUpDate = DateTime.UtcNow };
 
             return View(viewModel);
         }
 
 
         [HttpPost]
-        public async Task<ActionResult> CreateOrUpdateDog(DogProfileViewModel viewModel, IEnumerable<HttpPostedFileBase> images)
+        public async Task<ActionResult> CreateOrUpdateDog(DogProfile dogProfile, IEnumerable<HttpPostedFileBase> images)
         {
             var user = _userRepo.Where(u => u.Email == HttpContext.User.Identity.Name).FirstOrDefault();
 
             if (!user.IsUserAdminOrTrainer())
-                return RedirectToAction("Error403", "Error"); ;
+                return RedirectToAction("Error403", "Error");
 
-            DogProfile dogProfile;
 
-            if (viewModel.ProfileID == 0)
+            if (dogProfile.ProfileID == 0)
             {
-                dogProfile = viewModel.ToDogProfile();
                 dogProfile.CreatedByUserID = user.UserID;
                 _dogRepo.Insert(dogProfile);
             }
             else
             {
-                dogProfile = viewModel.ToDogProfile(_dogRepo.GetById(viewModel.ProfileID));
                 _dogRepo.Update(dogProfile);
             }
 
-
-            // Handle upload of images to blob storage
-            var dogImages = new List<DogImage>();
-            foreach (var image in images)
+            try
             {
-                // TODO: verify correct file type for security?
-                var blobKey = Guid.NewGuid();
-                var dogImage = new DogImage { BlobKey = blobKey, DogProfileID = dogProfile.ProfileID, MimeType = image.ContentType };
-                dogImages.Add(dogImage);
-                await _blobRepo.InsertOrUpdateImageAsync(blobKey.ToString(), image.InputStream);
+                await UploadFiles(dogProfile.ProfileID, images);
             }
-            _dogImageRepo.Insert(dogImages);
+            catch (Exception ex)
+            {
+                return Json(new {ex.Message, ex.StackTrace}, JsonRequestBehavior.AllowGet);
+            }
 
             return RedirectToAction("Index");
         }
@@ -354,6 +349,21 @@ namespace K94Warriors.Controllers
             ViewBag.DogId = dog.ProfileID;
 
             return View("_DogSection");
+        }
+
+
+        private async Task UploadFiles(int dogProfileId, IEnumerable<HttpPostedFileBase> files)
+        {
+            var dogImages = new List<DogImage>();
+            foreach (var file in files)
+            {
+                // TODO: verify correct file type?
+                var blobKey = Guid.NewGuid();
+                var dogImage = new DogImage { BlobKey = blobKey, DogProfileID = dogProfileId, MimeType = file.ContentType };
+                dogImages.Add(dogImage);
+                await _blobRepo.InsertOrUpdateImageAsync(blobKey.ToString(), file.InputStream);
+            }
+            _dogImageRepo.Insert(dogImages);
         }
     }
 }

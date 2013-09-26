@@ -1,4 +1,4 @@
-﻿@model K94Warriors.ViewModels.DogProfileViewModel
+﻿@model K94Warriors.Models.DogProfile
 @using K94Warriors.Core.HtmlHelperExtensions
 
 @{
@@ -35,7 +35,7 @@
     <div class="form-group">
         <label>Age</label>
         <input type="text" class="form-control input-lg" name="Age" placeholder="Dog Age">
-        @Html.ValidationMessageFor(t => t.Age, "", new { @class = "help-block" })
+        @Html.ValidationMessageFor(t => DateTime.Now.Year - t.BirthYear, "", new { @class = "help-block" })
     </div>
 
     <div class="form-group">

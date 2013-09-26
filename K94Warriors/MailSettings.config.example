@@ -1,0 +1,3 @@
+﻿<smtp from="admin@k9sforwarriors.org">
+  <network host="[HOST]" port="587" userName="[USERNAME]" password="[PASSWORD]" />
+</smtp>

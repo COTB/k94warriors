@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using K94Warriors.Core.AsyncExtensions;
 using K94Warriors.Data.Contracts;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -37,8 +36,8 @@ namespace K94Warriors.Data
             var container = _client.GetContainerReference(_imageContainer);
             var blockBlob = container.GetBlockBlobReference(id);
             var memoryStream = new T();
-
-            return await blockBlob.DownloadToStreamAsync(memoryStream);
+            await blockBlob.DownloadToStreamAsync(memoryStream);
+            return memoryStream;
         }
 
         public async Task InsertOrUpdateImageAsync(string id, Stream stream)
