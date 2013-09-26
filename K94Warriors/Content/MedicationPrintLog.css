@@ -1,0 +1,40 @@
+﻿body {
+    padding: 20px;
+}
+
+h1#title {
+    text-align: center;
+    font-size: 16pt;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+div#dog-name-container {
+    font-weight: bold;
+}
+
+span#dog-name {
+    width: 300px;
+    display: inline-block;
+    border-bottom: solid 1px black;
+    font-size: 16pt; 
+    padding-left: 20px;
+}
+
+table#dog-health-table {
+    width: 100%;
+}
+
+table#dog-health-table th,
+table#dog-health-table td {
+    border: solid 1px black;
+    padding: 10px;
+}
+
+table#dog-health-table th {
+    text-align: center;
+}
+
+div#params {
+    text-align: center;
+}
