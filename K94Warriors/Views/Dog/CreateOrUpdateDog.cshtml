@@ -35,7 +35,7 @@
     <div class="form-group">
         <label>Age</label>
         <input type="text" class="form-control input-lg" name="Age" placeholder="Dog Age">
-        @Html.ValidationMessageFor(t => DateTime.Now.Year - t.BirthYear, "", new { @class = "help-block" })
+        @Html.ValidationMessageFor(t => t.BirthYear, "", new { @class = "help-block" })
     </div>
 
     <div class="form-group">

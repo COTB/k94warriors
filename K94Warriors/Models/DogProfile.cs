@@ -46,6 +46,8 @@ namespace K94Warriors.Models
         public bool IsApproved { get; set; }
         
         public int LocationId { get; set; }
+
+        public string HealthCondition { get; set; }
         
         public virtual ICollection<DogEvent> DogEvents { get; set; }
         

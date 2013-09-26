@@ -1,0 +1,67 @@
+﻿@model K94Warriors.ViewModels.Medication.MedicationPrintLogViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html ng-app>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>K9's For Warriors Medication Log - @Model.DogProfile.Name</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+    <link href="~/Content/MedicationPrintLog.css" rel="stylesheet" />
+    <link href="~/Content/MedicationPrintLog-Print.css" rel="stylesheet" media="print" />
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet"/>
+    
+    <script type="text/javascript">
+
+        function MedsController($scope) {
+
+        }
+    </script>
+</head>
+
+<body ng-controller="MedsController">
+    <div id="params">
+        # of Days To Print: <input type="number" ng-model="num-days" /><br />
+        Start Date: <input type="date" ng-model="start-date" />
+    </div>
+    <h1 id="title">K9's For Warriors<br />
+        
+        Medication Log</h1>
+    <div id="dog-name-container">
+        <p>
+            Dog: <span id="dog-name">@Model.DogProfile.Name</span>
+        </p>
+    </div>
+    <table id="dog-health-table">
+        <thead>
+            <tr>
+                <th>Health Condition</th>
+                <th>Medication/Dosage</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.DogProfile.HealthCondition</td>
+                <td>
+                    <ul>
+                        @foreach (var med in Model.Medications)
+                        {
+                        <li>
+                            @med.MedicationName: @med.AmountDescription<br />
+                            From @med.StartDate.ToShortDateString() to @med.EndDate.ToShortDateString()<br />
+                            <input type="checkbox" disabled @(med.AMDose ? "checked" : "") /><span class="checkbox-label">AM Dose</span>
+                            <input type="checkbox" disabled @(med.NoonDose ? "checked" : "") /><span class="checkbox-label">Noon Dose</span>
+                            <input type="checkbox" disabled @(med.PMDose ? "checked" : "") /><span class="checkbox-label">PM Dose</span><br />
+                            Vet Notes: @med.VetNotes
+                        </li>
+                        }
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
