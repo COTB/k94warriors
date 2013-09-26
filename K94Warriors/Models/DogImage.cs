@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace K94Warriors.Models
 {
@@ -14,6 +15,7 @@ namespace K94Warriors.Models
 
         public string MimeType { get; set; }
 
+        [ForeignKey("DogProfileID")]
         public virtual DogProfile DogProfile { get; set; }
     }
 }
