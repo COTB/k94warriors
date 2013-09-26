@@ -110,3 +110,4 @@ UpgradeLog*.XML
 K94Warriors/App_Data/aspnet-K94Warriors-20130816200620.mdf
 K94Warriors/App_Data/aspnet-K94Warriors-20130816200620_log.ldf
 *.orig
+*.pubxml
