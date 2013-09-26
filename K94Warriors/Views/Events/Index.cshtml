@@ -1,4 +1,4 @@
-﻿@model System.Linq.IQueryable<K94Warriors.Models.DogEvent>
+﻿@model IEnumerable<K94Warriors.Models.DogEvent>
 
 @{
     ViewBag.Title = "title";
@@ -6,15 +6,14 @@
 }
 @section subnav {
     @{
-        Html.RenderAction("GetDogSection", "Dog", new {dogId = ViewBag.DogId });
+        Html.RenderAction("GetDogSection", "Dog", new { dogId = ViewBag.DogId });
     }
 }
 <div class="col col-lg-12">
     <h4>View All Events</h4>
-    <hr/>
+    <hr />
     <div class="col col-lg-12">
         <table class="table table-bordered">
-
             <thead>
                 <tr>
                     <th class="col col-lg-3">Event Type</th>
@@ -33,7 +32,5 @@
                 }
             </tbody>
         </table>
-
     </div>
-
 </div>

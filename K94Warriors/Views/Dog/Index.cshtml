@@ -25,7 +25,7 @@
                         const int thumbSize = 32;
                         var imageResult = Url.Action("DogThumbnail", new { dogId = dog.ProfileID, size = thumbSize })
                                           ?? "http://placehold.it/" + thumbSize + "x" + thumbSize;
-                        var detailUrl = Url.Action("ReadDog", new {id = dog.ProfileID});
+                        var detailUrl = Url.Action("DogProfile", new {id = dog.ProfileID});
                     }
                     <td class="col col-lg-6">
                         <div class="media">
