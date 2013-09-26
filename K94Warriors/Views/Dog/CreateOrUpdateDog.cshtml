@@ -43,6 +43,12 @@
         <input type="text" class="form-control input-lg" name="Color" placeholder="Dog Color">
         @Html.ValidationMessageFor(t => t.Color, "", new { @class = "help-block" })
     </div>
+    
+    <div class="form-group">
+        <label>Health Condition</label>
+        <textarea class="form-control" name="HealthCondition" placeholder="Health Condition" rows="4"></textarea>
+        @Html.ValidationMessageFor(t => t.HealthCondition, "", new { @class = "help-block" })
+    </div>
 
     <div class="form-group">
         <label>Picked-Up Date (Optional) </label>

@@ -20,6 +20,7 @@ namespace K94Warriors.ViewModels
         public DateTime DateCreated { get; set; }
         public Location Location { get; set; }
         public IEnumerable<DogNote> Notes { get; set; }
+        public string HealthCondition { get; set; }
 
         /// <summary>
         /// Returns a DogProfile object updated with the viewmodel's data. 
@@ -40,6 +41,7 @@ namespace K94Warriors.ViewModels
             profile.PickedUpDate = PickedUpDate;
             profile.IsFixed = IsFixed;
             profile.IsApproved = IsApproved;
+            profile.HealthCondition = HealthCondition;
 
             return profile;
         }
@@ -59,7 +61,8 @@ namespace K94Warriors.ViewModels
                     IsApproved = dogProfile.IsApproved,
                     DateCreated = dogProfile.CreatedTimeUTC,
                     Location = dogProfile.Location,
-                    Notes = dogProfile.DogNotes
+                    Notes = dogProfile.DogNotes,
+                    HealthCondition = dogProfile.HealthCondition
                 };
         }
     }
