@@ -43,8 +43,8 @@
             </div>
 
             <div class="col col-lg-4">
-                <strong>Picked-Up Date</strong>
-                <p>@(Model.PickedUpDate.HasValue ? Model.PickedUpDate.Value.ToLongDateString() : "Not Picked Up")</p>
+                <strong>Health Condition</strong>
+                <p>@Model.HealthCondition</p>
             </div>
 
             <div class="col col-lg-2">
@@ -56,6 +56,10 @@
                 <p>@Model.IsApproved</p>
             </div>
 
+            <div class="col col-lg-2">
+                <strong>Picked-Up Date</strong>
+                <p>@(Model.PickedUpDate.HasValue ? Model.PickedUpDate.Value.ToLongDateString() : "Not Picked Up")</p>
+            </div>
         </div>
 
 
