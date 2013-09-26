@@ -11,8 +11,8 @@
                 <span class="icon-bar"></span>
             </button>
             @Html.ActionLink("Return to Dog List", "Index", "Dog", null, new { @class = "navbar-brand" })
-            @Html.ActionLink("View Profile", "ReadDog", "Dog", new { id = ViewBag.DogId}, new { @class = "navbar-brand"} )
-@*            <a class="navbar-brand" href="/dog/readdog/@ViewBag.DogId">View @ViewBag.DogName</a>*@
+            @Html.ActionLink("View Profile", "DogProfile", "Dog", new { id = ViewBag.DogId}, new { @class = "navbar-brand"} )
+            @*            <a class="navbar-brand" href="/dog/readdog/@ViewBag.DogId">View @ViewBag.DogName</a>*@
         </div>
 
         <div class="collapse navbar-collapse navbar-ex1-collapse">
@@ -20,7 +20,7 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">@ViewBag.DogName's Notes <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li>@Html.ActionLink("View Notes", "GetNotes", "Dog", new { dogId = ViewBag.DogId }, null)</li>
+                        <li>@Html.ActionLink("View Notes", "Index", "Notes", new { dogProfileId = ViewBag.DogId }, null)</li>
                         <li>@Html.ActionLink("Add Notes", "CreateOrUpdateDogNote", "Dog", new { dogId = ViewBag.DogId }, null)</li>
                     </ul>
                 </li>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using K94Warriors.Data.Contracts;
 using K94Warriors.Models;
@@ -27,7 +28,12 @@ namespace K94Warriors.Controllers
 
         public ActionResult Index(int dogProfileId)
         {
-            return View();
+            var model = _dogEventsRepo.Where(d => d.DogProfileID == dogProfileId).ToList();
+
+            if (!model.Any())
+                return RedirectToAction("DogProfile", "Dog", new {id = dogProfileId});
+
+            return View(model);
         }
 
         public ActionResult Create(int dogProfileId)
@@ -37,13 +43,21 @@ namespace K94Warriors.Controllers
             if (dog == null)
                 return RedirectToAction("Index", "Dog");
 
+            ViewBag.DogId = dog.ProfileID;
+            ViewBag.DogName = dog.Name;
+
             return View(new DogEvent { DogProfileID = dogProfileId });
         }
 
         [HttpPost]
         public ActionResult Create(DogEvent model)
         {
-            return View();
+            if (!ModelState.IsValid)
+                return View(model);
+
+            _dogEventsRepo.Insert(model);
+
+            return RedirectToAction("Index", new {dogProfileId = model.DogProfileID});
         }
 
         public ActionResult Edit(int dogEventId)
@@ -52,13 +66,23 @@ namespace K94Warriors.Controllers
             if (model == null)
                 return RedirectToAction("Index", "Dog");
 
+            var dog = _dogProfileRepo.GetById(model.DogProfileID);
+
+            ViewBag.DogId = dog.ProfileID;
+            ViewBag.DogName = dog.Name;
+
             return View(model);
         }
 
         [HttpPost]
         public ActionResult Edit(DogEvent model)
         {
-            return View();
+            if (!ModelState.IsValid)
+                return View(model);
+
+            _dogEventsRepo.Update(model);
+
+            return RedirectToAction("Index", new { dogProfileId = model.DogProfileID });
         }
 
         [HttpPost]

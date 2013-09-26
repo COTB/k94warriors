@@ -19,24 +19,12 @@ namespace K94Warriors.Controllers
         private readonly IRepository<DogProfile> _dogRepo;
         private readonly IRepository<DogImage> _dogImageRepo;
         private readonly IRepository<User> _userRepo;
-        private readonly IRepository<DogMedicalRecord> _recordRepo;
-        private readonly IRepository<DogNote> _dogNoteRepo;
-        private readonly IRepository<NoteType> _noteTypeRepo;
         private readonly IBlobRepository _blobRepo;
-        private readonly IRepository<DogEvent> _dogEventRepo;
-        private readonly IRepository<EventType> _dogEventTypeRepo;
-        private readonly IRepository<DogSkill> _dogSkillRepo;
 
         public DogController(IRepository<DogProfile> dogRepo,
                                 IRepository<DogImage> dogImageRepo,
                                 IRepository<User> userRepo,
-                                IRepository<DogMedicalRecord> recordRepo,
-                                IRepository<DogNote> dogNoteRepo,
-                                IRepository<NoteType> noteTypeRepo,
-                                IBlobRepository blobRepo,
-                                IRepository<DogEvent> dogEventRepo,
-                                IRepository<EventType> dogEventTypeRepo,
-                                IRepository<DogSkill> dogSkillRepo)
+                                IBlobRepository blobRepo)
         {
             if (dogRepo == null)
                 throw new ArgumentNullException("dogRepo");
@@ -50,24 +38,9 @@ namespace K94Warriors.Controllers
                 throw new ArgumentNullException("userRepo");
             _userRepo = userRepo;
 
-            if (recordRepo == null)
-                throw new ArgumentNullException("recordRepo");
-            _recordRepo = recordRepo;
-
-            if (dogNoteRepo == null)
-                throw new ArgumentNullException("dogNoteRepo");
-            _dogNoteRepo = dogNoteRepo;
-
-            if (noteTypeRepo == null)
-                throw new ArgumentNullException("noteTypeRepo");
-            _noteTypeRepo = noteTypeRepo;
-
             if (blobRepo == null)
                 throw new ArgumentNullException("blobRepo");
             _blobRepo = blobRepo;
-            _dogEventRepo = dogEventRepo;
-            _dogEventTypeRepo = dogEventTypeRepo;
-            _dogSkillRepo = dogSkillRepo;
         }
 
         public ActionResult Index()
@@ -103,38 +76,51 @@ namespace K94Warriors.Controllers
         }
 
 
-        [HttpPost]
-        public async Task<ActionResult> CreateOrUpdateDog(DogProfile dogProfile, IEnumerable<HttpPostedFileBase> images)
+        [HttpGet]
+        public ActionResult Create()
         {
+            return View(new DogProfile());
+        }
+
+
+        [HttpPost]
+        public ActionResult Create(DogProfile model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
             var user = _userRepo.Where(u => u.Email == HttpContext.User.Identity.Name).FirstOrDefault();
 
-            if (!user.IsUserAdminOrTrainer())
-                return RedirectToAction("Error403", "Error");
+            model.CreatedByUserID = user.UserID;
 
-
-            if (dogProfile.ProfileID == 0)
-            {
-                dogProfile.CreatedByUserID = user.UserID;
-                _dogRepo.Insert(dogProfile);
-            }
-            else
-            {
-                _dogRepo.Update(dogProfile);
-            }
-
-            try
-            {
-                await UploadFiles(dogProfile.ProfileID, images);
-            }
-            catch (Exception ex)
-            {
-                return Json(new {ex.Message, ex.StackTrace}, JsonRequestBehavior.AllowGet);
-            }
+            _dogRepo.Insert(model);
 
             return RedirectToAction("Index");
         }
 
-        public ActionResult ReadDog(int id)
+        [HttpGet]
+        public ActionResult Edit(int dogProfileId)
+        {
+            var model = _dogRepo.GetById(dogProfileId);
+
+            if (model == null)
+                return RedirectToAction("Index", "Home");
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(DogProfile model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            _dogRepo.Update(model);
+
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult DogProfile(int id)
         {
             ViewBag.DogId = id;
             var dog = _dogRepo.GetById(id);
@@ -157,26 +143,19 @@ namespace K94Warriors.Controllers
         }
 
         [HttpGet]
-        public ActionResult DeleteDog(int id)
+        public ActionResult Delete(int id)
         {
             var dog = _dogRepo.GetById(id);
             return View(dog);
         }
 
         [HttpPost]
-        public ActionResult DeleteDog(int id, FormCollection formCollection)
+        public ActionResult Delete(int id, FormCollection formCollection)
         {
             _dogRepo.Delete(id);
             return RedirectToAction("Index");
         }
 
-        public ActionResult GetMedicalRecords(int id)
-        {
-            var documents = _recordRepo.GetAll().Where(d => d.DogProfileID == id);
-
-            ViewBag.DogId = id;
-            return View(documents);
-        }
 
         public async Task<ActionResult> GetImage(string id)
         {
@@ -184,162 +163,6 @@ namespace K94Warriors.Controllers
             return File(memoryStream, "image/jpeg");
         }
 
-
-        [HttpPost]
-        public ActionResult CreateOrUpdateDogNote(DogNote dogNote)
-        {
-            var user = _userRepo.Where(u => u.Email == this.HttpContext.User.Identity.Name).FirstOrDefault();
-
-            if (dogNote.NoteID == 0)
-            {
-                dogNote.CreatedDate = DateTime.UtcNow;
-                dogNote.CreatedByUserId = user.UserID;
-
-                _dogNoteRepo.Insert(dogNote);
-            }
-            else
-            {
-                // No update columns on note. How to specify what user edited a note and when? Overwriting for now with last edit wins.
-                dogNote.CreatedByUserId = user.UserID;
-                dogNote.CreatedDate = DateTime.UtcNow;
-                _dogNoteRepo.Update(dogNote);
-            }
-            return RedirectToAction("ReadDog", new { id = dogNote.DogProfileID });
-
-        }
-
-
-        [HttpGet]
-        public ActionResult CreateOrUpdateDogNote(int dogId, int? noteId)
-        {
-            var dog = _dogRepo.GetById(dogId);
-            var viewModel = noteId.HasValue ? _dogNoteRepo.GetById(noteId.Value) : new DogNote { DogProfileID = dogId };
-            ViewBag.NoteTypeId = new SelectList(_noteTypeRepo.GetAll(), "ID", "Name", viewModel.NoteTypeId);
-            ViewBag.DogId = dog.ProfileID;
-
-            return View(viewModel);
-        }
-
-        public ActionResult GetNote(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ActionResult GetNotes(int dogId)
-        {
-            var model = _dogNoteRepo.Where(n => n.DogProfileID == dogId);
-            var dog = _dogRepo.GetById(dogId);
-
-            ViewBag.DogId = dog.ProfileID;
-
-            return View(model);
-        }
-
-        public ActionResult DeleteDogNote(int id)
-        {
-            _dogNoteRepo.Delete(id);
-            return RedirectToAction("Index");
-        }
-
-
-        [HttpPost]
-        public ActionResult CreateOrUpdateDogEvent(DogEvent dogEvent)
-        {
-
-            var user = _userRepo.Where(u => u.Email == HttpContext.User.Identity.Name).FirstOrDefault();
-
-            if (user != null && user.IsUserAdminOrTrainer())
-            {
-
-                if (dogEvent.EventID == 0)
-                {
-                    _dogEventRepo.Insert(dogEvent);
-                }
-                else
-                {
-                    _dogEventRepo.Update(dogEvent);
-                }
-                return RedirectToAction("GetDogEvents", new { dogId = dogEvent.DogProfileID });
-            }
-
-            return RedirectToAction("Error403", "Error");
-        }
-
-
-        [HttpGet]
-        public ActionResult CreateOrUpdateDogEvent(int dogId, int? eventId)
-        {
-            var dog = _dogRepo.GetById(dogId);
-
-            var model = eventId.HasValue ? _dogEventRepo.GetById(eventId.Value) : new DogEvent { DogProfileID = dogId, EventDate = DateTime.UtcNow };
-
-            ViewBag.EventTypeId = new SelectList(_dogEventTypeRepo.GetAll(), "ID", "Name", model.EventTypeId);
-            ViewBag.DogId = dog.ProfileID;
-
-            return View(model);
-        }
-
-        [HttpGet]
-        public ActionResult GetDogEvent(int dogId, int id)
-        {
-            ViewBag.DogId = dogId;
-            return View(_dogEventRepo.GetById(id));
-        }
-
-        [HttpGet]
-        public ActionResult GetDogEvents(int dogId)
-        {
-
-            ViewBag.DogId = dogId;
-            return View(_dogEventRepo.Where(d => d.DogProfileID == dogId));
-        }
-
-        public ActionResult DeleteDogEvent(int id)
-        {
-
-            _dogEventRepo.Delete(id);
-            return RedirectToAction("ReadDog", new { id = _dogEventRepo.GetById(id).DogProfileID });
-        }
-
-        [HttpPost]
-        public ActionResult CreateOrUpdateDogSkill(DogSkill dogSkill)
-        {
-
-            var user = _userRepo.Where(u => u.Email == HttpContext.User.Identity.Name).FirstOrDefault();
-
-            if (user != null && user.IsUserAdminOrTrainer())
-            {
-
-                if (dogSkill.DogSkilID == 0)
-                {
-                    _dogSkillRepo.Insert(dogSkill);
-                }
-                else
-                {
-                    _dogSkillRepo.Update(dogSkill);
-                }
-                return RedirectToAction("ReadDog", new { id = dogSkill.DogProfileID });
-            }
-
-            return RedirectToAction("Error403", "Error");
-        }
-
-        public ActionResult CreateOrUpdateDogSkill(int dogId, int? dogskillId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ActionResult GetDogSkill(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ActionResult DeleteDogSkill(int id)
-        {
-
-            _dogSkillRepo.Delete(id);
-            return RedirectToAction("ReadDog", new { id = _dogSkillRepo.GetById(id).DogProfileID });
-        }
 
         [ChildActionOnly]
         public ActionResult GetDogSection(int dogId)
@@ -357,7 +180,6 @@ namespace K94Warriors.Controllers
             var dogImages = new List<DogImage>();
             foreach (var file in files)
             {
-                // TODO: verify correct file type?
                 var blobKey = Guid.NewGuid();
                 var dogImage = new DogImage { BlobKey = blobKey, DogProfileID = dogProfileId, MimeType = file.ContentType };
                 dogImages.Add(dogImage);

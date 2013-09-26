@@ -24,7 +24,7 @@
     <tbody>
         @if (Model != null)
         {
-            foreach (DogEvent dogEvent in Model)
+            foreach (var dogEvent in Model)
             {
                 <tr>
                     <td class="col col-lg-3"><a href="/dog/readdog/@dogEvent.DogProfileID">@dogEvent.DogProfile.Name</a></td>

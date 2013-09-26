@@ -1,21 +1,21 @@
 ﻿@{
-    ViewBag.Title = "GetNotes";
+    ViewBag.Title = string.Format("{0}'s Notes", ViewBag.DogName);
 }
+
 @using K94Warriors.Models
-@model IEnumerable<K94Warriors.Models.DogNote>
+@model IEnumerable<DogNote>
+
 @section subnav {
     @{
         Html.RenderAction("GetDogSection", "Dog", new {dogId = ViewBag.DogId });
     }
 }
 
-
 <div class="col col-lg-12">
     <h4>View All Notes for @ViewBag.DogName</h4>
     <hr/>
     <div class="col col-lg-12">
         <table class="table table-bordered">
-
             <thead>
                 <tr>
                     <th class="col col-lg-2">Note Type</th>
@@ -25,7 +25,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (DogNote dogNotes in Model)
+                @foreach (var dogNotes in Model)
                 {
                     <tr>
                         <td class="col col-lg-2">@dogNotes.NoteType.Name</td>
@@ -36,7 +36,5 @@
                 }
             </tbody>
         </table>
-
     </div>
-
 </div>

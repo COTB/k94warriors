@@ -1,16 +1,15 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "CreateOrUpdateDogEvent";
 }
 @model K94Warriors.Models.DogEvent
 @section subnav {
     @{
-        Html.RenderAction("GetDogSection", "Dog", new {dogId = ViewBag.DogId });
+        Html.RenderAction("GetDogSection", "Dog", new { dogId = ViewBag.DogId });
     }
 }
 <div class="well">
     <h1>Event</h1>
-    <div>Add an upcoming event</div>
+    <div>@string.Format("Add an event for {0}", ViewBag.DogName)</div>
 </div>
 @using (Html.BeginForm())
 {
@@ -18,9 +17,9 @@
     @Html.Hidden("DogProfileID", @Model.DogProfileID)
     <div class="form-group">
         <label>Note Type</label>
-        @Html.DropDownList("EventTypeId", null, "Select Event Type", new {@class = "form-control"})
+        @Html.DropDownList("EventTypeId", null, "Select Event Type", new { @class = "form-control" })
     </div>
-        <div class="form-group">
+    <div class="form-group">
         <label>Event Date</label>
         <input type="date" class="form-control input-lg" name="EventDate" placeholder="Event Date" value="@Model.EventDate.ToString("yyyy-MM-dd")" required>
         @Html.ValidationMessageFor(t => t.EventDate, "", new { @class = "help-block" })
@@ -28,21 +27,22 @@
     <div class="form-group">
         <label>Event Subject</label>
         <input class="form-control input-lg" name="Subject" placeholder="Note" value="@Model.Subject" type="text" required=""/>
-        @Html.ValidationMessageFor(t => t.Subject, "", new {@class = "help-block"})
+        @Html.ValidationMessageFor(t => t.Subject, "", new { @class = "help-block" })
     </div>
     
     <div class="form-group">
         <label>Event Description</label>
         <textarea class="form-control input-lg" name="Body" placeholder="Note" required="">@Model.Body</textarea>
-        @Html.ValidationMessageFor(t => t.Body, "", new {@class = "help-block"})
+        @Html.ValidationMessageFor(t => t.Body, "", new { @class = "help-block" })
     </div>
     
 
     <div class="checkbox">
         <label>
-            <input type="checkbox" name="IsComplete" value="true" @(Model.IsComplete ? "checked" : "")> Is Event Completed
+            <input type="checkbox" name="IsComplete" value="true" @(Model.IsComplete ? "checked" : "")>
+            Is Event Completed
         </label>
-        @Html.ValidationMessageFor(t => t.IsComplete, "", new {@class = "help-block"})
+        @Html.ValidationMessageFor(t => t.IsComplete, "", new { @class = "help-block" })
     </div>
 
     <p>
