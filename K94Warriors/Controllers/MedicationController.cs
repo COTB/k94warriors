@@ -25,7 +25,7 @@ namespace K94Warriors.Controllers
             return View();
         }
 
-        public ActionResult PrintLog(int dogProfileId)
+        public ActionResult PrintLog(int dogProfileId, int? numdays, DateTime? startdate)
         {
             var dog = _dogProfileRepo.GetById(dogProfileId);
 
@@ -34,9 +34,25 @@ namespace K94Warriors.Controllers
 
             var meds = _dogMedicationRepo.Where(i => i.DogProfileID == dog.ProfileID).ToList();
 
+            if (!numdays.HasValue)
+                numdays = 10;
+            if (!startdate.HasValue)
+                startdate = DateTime.Now;
+
+            var days = new List<DateTime>();
+            var date = startdate.Value.AddDays(-1);
+            
+            for (int i = 0; i < numdays; i++)
+            {
+                days.Add((date = date.AddDays(1)));
+            }
+
             var viewModel = new MedicationPrintLogViewModel();
             viewModel.DogProfile = dog;
             viewModel.Medications = meds;
+            viewModel.NumDays = numdays.Value;
+            viewModel.StartDate = startdate.Value;
+            viewModel.Days = days;
 
             return View(viewModel);
         }
