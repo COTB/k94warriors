@@ -69,7 +69,7 @@ namespace K94Warriors.App_Start
             kernel.Bind<IBlobRepository>().To<K9BlobRepository>()
                   .WhenInjectedInto<DogController>()
                   .WithConstructorArgument("connectionString",
-                                           ConfigurationManager.ConnectionStrings["StorageAccountConnectionString"].ConnectionString)
+                                           ConfigurationManager.AppSettings["StorageAccountConnectionString"])
                   .WithConstructorArgument("imageContainer",
                                            ConfigurationManager.AppSettings["ImageBlobContainerName"]);
 
@@ -77,7 +77,7 @@ namespace K94Warriors.App_Start
             kernel.Bind<IBlobRepository>().To<K9BlobRepository>()
                   .WhenInjectedInto<MedicalRecordsController>()
                   .WithConstructorArgument("connectionString",
-                                           ConfigurationManager.ConnectionStrings["StorageAccountConnectionString"].ConnectionString)
+                                           ConfigurationManager.AppSettings["StorageAccountConnectionString"])
                   .WithConstructorArgument("imageContainer",
                                            ConfigurationManager.AppSettings["MedicalRecordBlobContainerName"]);
         }

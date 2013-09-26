@@ -353,6 +353,10 @@
     <Content Include="MailSettings.config.example" />
     <Content Include="ConnectionStrings.config" />
     <Content Include="MailSettings.config" />
+    <Content Include="AppSettings.config.example">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="AppSettings.config" />
     <None Include="Properties\PublishProfiles\k94warriors - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\k94warriors - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
@@ -372,7 +376,9 @@
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

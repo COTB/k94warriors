@@ -46,8 +46,8 @@ namespace K94Warriors.Data
 
         public void Update(T entity)
         {
-            var dbObj = DbContext.Entry(entity);
-            dbObj.State = EntityState.Modified;
+            DbSet.Attach(entity);
+            DbContext.Entry(entity).State = EntityState.Modified;
             DbContext.SaveChanges();
         }
 

@@ -10,9 +10,9 @@ namespace K94Warriors.Controllers
 {
     public class MedicalRecordsController : Controller
     {
-        private readonly IRepository<DogProfile> _dogProfileRepo; 
+        private readonly IRepository<DogProfile> _dogProfileRepo;
         private readonly IRepository<DogMedicalRecord> _dogMedicalRecordsRepo;
-        private readonly IRepository<DogMedicalRecordImage> _dogMedicalRecordImageRepo; 
+        private readonly IRepository<DogMedicalRecordImage> _dogMedicalRecordImageRepo;
         private readonly IBlobRepository _blobRepo;
 
         public MedicalRecordsController(IRepository<DogProfile> dogProfileRepo,
@@ -78,14 +78,19 @@ namespace K94Warriors.Controllers
         public async Task<ActionResult> Create(DogMedicalRecord model, IEnumerable<HttpPostedFileBase> files)
         {
             if (!ModelState.IsValid)
+            {
+                var dog = _dogProfileRepo.GetById(model.DogProfileID);
+                ViewBag.DogId = model.DogProfileID;
+                ViewBag.DogName = dog.Name;
                 return View(model);
+            }
 
             _dogMedicalRecordsRepo.Insert(model);
 
             if (files != null)
                 await UploadFiles(model.RecordID, files);
 
-            return RedirectToAction("Index", new {dogProfileId = model.DogProfileID});
+            return RedirectToAction("Index", new { dogProfileId = model.DogProfileID });
         }
 
 
@@ -114,14 +119,19 @@ namespace K94Warriors.Controllers
         public async Task<ActionResult> Edit(DogMedicalRecord model, IEnumerable<HttpPostedFileBase> files)
         {
             if (!ModelState.IsValid)
+            {
+                var dog = _dogProfileRepo.GetById(model.DogProfileID);
+                ViewBag.DogId = model.DogProfileID;
+                ViewBag.DogName = dog.Name;
                 return View(model);
+            }
 
             _dogMedicalRecordsRepo.Update(model);
 
             if (files != null)
                 await UploadFiles(model.RecordID, files);
 
-            return RedirectToAction("Index", new {dogProfileId = model.DogProfileID});
+            return RedirectToAction("Index", new { dogProfileId = model.DogProfileID });
         }
 
 
@@ -133,11 +143,11 @@ namespace K94Warriors.Controllers
         {
             _dogMedicalRecordsRepo.Delete(dogMedicalRecordId);
             return dogProfileId.HasValue
-                       ? RedirectToAction("Index", new {dogProfileId = dogProfileId.Value})
+                       ? RedirectToAction("Index", new { dogProfileId = dogProfileId.Value })
                        : RedirectToAction("Index", "Dog");
         }
 
-        
+
         private async Task UploadFiles(int dogMedicalRecordId, IEnumerable<HttpPostedFileBase> files)
         {
             var medicalRecordImages = new List<DogMedicalRecordImage>();
