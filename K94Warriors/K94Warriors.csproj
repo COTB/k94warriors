@@ -258,7 +258,6 @@
     <Compile Include="Models\DogMedication.cs" />
     <Compile Include="Models\DogNote.cs" />
     <Compile Include="Models\DogNoteAttachment.cs" />
-    <Compile Include="Models\DogNotesReport.cs" />
     <Compile Include="Models\DogProfile.cs" />
     <Compile Include="Models\DogSkill.cs" />
     <Compile Include="Models\DogSkillName.cs" />
