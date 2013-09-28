@@ -27,3 +27,8 @@ header .navbar-header { padding-left: 0; }
 .information { min-height: 200px; }
 
 .information ul li { display: inline-block; }
+
+.medication-container .checkbox-label {
+    margin: 0px 20px 0px 10px;
+    vertical-align: top;
+}

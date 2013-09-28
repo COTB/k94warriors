@@ -23,71 +23,36 @@
 <div class="row">
     <div class="col-lg-12">
         <hr />
-        <table class="table table-bordered">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.MedicationName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.AmountDescription)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.VetNotes)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.AMDose)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.NoonDose)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PMDose)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.StartDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.EndDate)
-                </th>
-                <th></th>
-            </tr>
 
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MedicationName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.AmountDescription)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.VetNotes)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.AMDose)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.NoonDose)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PMDose)
-                    </td>
-                    <td>
-                        @item.StartDate.ToShortDateString()
-                    </td>
-                    <td>
-                        @item.EndDate.ToShortDateString()
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.DogMedicationID }) |
-            
-            @Html.ActionLink("Delete", "Delete", new { id = item.DogMedicationID })
-                    </td>
-                </tr>
-            }
-
-        </table>
+        @foreach (var item in Model)
+        {
+            <div class="well medication-container">
+                <h4>
+                    @item.MedicationName
+                    @if (item.StartDate > DateTime.Now.Date)
+                    {
+                        <span class="label label-default">Upcoming</span>
+                    }
+                    else if (item.EndDate < DateTime.Now.Date)
+                    {
+                        <span class="label label-danger">Expired</span>
+                    }
+                    else 
+                    {
+                        <span class="label label-success">Current</span>
+                    }
+                </h4>
+                <p>From <strong>@item.StartDate.ToShortDateString()</strong> to <strong>@item.EndDate.ToShortDateString()</strong>
+                </p>
+                <p>Amount: @item.AmountDescription</p>
+                <p>
+                    <input type="checkbox" disabled @(item.AMDose ? "checked" : "") /><span class="checkbox-label">AM Dose</span>
+                    <input type="checkbox" disabled @(item.NoonDose ? "checked" : "") /><span class="checkbox-label">Noon Dose</span>
+                    <input type="checkbox" disabled @(item.PMDose ? "checked" : "") /><span class="checkbox-label">PM Dose</span>
+                </p>
+                <p>Vet Notes: @item.VetNotes</p>
+            </div>
+        }
 
     </div>
 </div>

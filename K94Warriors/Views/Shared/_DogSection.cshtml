@@ -24,6 +24,7 @@
                     <ul class="dropdown-menu">
                         <li>@Html.ActionLink("View Medical Records", "Index", "MedicalRecords", new { dog = ViewBag.DogId }, null)</li>
                         <li>@Html.ActionLink("View Medications", "Index", "Medication", new { dog = ViewBag.DogId }, null)</li>
+                        <li>@Html.ActionLink("Print Medication Log", "PrintLog", "Medication", new { dog = ViewBag.DogId }, null)</li>
                     </ul>
                 </li>                
                 <li class="dropdown">
