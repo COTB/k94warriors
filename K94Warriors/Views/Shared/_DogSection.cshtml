@@ -1,5 +1,6 @@
 ﻿@{
     Layout = null;
+    string dogName = ViewBag.DogName;
 }
 <nav class="navbar navbar-inverse" role="navigation">
     <div class="container">
@@ -10,33 +11,27 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            @Html.ActionLink("Return to Dog List", "Index", "Dog", null, new { @class = "navbar-brand" })
-            @Html.ActionLink("View Profile", "DogProfile", "Dog", new { id = ViewBag.DogId}, new { @class = "navbar-brand"} )
-            @*            <a class="navbar-brand" href="/dog/readdog/@ViewBag.DogId">View @ViewBag.DogName</a>*@
+            @Html.ActionLink("View " + dogName + "'s Profile", "DogProfile", "Dog", new { id = ViewBag.DogId}, new { @class = "navbar-brand"} )
         </div>
 
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">@ViewBag.DogName's Notes <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li>@Html.ActionLink("View Notes", "Index", "Notes", new { dogProfileId = ViewBag.DogId }, null)</li>
-                        <li>@Html.ActionLink("Add Notes", "CreateOrUpdateDogNote", "Dog", new { dogId = ViewBag.DogId }, null)</li>
-                    </ul>
+                    @Html.ActionLink(dogName + "'s Notes", "Index", "Notes", new { dog = ViewBag.DogId }, null)
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">@ViewBag.DogName's Medical Records <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">@ViewBag.DogName's Medical Info <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li>@Html.ActionLink("View Medical Records", "Index", "MedicalRecords", new { dogProfileId = ViewBag.DogId }, null)</li>
-                        <li>@Html.ActionLink("Add Medical Record", "Create", "MedicalRecords", new { dogProfileId = ViewBag.DogId }, null)</li>
+                        <li>@Html.ActionLink("View Medical Records", "Index", "MedicalRecords", new { dog = ViewBag.DogId }, null)</li>
+                        <li>@Html.ActionLink("View Medications", "Index", "Medication", new { dog = ViewBag.DogId }, null)</li>
+                        <li>@Html.ActionLink("Print Medication Log", "PrintLog", "Medication", new { dog = ViewBag.DogId }, null)</li>
                     </ul>
+                </li>                
+                <li class="dropdown">
+                    @Html.ActionLink(dogName + "'s Feeding", "Index", "Feeding", new { dog = ViewBag.DogId }, null)
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">@ViewBag.DogName's Events <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li>@Html.ActionLink("View Events", "GetDogEvents", "Dog", new { dogId = ViewBag.DogId }, null)</li>
-                        <li>@Html.ActionLink("Add Event", "CreateOrUpdateDogEvent", "Dog", new { dogId = ViewBag.DogId }, null)</li>
-                    </ul>
+                    @Html.ActionLink(dogName + "'s Events", "Index", "Events", new { dog = ViewBag.DogId }, null)
                 </li>
             </ul>
         </div>

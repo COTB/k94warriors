@@ -7,34 +7,45 @@
 
 @section subnav {
     @{
-        Html.RenderAction("GetDogSection", "Dog", new {dogId = ViewBag.DogId });
+        Html.RenderAction("GetDogSection", "Dog", new { dogId = ViewBag.DogId });
     }
 }
 
-<div class="col col-lg-12">
-    <h4>View All Notes for @ViewBag.DogName</h4>
-    <hr/>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="pull-right">
+            <a href="/Notes/Create?dog=@ViewBag.DogId" class="btn btn-primary">Add Note</a>
+        </div>
+        <h4>View All Notes for @ViewBag.DogName</h4>
+    </div>
+</div>
+
+<div class="row">
     <div class="col col-lg-12">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th class="col col-lg-2">Note Type</th>
-                    <th class="col col-lg-5">Note</th>
-                    <th class="col col-lg-3">Date</th>
-                    <th class="col col-lg-2">Critical?</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var dogNotes in Model)
-                {
+
+        <hr />
+        <div class="col col-lg-12">
+            <table class="table table-bordered">
+                <thead>
                     <tr>
-                        <td class="col col-lg-2">@dogNotes.NoteType.Name</td>
-                        <td class="col col-lg-5"><a href="/dog/CreateOrUpdateDogNote?dogId=@dogNotes.DogProfileID&noteId=@dogNotes.NoteID">@dogNotes.Note</a></td>
-                        <td class="col col-lg-3">@dogNotes.CreatedDate.ToLongDateString()</td>
-                        <td class="col col-lg-2">@dogNotes.IsCritical</td>
+                        <th class="col col-lg-2">Note Type</th>
+                        <th class="col col-lg-5">Note</th>
+                        <th class="col col-lg-3">Date</th>
+                        <th class="col col-lg-2">Critical?</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var dogNotes in Model)
+                    {
+                        <tr>
+                            <td class="col col-lg-2">@dogNotes.NoteType.Name</td>
+                            <td class="col col-lg-5"><a href="/dog/CreateOrUpdateDogNote?dogId=@dogNotes.DogProfileID&noteId=@dogNotes.NoteID">@dogNotes.Note</a></td>
+                            <td class="col col-lg-3">@dogNotes.CreatedDate.ToLongDateString()</td>
+                            <td class="col col-lg-2">@dogNotes.IsCritical</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

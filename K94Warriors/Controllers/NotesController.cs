@@ -8,7 +8,7 @@ using K94Warriors.Models;
 
 namespace K94Warriors.Controllers
 {
-    public class NotesController : Controller
+    public class NotesController : BaseController
     {
         private readonly IRepository<DogProfile> _dogRepo;
         private readonly IRepository<DogNote> _dogNoteRepo;
@@ -45,32 +45,31 @@ namespace K94Warriors.Controllers
 
 
         //
-        // GET: /Notes/
+        // GET: /Notes?dog={dogProfileId}
 
-        public ActionResult Index(int dogProfileId)
+        public ActionResult Index(DogProfile dog)
         {
-            var model = _dogNoteRepo.Where(n => n.DogProfileID == dogProfileId);
-            var dog = _dogRepo.GetById(dogProfileId);
+            var model = _dogNoteRepo.Where(n => n.DogProfileID == dog.ProfileID);
 
-            ViewBag.DogId = dog.ProfileID;
+            SetDogViewBag(dog);
 
             return View(model);
         }
 
 
         //
-        // GET: /Notes/Edit/{dogNoteId}
+        // GET: /Notes/Edit/{id}
 
-        public ActionResult Edit(int dogNoteId)
+        public ActionResult Edit(int id)
         {
-            var model = _dogNoteRepo.GetById(dogNoteId);
+            var model = _dogNoteRepo.GetById(id);
             if (model == null)
                 return RedirectToAction("Index", "Dog");
 
             var dog = model.DogProfile;
 
-            ViewBag.DogId = dog.ProfileID;
-            ViewBag.DogName = dog.Name;
+            SetDogViewBag(dog);
+
             ViewBag.NoteTypeSelectList = new SelectList(_noteTypeRepo.GetAll(), "ID", "Name", model.NoteTypeId);
 
             return View(model);
@@ -78,7 +77,7 @@ namespace K94Warriors.Controllers
 
 
         //
-        // POST: /Notes/Edit/{dogNote}
+        // POST: /Notes/Edit
         [HttpPost]
         public async Task<ActionResult> Edit(DogNote model, IEnumerable<HttpPostedFileBase> files)
         {
@@ -94,18 +93,17 @@ namespace K94Warriors.Controllers
 
 
         // 
-        // GET: /Notes/Create/{dogProfileId}
-
-        public ActionResult Create(int dogProfileId)
+        // GET: /Notes/Create?dog={dogProfileId}
+        [HttpGet]
+        public ActionResult Create(DogProfile dog)
         {
-            var dog = _dogRepo.GetById(dogProfileId);
             var model = new DogNote { DogProfileID = dog.ProfileID };
 
-            ViewBag.DogId = dog.ProfileID;
-            ViewBag.DogName = dog.Name;
+            SetDogViewBag(dog);
+
             ViewBag.NoteTypeSelectList = new SelectList(_noteTypeRepo.GetAll(), "ID", "Name", model.NoteTypeId);
 
-            return View(new DogNote { DogProfileID = dogProfileId });
+            return View(new DogNote { DogProfileID = dog.ProfileID });
         }
 
 
@@ -126,11 +124,11 @@ namespace K94Warriors.Controllers
 
 
         // 
-        // POST: /Notes/Delete/{dogNoteId}
+        // POST: /Notes/Delete/{id}
         [HttpPost]
-        public ActionResult Delete(int dogNoteId, int? dogProfileId)
+        public ActionResult Delete(int id, int? dogProfileId)
         {
-            _dogNoteRepo.Delete(dogNoteId);
+            _dogNoteRepo.Delete(id);
 
             if (dogProfileId.HasValue)
                 return RedirectToAction("Index", new { dogProfileId = dogProfileId.Value });

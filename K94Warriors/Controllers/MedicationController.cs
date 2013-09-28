@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace K94Warriors.Controllers
 {
-    public class MedicationController : Controller
+    public class MedicationController : BaseController
     {
         private readonly IRepository<DogProfile> _dogProfileRepo;
         private readonly IRepository<DogMedication> _dogMedicationRepo;
@@ -20,9 +20,16 @@ namespace K94Warriors.Controllers
             _dogMedicationRepo = dogMedicationRepo;
         }
 
-        public ActionResult Index()
+        public ActionResult Index(DogProfile dog)
         {
-            return View();
+            if (dog == null)
+                return HttpNotFound();
+
+            var meds = _dogMedicationRepo.Where(i => i.DogProfileID == dog.ProfileID).ToList();
+
+            SetDogViewBag(dog);
+
+            return View(meds);
         }
 
         public ActionResult PrintLog(int dogProfileId, int? numdays, DateTime? startdate)
