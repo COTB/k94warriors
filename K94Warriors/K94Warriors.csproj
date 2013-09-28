@@ -176,6 +176,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\DogController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\EventsController.cs" />
@@ -252,6 +253,7 @@
       <DependentUpon>201309131854177_InitialUserTypes.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Binders\DogProfileModelBinder.cs" />
     <Compile Include="Models\DogEvent.cs" />
     <Compile Include="Models\DogMedicalRecord.cs" />
     <Compile Include="Models\DogMedicalRecordImage.cs" />
@@ -430,6 +432,7 @@
     <Content Include="Views\Events\Edit.cshtml" />
     <Content Include="Views\Dog\Create.cshtml" />
     <Content Include="Views\Dog\Edit.cshtml" />
+    <Content Include="Views\Medication\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,93 @@
+﻿@model IEnumerable<K94Warriors.Models.DogMedication>
+
+@{
+    string dogName = ViewBag.DogName;
+    ViewBag.Title = dogName + "'s Medications";
+}
+
+@section subnav {
+    @{
+        Html.RenderAction("GetDogSection", "Dog", new { dogId = ViewBag.DogId });
+    }
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="pull-right">
+            <a href="/Medication/Create?dog=@ViewBag.DogId" class="btn btn-primary">Add Medication</a>
+        </div>
+        <h4>@ViewBag.Title</h4>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <hr />
+        <table class="table table-bordered">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.MedicationName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AmountDescription)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.VetNotes)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AMDose)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NoonDose)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PMDose)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StartDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EndDate)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MedicationName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AmountDescription)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VetNotes)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AMDose)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NoonDose)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PMDose)
+                    </td>
+                    <td>
+                        @item.StartDate.ToShortDateString()
+                    </td>
+                    <td>
+                        @item.EndDate.ToShortDateString()
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.DogMedicationID }) |
+            
+            @Html.ActionLink("Delete", "Delete", new { id = item.DogMedicationID })
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+    </div>
+</div>
