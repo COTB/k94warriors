@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -8,7 +9,7 @@ using K94Warriors.Models;
 
 namespace K94Warriors.Controllers
 {
-    public class MedicalRecordsController : Controller
+    public class MedicalRecordsController : BaseController
     {
         private readonly IRepository<DogProfile> _dogProfileRepo;
         private readonly IRepository<DogMedicalRecord> _dogMedicalRecordsRepo;
@@ -39,35 +40,33 @@ namespace K94Warriors.Controllers
 
 
         //
-        // GET: /MedicalRecords/
+        // GET: /MedicalRecords?dog={dogProfileId}
 
-        public ActionResult Index(int dogProfileId)
+        public ActionResult Index(DogProfile dog)
         {
-            var dog = _dogProfileRepo.GetById(dogProfileId);
             if (dog == null)
                 return RedirectToAction("Index", "Dog");
 
-            ViewBag.DogId = dog.ProfileID;
-            ViewBag.DogName = dog.Name;
-            var model = _dogMedicalRecordsRepo
-                .Where(record => record.DogProfileID == dogProfileId);
+            SetDogViewBag(dog);
+
+            var model = _dogMedicalRecordsRepo.Where(record => record.DogProfileID == dog.ProfileID).ToList();
+
             return View(model);
         }
 
 
         // 
-        // GET: /MedicalRecords/Create/
+        // GET: /MedicalRecords/Create?dog={dogProfileId}
 
-        public ActionResult Create(int dogProfileId)
+        [HttpGet]
+        public ActionResult Create(DogProfile dog)
         {
-            var dog = _dogProfileRepo.GetById(dogProfileId);
             if (dog == null)
                 return RedirectToAction("Index", "Dog");
 
-            ViewBag.DogId = dog.ProfileID;
-            ViewBag.DogName = dog.Name;
+            SetDogViewBag(dog);
 
-            return View(new DogMedicalRecord { DogProfileID = dogProfileId });
+            return View(new DogMedicalRecord { DogProfileID = dog.ProfileID });
         }
 
 
@@ -80,8 +79,7 @@ namespace K94Warriors.Controllers
             if (!ModelState.IsValid)
             {
                 var dog = _dogProfileRepo.GetById(model.DogProfileID);
-                ViewBag.DogId = model.DogProfileID;
-                ViewBag.DogName = dog.Name;
+                SetDogViewBag(dog);
                 return View(model);
             }
 
@@ -105,8 +103,7 @@ namespace K94Warriors.Controllers
 
             var dog = _dogProfileRepo.GetById(model.DogProfileID);
 
-            ViewBag.DogId = dog.ProfileID;
-            ViewBag.DogName = dog.Name;
+            SetDogViewBag(dog);
 
             return View(model);
         }
@@ -121,8 +118,7 @@ namespace K94Warriors.Controllers
             if (!ModelState.IsValid)
             {
                 var dog = _dogProfileRepo.GetById(model.DogProfileID);
-                ViewBag.DogId = model.DogProfileID;
-                ViewBag.DogName = dog.Name;
+                SetDogViewBag(dog);
                 return View(model);
             }
 

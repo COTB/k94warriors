@@ -1,4 +1,6 @@
 ﻿using K94Warriors.Data;
+using K94Warriors.Models;
+using K94Warriors.Models.Binders;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -22,6 +24,8 @@ namespace K94Warriors
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
+
+            ModelBinders.Binders.Add(typeof(DogProfile), new DogProfileModelBinder());
         }
 
         private static void RegisterFilters(GlobalFilterCollection filters)

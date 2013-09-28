@@ -9,28 +9,39 @@
         Html.RenderAction("GetDogSection", "Dog", new { dogId = ViewBag.DogId });
     }
 }
-<div class="col col-lg-12">
-    <h4>View All Events</h4>
-    <hr />
+
+<div class="row">
     <div class="col col-lg-12">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th class="col col-lg-3">Event Type</th>
-                    <th class="col col-lg-7">Subject</th>
-                    <th class="col col-lg-2">Completed?</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var dogEvent in Model)
-                {
+        <div class="pull-right">
+            <a href="/Events/Create?dog=@ViewBag.DogId" class="btn btn-primary">Add Event</a>
+        </div>
+        <h4>View All Events</h4>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col col-lg-12">
+        <hr />
+        <div class="col col-lg-12">
+            <table class="table table-bordered">
+                <thead>
                     <tr>
-                        <td class="col col-lg-3">@dogEvent.EventType.Name</td>
-                        <td class="col col-lg-7"><a href="/dog/CreateOrUpdateDogEvent?dogId=@dogEvent.DogProfileID&eventId=@dogEvent.EventID">@dogEvent.Subject</a></td>
-                        <td class="col col-lg-2">@dogEvent.IsComplete</td>
+                        <th class="col col-lg-3">Event Type</th>
+                        <th class="col col-lg-7">Subject</th>
+                        <th class="col col-lg-2">Completed?</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var dogEvent in Model)
+                    {
+                        <tr>
+                            <td class="col col-lg-3">@dogEvent.EventType.Name</td>
+                            <td class="col col-lg-7"><a href="/dog/CreateOrUpdateDogEvent?dogId=@dogEvent.DogProfileID&eventId=@dogEvent.EventID">@dogEvent.Subject</a></td>
+                            <td class="col col-lg-2">@dogEvent.IsComplete</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

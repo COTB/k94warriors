@@ -60,10 +60,9 @@ namespace K94Warriors.App_Start
         private static void RegisterServices(IKernel kernel)
         {
             // Bind Entity Framework repository and DbContext
-            kernel.Bind(typeof(IRepository<>)).To(typeof(EFRepository<>));
-            kernel.Bind<DbContext>().To<K9DbContext>()
-                  .WithConstructorArgument("nameOrConnectionString",
-                                           ConfigurationManager.ConnectionStrings["K9"].ConnectionString);
+            kernel.Bind(typeof(IRepository<>)).To(typeof(EFRepository<>)).InRequestScope();
+            kernel.Bind<DbContext>().To<K9DbContext>().InRequestScope()
+                  .WithConstructorArgument("nameOrConnectionString", "K9");
 
             // Bind to the Images blob container for DogController
             kernel.Bind<IBlobRepository>().To<K9BlobRepository>()
@@ -80,6 +79,14 @@ namespace K94Warriors.App_Start
                                            ConfigurationManager.AppSettings["StorageAccountConnectionString"])
                   .WithConstructorArgument("imageContainer",
                                            ConfigurationManager.AppSettings["MedicalRecordBlobContainerName"]);
+
+            // Bind to the Notes blob container for MedicalRecordsController
+            kernel.Bind<IBlobRepository>().To<K9BlobRepository>()
+                  .WhenInjectedInto<NotesController>()
+                  .WithConstructorArgument("connectionString",
+                                           ConfigurationManager.AppSettings["StorageAccountConnectionString"])
+                  .WithConstructorArgument("imageContainer",
+                                           ConfigurationManager.AppSettings["NotesBlobContainerName"]);
         }
     }
 }
