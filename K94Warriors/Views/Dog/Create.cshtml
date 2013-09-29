@@ -14,6 +14,8 @@
 {
     @Html.AntiForgeryToken()
 
+    @Html.ValidationSummary()
+    
     <div class="form-group">
         <label>Name</label>
         <input type="text" class="form-control input-lg" name="Name" placeholder="Dog Name">
@@ -35,13 +37,19 @@
     <div class="form-group">
         <label>Age</label>
         <input type="text" class="form-control input-lg" name="Age" placeholder="Dog Age">
-        @Html.ValidationMessageFor(t => DateTime.Now.Year - t.BirthYear, "", new { @class = "help-block" })
+        @Html.ValidationMessageFor(t => t.BirthYear, "", new { @class = "help-block" })
     </div>
 
     <div class="form-group">
         <label>Color</label>
         <input type="text" class="form-control input-lg" name="Color" placeholder="Dog Color">
         @Html.ValidationMessageFor(t => t.Color, "", new { @class = "help-block" })
+    </div>
+    
+    <div class="form-group">
+        <label>Health Condition</label>
+        <textarea class="form-control" name="HealthCondition" placeholder="Health Condition" rows="4"></textarea>
+        @Html.ValidationMessageFor(t => t.HealthCondition, "", new { @class = "help-block" })
     </div>
 
     <div class="form-group">
@@ -67,7 +75,7 @@
     
     <div class="form-group">
         <label>Upload an Image</label>
-        <input type="file" name="images" class="form-control input-lg" title="Upload an image..." accept="image/*" multiple />
+        <input type="file" name="images-upload" class="form-control input-lg" title="Upload an image..." accept="image/*" multiple />
     </div>
 
 
