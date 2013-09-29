@@ -63,5 +63,35 @@ namespace K94Warriors.Controllers
 
             return View(viewModel);
         }
+
+        [HttpGet]
+        public ActionResult Create(DogProfile dog)
+        {
+            if (dog == null)
+                return HttpNotFound();
+
+            SetDogViewBag(dog);
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Create(DogMedication model)
+        {
+            var dog = _dogProfileRepo.GetById(model.DogProfileID);
+
+            if (dog == null)
+                return HttpNotFound();
+
+            if (!ModelState.IsValid)
+            {
+                SetDogViewBag(dog);
+                return View(model);
+            }
+
+            _dogMedicationRepo.Insert(model);
+
+            return RedirectToAction("Index", new { dog = model.DogProfileID });
+        }
     }
 }
