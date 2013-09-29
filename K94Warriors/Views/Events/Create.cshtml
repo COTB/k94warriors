@@ -14,7 +14,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    @Html.Hidden("DogProfileID", @Model.DogProfileID)
+    @Html.Hidden("DogProfileID", Model.DogProfileID)
     <div class="form-group">
         <label>Note Type</label>
         @Html.DropDownList("EventTypeId", null, "Select Event Type", new { @class = "form-control" })
