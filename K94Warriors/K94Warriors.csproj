@@ -433,6 +433,7 @@
     <Content Include="Views\Dog\Create.cshtml" />
     <Content Include="Views\Dog\Edit.cshtml" />
     <Content Include="Views\Medication\Index.cshtml" />
+    <Content Include="Views\Medication\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
