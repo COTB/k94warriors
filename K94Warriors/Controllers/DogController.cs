@@ -84,7 +84,7 @@ namespace K94Warriors.Controllers
 
 
         [HttpPost]
-        public ActionResult Create(DogProfile model)
+        public async Task<ActionResult> Create(DogProfile model)
         {
             if (!ModelState.IsValid)
                 return View(model);
@@ -94,6 +94,8 @@ namespace K94Warriors.Controllers
             model.CreatedByUserID = user.UserID;
 
             _dogRepo.Insert(model);
+
+            await UploadFiles(model.ProfileID, Request.Files.OfType<HttpPostedFileBase>());
 
             return RedirectToAction("Index");
         }
