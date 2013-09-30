@@ -1,0 +1,51 @@
+﻿@model IEnumerable<K94Warriors.Models.DogFeedingEntry>
+
+
+@{
+    string dogName = ViewBag.DogName;
+    ViewBag.Title = dogName + "'s Feeding Requirements";
+}
+
+@section subnav {
+    @{
+        Html.RenderAction("GetDogSection", "Dog", new { dogId = ViewBag.DogId });
+    }
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="pull-right">
+            <a href="/Feeding/Create?dog=@ViewBag.DogId" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Add Feeding Requirement</a>
+        </div>
+        <h4>@ViewBag.Title</h4>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <hr />
+
+        @foreach (var item in Model)
+        {
+            <div class="well feeding-container">
+                <div class="pull-right">
+                    <p class="well-actions">
+                        <a href="/Feeding/Edit/@item.DogFeedingEntryID"><i class="glyphicon glyphicon-pencil"></i></a>
+                        <a href="/Feeding/Delete/@item.DogFeedingEntryID" onclick="return confirm('Are you sure you want to permanently delete this feeding entry?')"><i class="glyphicon glyphicon-trash"></i></a>
+                    </p>
+                </div>
+                <h4>
+                    @item.FoodName
+                </h4>
+                <p>Amount: @item.AmountDescription</p>
+                <p>
+                    <input type="checkbox" disabled @(item.AMFeeding ? "checked" : "") /><span class="checkbox-label">AM Feeding</span>
+                    <input type="checkbox" disabled @(item.NoonFeeding ? "checked" : "") /><span class="checkbox-label">Noon Feeding</span>
+                    <input type="checkbox" disabled @(item.PMFeeding ? "checked" : "") /><span class="checkbox-label">PM Feeding</span>
+                </p>
+                <p>Notes: @item.Notes</p>
+            </div>
+        }
+
+    </div>
+</div>
