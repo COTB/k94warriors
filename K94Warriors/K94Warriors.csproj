@@ -180,9 +180,11 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\DogController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\EventsController.cs" />
+    <Compile Include="Controllers\FeedingController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MedicalRecordsController.cs" />
     <Compile Include="Controllers\MedicationController.cs" />
@@ -243,6 +245,13 @@
     <Compile Include="Migrations\201309262223500_AddNoteAttachments.cs" />
     <Compile Include="Migrations\201309262223500_AddNoteAttachments.Designer.cs">
       <DependentUpon>201309262223500_AddNoteAttachments.cs</DependentUpon>
+    <Compile Include="Migrations\201309301412571_MedicalRecordTypes.cs" />
+    <Compile Include="Migrations\201309301412571_MedicalRecordTypes.Designer.cs">
+      <DependentUpon>201309301412571_MedicalRecordTypes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201309301519213_Feeding.cs" />
+    <Compile Include="Migrations\201309301519213_Feeding.Designer.cs">
+      <DependentUpon>201309301519213_Feeding.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Accounts\ExternalLogin.cs" />
     <Compile Include="Models\Accounts\LocalPasswordModel.cs" />
@@ -259,7 +268,9 @@
       <DependentUpon>201309131854177_InitialUserTypes.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Binders\DogProfileModelBinder.cs" />
     <Compile Include="Models\DogEvent.cs" />
+    <Compile Include="Models\DogFeedingEntry.cs" />
     <Compile Include="Models\DogMedicalRecord.cs" />
     <Compile Include="Models\DogMedicalRecordImage.cs" />
     <Compile Include="Models\DogMedication.cs" />
@@ -286,6 +297,7 @@
     <Content Include="Content\font-awesome-ie7.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\font\fontawesome-webfont.svg" />
     <Content Include="Content\MedicationPrintLog-Print.css" />
     <Content Include="Content\MedicationPrintLog.css" />
@@ -357,6 +369,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="AppSettings.config" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <None Include="Properties\PublishProfiles\k94warriors - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\k94warriors - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
@@ -435,6 +450,10 @@
     <Content Include="Views\Events\Edit.cshtml" />
     <Content Include="Views\Dog\Create.cshtml" />
     <Content Include="Views\Dog\Edit.cshtml" />
+    <Content Include="Views\Medication\Index.cshtml" />
+    <Content Include="Views\Medication\Create.cshtml" />
+    <Content Include="Views\Medication\Edit.cshtml" />
+    <Content Include="Views\Feeding\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -481,6 +500,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201309262223500_AddNoteAttachments.resx">
       <DependentUpon>201309262223500_AddNoteAttachments.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201309301412571_MedicalRecordTypes.resx">
+      <DependentUpon>201309301412571_MedicalRecordTypes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201309301519213_Feeding.resx">
+      <DependentUpon>201309301519213_Feeding.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

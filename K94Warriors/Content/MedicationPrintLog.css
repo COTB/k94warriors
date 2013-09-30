@@ -29,6 +29,7 @@ table#dog-health-table th,
 table#dog-health-table td {
     border: solid 1px black;
     padding: 10px;
+    vertical-align: top;
 }
 
 table#dog-health-table th {
@@ -37,4 +38,32 @@ table#dog-health-table th {
 
 div#params {
     text-align: center;
+}
+
+.log-day {
+    font-weight: bold;
+    margin-top: 30px;
+    float: left;
+    display: block;
+    width: 150px;
+    position: relative;
+}
+
+.log-day .sig {
+    display: inline-block;
+    width: 75px;
+    border-bottom: solid 1px black;
+    
+}
+
+table#dog-health-table ul {
+    list-style: none;
+}
+
+table#dog-health-table ul li {
+    margin-bottom: 20px;
+}
+
+span.checkbox-label {
+    margin: 0px 10px;
 }

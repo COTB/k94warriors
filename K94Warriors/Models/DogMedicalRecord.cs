@@ -11,7 +11,7 @@ namespace K94Warriors.Models
 
         public int DogProfileID { get; set; }
 
-        public MedicalRecordType RecordType { get; set; }
+        public int MedicalRecordTypeID { get; set; }
 
         [StringLength(200)]
         public string Title { get; set; }
@@ -23,5 +23,7 @@ namespace K94Warriors.Models
 
         [ForeignKey("DogProfileID")]
         public virtual DogProfile DogProfile { get; set; }
+
+        public virtual MedicalRecordType MedicalRecordType { get; set; }
     }
 }

@@ -17,6 +17,8 @@ namespace K94Warriors.Data
         
         public DbSet<DogEvent> DogEvents { get; set; }
 
+        public DbSet<DogFeedingEntry> DogFeedingEntries { get; set; }
+
         public DbSet<DogImage> DogImages { get; set; }
 
         public DbSet<DogMedicalRecord> DogMedicalRecords { get; set; }
@@ -38,7 +40,9 @@ namespace K94Warriors.Data
         public DbSet<EventType> EventTypes { get; set; }
         
         public DbSet<Location> Locations { get; set; }
-        
+
+        public DbSet<MedicalRecordType> MedicalRecordTypes { get; set; }
+
         public DbSet<NoteType> NoteTypes { get; set; }
         
         public DbSet<User> Users { get; set; }

@@ -1,9 +1,18 @@
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace K94Warriors.Models
 {
-    public enum MedicalRecordType
+    public class MedicalRecordType
     {
-        Miscellaneous = 0,
+        [Key]
+        public int MedicalRecordTypeID { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        public string Name { get; set; }
+
+        public virtual ICollection<DogMedicalRecord> DogMedicalRecords { get; set; }
     }
 }

@@ -6,7 +6,7 @@ using K94Warriors.Models;
 
 namespace K94Warriors.Controllers
 {
-    public class EventsController : Controller
+    public class EventsController : BaseController
     {
         private readonly IRepository<DogProfile> _dogProfileRepo;
         private readonly IRepository<DogEvent> _dogEventsRepo;
@@ -25,33 +25,33 @@ namespace K94Warriors.Controllers
 
 
         //
-        // GET: /Events/
+        // GET: /Events?dog={dogProfileId}
 
-        public ActionResult Index(int dogProfileId)
+        public ActionResult Index(DogProfile dog)
         {
-            var model = _dogEventsRepo.Where(d => d.DogProfileID == dogProfileId).ToList();
+            // verify dog exists
+            if (dog == null)
+                return RedirectToAction("Index", "Dog");
 
-            if (!model.Any())
-                return RedirectToAction("DogProfile", "Dog", new {id = dogProfileId});
+            var model = _dogEventsRepo.Where(d => d.DogProfileID == dog.ProfileID).ToList();
+
+            SetDogViewBag(dog);
 
             return View(model);
         }
 
-
-        //
+        [HttpGet]
+        public ActionResult Create(DogProfile dog)
         // GET: /Events/Create/{dogProfileId}
 
-        public ActionResult Create(int dogProfileId)
         {
             // verify dog exists
-            var dog = _dogProfileRepo.GetById(dogProfileId);
             if (dog == null)
                 return RedirectToAction("Index", "Dog");
 
-            ViewBag.DogId = dog.ProfileID;
-            ViewBag.DogName = dog.Name;
+            SetDogViewBag(dog);
 
-            return View(new DogEvent { DogProfileID = dogProfileId });
+            return View(new DogEvent { DogProfileID = dog.ProfileID });
         }
 
 
@@ -81,8 +81,7 @@ namespace K94Warriors.Controllers
 
             var dog = _dogProfileRepo.GetById(model.DogProfileID);
 
-            ViewBag.DogId = dog.ProfileID;
-            ViewBag.DogName = dog.Name;
+            SetDogViewBag(dog);
 
             return View(model);
         }

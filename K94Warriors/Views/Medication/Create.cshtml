@@ -1,0 +1,87 @@
+﻿@model K94Warriors.Models.DogMedication
+
+@{
+    string dogName = ViewBag.DogName;
+    ViewBag.Title = "Add New Medication for " + dogName;
+}
+@section subnav {
+    @{
+        Html.RenderAction("GetDogSection", "Dog", new { dogId = ViewBag.DogId });
+    }
+}
+
+<div class="well">
+    <h1>Add New Medication</h1>
+    <p>Use this form to add a new medication for @(dogName).</p>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.Hidden("DogProfileID", (int)ViewBag.DogId)
+    
+    <div class="form-group">
+        @Html.LabelFor(model => model.MedicationName)
+        @Html.TextBoxFor(model => model.MedicationName, new { @class = "form-control input-lg" })
+        @Html.ValidationMessageFor(model => model.MedicationName)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.AmountDescription)
+        @Html.TextBoxFor(model => model.AmountDescription, new { @class = "form-control input-lg" })
+        @Html.ValidationMessageFor(model => model.AmountDescription)
+    </div>
+        
+    <div class="form-group">
+        <label>
+            @Html.CheckBoxFor(model => model.AMDose) @Html.DisplayNameFor(model => model.AMDose)
+        </label>
+        @Html.ValidationMessageFor(model => model.AMDose)
+    </div>
+
+    <div class="form-group">
+        <label>
+            @Html.CheckBoxFor(model => model.NoonDose) @Html.DisplayNameFor(model => model.NoonDose)
+        </label>
+        @Html.ValidationMessageFor(model => model.NoonDose)
+    </div>
+
+    <div class="form-group">
+        <label>
+            @Html.CheckBoxFor(model => model.PMDose) @Html.DisplayNameFor(model => model.PMDose)
+        </label>
+        @Html.ValidationMessageFor(model => model.PMDose)
+    </div>
+    
+    <div class="form-group">
+        @Html.LabelFor(model => model.VetNotes)
+        @Html.TextAreaFor(model => model.VetNotes, new { rows = 4, @class = "form-control input-lg" })
+        @Html.ValidationMessageFor(model => model.VetNotes)
+    </div>
+    
+    <div class="form-group">
+        @Html.LabelFor(model => model.StartDate)
+        <input type="date" id="StartDate" name="StartDate" class="form-control input-lg" />
+        @Html.ValidationMessageFor(model => model.StartDate)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.EndDate)
+        <input type="date" id="EndDate" name="EndDate" class="form-control input-lg" />
+        @Html.ValidationMessageFor(model => model.EndDate)
+    </div>
+
+    <p>
+        <button type="submit" class="btn">Create</button>
+    </p>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index", new { dog = ViewBag.DogId }, null)
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

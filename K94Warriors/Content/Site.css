@@ -2,7 +2,9 @@
     ----------------------------------------------------------*/
 
 footer .float-left,
-footer .float-right { float: none; }
+footer .float-right {
+    float: none;
+}
 
 footer {
     height: auto;
@@ -10,20 +12,48 @@ footer {
     text-align: center;
 }
 
-footer p { margin: 0; }
+footer p {
+    margin: 0;
+}
 
-.validation-summary-errors ul { }
+.validation-summary-errors ul {
+}
 
-header .navbar.navbar-static-top { margin-bottom: 0; }
+header .navbar.navbar-static-top {
+    margin-bottom: 0;
+}
 
-header .navbar-header { padding-left: 0; }
+header .navbar-header {
+    padding-left: 0;
+}
 
-.content.container { margin-top: 20px; }
+.content.container {
+    margin-top: 20px;
+}
 
-.heading { height: 50px; }
+.heading {
+    height: 50px;
+}
 
-.heading h3 { line-height: 38px; }
+.heading h3 {
+    line-height: 38px;
+}
 
-.information { min-height: 200px; }
+.information {
+    min-height: 200px;
+}
 
-.information ul li { display: inline-block; }
+.information ul li {
+    display: inline-block;
+}
+
+.medication-container .checkbox-label,
+.feeding-container .checkbox-label {
+    margin: 0px 20px 0px 10px;
+    vertical-align: top;
+}
+
+p.well-actions a {
+    margin-left: 10px;
+    font-size: 12pt;
+}

@@ -5,30 +5,25 @@
 
 <!DOCTYPE html>
 
-<html ng-app>
+<html>
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>K9's For Warriors Medication Log - @Model.DogProfile.Name</title>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
     <link href="~/Content/MedicationPrintLog.css" rel="stylesheet" />
     <link href="~/Content/MedicationPrintLog-Print.css" rel="stylesheet" media="print" />
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet"/>
-    
-    <script type="text/javascript">
-
-        function MedsController($scope) {
-
-        }
-    </script>
 </head>
 
-<body ng-controller="MedsController">
+<body>
     <div id="params">
-        # of Days To Print: <input type="number" ng-model="num-days" /><br />
-        Start Date: <input type="date" ng-model="start-date" />
+        <form method="get">
+            <input type="hidden" name="dogProfileId" value="@Model.DogProfile.ProfileID" />
+            # of Days To Print: <input type="number" name="numdays" value="@Model.NumDays" /><br />
+            Start Date: <input type="date" name="startdate" value="@Model.StartDate.ToString("yyyy-MM-dd")" /><br />
+            <button type="submit">Regenerate</button>
+        </form>
     </div>
     <h1 id="title">K9's For Warriors<br />
-        
         Medication Log</h1>
     <div id="dog-name-container">
         <p>
@@ -63,5 +58,21 @@
             </tr>
         </tbody>
     </table>
+    <div id="log">
+        @{
+            int dayNum = 1;
+        }
+        @foreach (var day in Model.Days)
+        {
+            <div class="log-day">
+                <p>Day @dayNum: @day.ToShortDateString()</p>
+                <p>AM: <span class="sig"></span></p>
+                <p>Noon: <span class="sig"></span></p>
+                <p>PM: <span class="sig"></span></p>
+            </div>
+            
+            dayNum++;
+        }
+    </div>
 </body>
 </html>

@@ -1,0 +1,64 @@
+﻿@model IEnumerable<K94Warriors.Models.DogMedication>
+
+@{
+    string dogName = ViewBag.DogName;
+    ViewBag.Title = dogName + "'s Medications";
+}
+
+@section subnav {
+    @{
+        Html.RenderAction("GetDogSection", "Dog", new { dogId = ViewBag.DogId });
+    }
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="pull-right">
+            <a href="/Medication/Create?dog=@ViewBag.DogId" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Add Medication</a>
+        </div>
+        <h4>@ViewBag.Title</h4>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <hr />
+
+        @foreach (var item in Model)
+        {
+            <div class="well medication-container">
+                <div class="pull-right">
+                    <p class="well-actions">
+                        <a href="/Medication/Edit/@item.DogMedicationID"><i class="glyphicon glyphicon-pencil"></i></a>
+                        <a href="/Medication/Delete/@item.DogMedicationID" onclick="return confirm('Are you sure you want to permanently delete this medication?')"><i class="glyphicon glyphicon-trash"></i></a>
+                    </p>
+                </div>
+                <h4>
+                    @item.MedicationName
+                    @if (item.StartDate > DateTime.Now.Date)
+                    {
+                        <span class="label label-default">Upcoming</span>
+                    }
+                    else if (item.EndDate < DateTime.Now.Date)
+                    {
+                        <span class="label label-danger">Expired</span>
+                    }
+                    else 
+                    {
+                        <span class="label label-success">Current</span>
+                    }
+                </h4>
+                <p>From <strong>@item.StartDate.ToShortDateString()</strong> to <strong>@item.EndDate.ToShortDateString()</strong>
+                </p>
+                <p>Amount: @item.AmountDescription</p>
+                <p>
+                    <input type="checkbox" disabled @(item.AMDose ? "checked" : "") /><span class="checkbox-label">AM Dose</span>
+                    <input type="checkbox" disabled @(item.NoonDose ? "checked" : "") /><span class="checkbox-label">Noon Dose</span>
+                    <input type="checkbox" disabled @(item.PMDose ? "checked" : "") /><span class="checkbox-label">PM Dose</span>
+                </p>
+                <p>Vet Notes: @item.VetNotes</p>
+            </div>
+        }
+
+    </div>
+</div>

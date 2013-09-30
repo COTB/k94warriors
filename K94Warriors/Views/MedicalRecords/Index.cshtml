@@ -8,36 +8,48 @@
 
 @section subnav {
     @{
-        Html.RenderAction("GetDogSection", "Dog", new {dogId = ViewBag.DogId});
+        Html.RenderAction("GetDogSection", "Dog", new { dogId = ViewBag.DogId });
     }
 }
 
-<h2>@ViewBag.Title</h2>
-<table class="table table-bordered">
-    <tr>
-        <th class="col col-lg-3">Title </th>
-        <th class="col col-lg-2">Record Type</th>
-        <th class="col col-lg-2 hidden-xs">Expiration Date</th>
-        <th class="col col-lg-5 hidden-xs">URL</th>
-    </tr>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="pull-right">
+            <a href="/MedicalRecords/Create?dog=@ViewBag.DogId" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Add Record</a>
+        </div>
+        <h4>@ViewBag.Title</h4>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <hr />
+        <table class="table table-bordered">
+            <tr>
+                <th class="col col-lg-3">Title </th>
+                <th class="col col-lg-2">Record Type</th>
+                <th class="col col-lg-2 hidden-xs">Expiration Date</th>
+                <th class="col col-lg-5 hidden-xs">URL</th>
+            </tr>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td class="col col-lg-3">
-                <h4>
-                    @Html.ActionLink(item.Title, "Edit", new { dogMedicalRecordId = item.RecordID })
-                </h4>
-            </td>
-            <td class="col col-lg-2">
-                @Enum.GetName(typeof(MedicalRecordType), item.RecordType)
-            </td>
-            <td class="col col-lg-2 hidden-xs">
-                @Html.DisplayFor(modelItem => item.RecordExpirationDate)
-            </td>
-            <td class="col col-lg-5 hidden-xs">
-                <a href="@item.RecordURL" target="_blank">@item.RecordURL</a>
-            </td>
-        </tr>
-    }
-</table>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="col col-lg-3">
+                        <h4>
+                            @Html.ActionLink(item.Title, "Edit", new { dogMedicalRecordId = item.RecordID })
+                        </h4>
+                    </td>
+                    <td class="col col-lg-2">
+                        @item.MedicalRecordType.Name
+                    </td>
+                    <td class="col col-lg-2 hidden-xs">
+                        @Html.DisplayFor(modelItem => item.RecordExpirationDate)
+                    </td>
+                    <td class="col col-lg-5 hidden-xs">
+                        <a href="@item.RecordURL" target="_blank">@item.RecordURL</a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

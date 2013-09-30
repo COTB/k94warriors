@@ -1,16 +1,16 @@
-﻿using System;
+﻿using DotNetOpenAuth.AspNet;
+using K94Warriors.Data;
+using K94Warriors.Enums;
+using K94Warriors.Filters;
+using K94Warriors.Models.Accounts;
+using Microsoft.Web.WebPages.OAuth;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Transactions;
 using System.Web.Mvc;
 using System.Web.Security;
-using DotNetOpenAuth.AspNet;
-using K94Warriors.Data;
-using K94Warriors.Filters;
-using K94Warriors.Models.Accounts;
-using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
-using K94Warriors.Enums;
 
 namespace K94Warriors.Controllers
 {

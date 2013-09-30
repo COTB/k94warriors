@@ -26,11 +26,11 @@
 
     <div class="form-group">
         <div class="editor-label">
-            @Html.LabelFor(model => model.RecordType, "Record Type")
+            @Html.LabelFor(model => model.MedicalRecordTypeID, "Record Type")
         </div>
         <div class="editor-field">
-            @Html.EnumDropDownListFor(model => model.RecordType, "Select a record type...", new Dictionary<string, object> { { "class", "form-control input-lg" } })
-            @Html.ValidationMessageFor(model => model.RecordType)
+            @Html.DropDownListFor(model => model.MedicalRecordTypeID, (SelectList)ViewBag.MedicalRecordTypesSelectList, "Select a record type...", new { @class = "form-control input-lg" })
+            @Html.ValidationMessageFor(model => model.MedicalRecordTypeID)
         </div>
     </div>
 

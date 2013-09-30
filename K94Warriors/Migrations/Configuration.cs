@@ -1,5 +1,6 @@
 namespace K94Warriors.Migrations
 {
+    using K94Warriors.Models;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -26,6 +27,21 @@ namespace K94Warriors.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
+
+            context.NoteTypes.AddOrUpdate(i => i.Name,
+                new NoteType { Name = "General Note" },
+                new NoteType { Name = "Training Feedback" }
+            );
+
+            context.EventTypes.AddOrUpdate(i => i.Name,
+                new EventType { Name = "General Event" },
+                new EventType { Name = "Vet Appointment" }
+            );
+
+            context.MedicalRecordTypes.AddOrUpdate(i => i.Name,
+                new MedicalRecordType { Name = "Miscellaneous" },
+                new MedicalRecordType { Name = "Vaccination" }
+            );
         }
     }
 }
