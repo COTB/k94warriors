@@ -254,6 +254,10 @@
     <Compile Include="Migrations\201309301519213_Feeding.Designer.cs">
       <DependentUpon>201309301519213_Feeding.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201309301642095_DogNoteAttachmentsAndDiscriminatorCol.cs" />
+    <Compile Include="Migrations\201309301642095_DogNoteAttachmentsAndDiscriminatorCol.Designer.cs">
+      <DependentUpon>201309301642095_DogNoteAttachmentsAndDiscriminatorCol.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Accounts\ExternalLogin.cs" />
     <Compile Include="Models\Accounts\LocalPasswordModel.cs" />
     <Compile Include="Models\Accounts\LoginModel.cs" />
@@ -507,6 +511,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201309301519213_Feeding.resx">
       <DependentUpon>201309301519213_Feeding.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201309301642095_DogNoteAttachmentsAndDiscriminatorCol.resx">
+      <DependentUpon>201309301642095_DogNoteAttachmentsAndDiscriminatorCol.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
