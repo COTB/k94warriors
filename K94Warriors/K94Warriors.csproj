@@ -281,6 +281,7 @@
     <Content Include="Content\font-awesome-ie7.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\font\fontawesome-webfont.svg" />
     <Content Include="Content\MedicationPrintLog-Print.css" />
     <Content Include="Content\MedicationPrintLog.css" />
@@ -352,6 +353,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="AppSettings.config" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <None Include="Properties\PublishProfiles\k94warriors - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\k94warriors - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
@@ -434,6 +438,7 @@
     <Content Include="Views\Dog\Edit.cshtml" />
     <Content Include="Views\Medication\Index.cshtml" />
     <Content Include="Views\Medication\Create.cshtml" />
+    <Content Include="Views\Medication\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

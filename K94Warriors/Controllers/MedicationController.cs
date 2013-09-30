@@ -25,7 +25,7 @@ namespace K94Warriors.Controllers
             if (dog == null)
                 return HttpNotFound();
 
-            var meds = _dogMedicationRepo.Where(i => i.DogProfileID == dog.ProfileID).ToList();
+            var meds = _dogMedicationRepo.Where(i => i.DogProfileID == dog.ProfileID).OrderByDescending(i => i.EndDate).ToList();
 
             SetDogViewBag(dog);
 
@@ -39,7 +39,7 @@ namespace K94Warriors.Controllers
             if (dog == null)
                 return HttpNotFound();
 
-            var meds = _dogMedicationRepo.Where(i => i.DogProfileID == dog.ProfileID).ToList();
+            var meds = _dogMedicationRepo.Where(i => i.DogProfileID == dog.ProfileID).OrderByDescending(i => i.EndDate).ToList();
 
             if (!numdays.HasValue)
                 numdays = 10;
@@ -92,6 +92,59 @@ namespace K94Warriors.Controllers
             _dogMedicationRepo.Insert(model);
 
             return RedirectToAction("Index", new { dog = model.DogProfileID });
+        }
+
+        [HttpGet]
+        public ActionResult Edit(int id)
+        {
+            var med = _dogMedicationRepo.GetById(id);
+
+            if (med == null)
+                return HttpNotFound();
+
+            var dog = _dogProfileRepo.GetById(med.DogProfileID);
+
+            if (dog == null)
+                return HttpNotFound();
+
+            SetDogViewBag(dog);
+
+            return View(med);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(DogMedication med)
+        {
+            if (med == null)
+                return HttpNotFound();
+
+            var dog = _dogProfileRepo.GetById(med.DogProfileID);
+
+            if (dog == null)
+                return HttpNotFound();
+
+            if (!ModelState.IsValid)
+            {
+                SetDogViewBag(dog);
+                return View(med);
+            }
+
+            _dogMedicationRepo.Update(med);
+
+            return RedirectToAction("Index", new { dog = dog.ProfileID });
+        }
+
+        [HttpGet]
+        public ActionResult Delete(int id)
+        {
+            var med = _dogMedicationRepo.GetById(id);
+
+            if (med == null)
+                return HttpNotFound();
+
+            _dogMedicationRepo.Delete(id);
+
+            return RedirectToAction("Index", new { dog = med.DogProfileID });
         }
     }
 }
