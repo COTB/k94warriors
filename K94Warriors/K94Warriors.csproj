@@ -245,6 +245,7 @@
     <Compile Include="Migrations\201309262223500_AddNoteAttachments.cs" />
     <Compile Include="Migrations\201309262223500_AddNoteAttachments.Designer.cs">
       <DependentUpon>201309262223500_AddNoteAttachments.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201309301412571_MedicalRecordTypes.cs" />
     <Compile Include="Migrations\201309301412571_MedicalRecordTypes.Designer.cs">
       <DependentUpon>201309301412571_MedicalRecordTypes.cs</DependentUpon>
@@ -500,6 +501,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201309262223500_AddNoteAttachments.resx">
       <DependentUpon>201309262223500_AddNoteAttachments.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201309301412571_MedicalRecordTypes.resx">
       <DependentUpon>201309301412571_MedicalRecordTypes.cs</DependentUpon>
     </EmbeddedResource>
