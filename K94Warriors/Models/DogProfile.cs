@@ -14,6 +14,36 @@ namespace K94Warriors.Models
                 // Hacky. Too lazy to break all foreign-key relationships to make this nullable. Location 1 is not on premise and the default until changed.
         }
 
+        public DogProfile(DogProfile dogProfile)
+        {
+            InitWithDogProfile(dogProfile);
+        }
+
+        private void InitWithDogProfile(DogProfile dogProfile)
+        {
+            ProfileID = dogProfile.ProfileID;
+            Name = dogProfile.Name;
+            Breed = dogProfile.Breed;
+            BirthYear = dogProfile.BirthYear;
+            Color = dogProfile.Color;
+            Gender = dogProfile.Gender;
+            PickedUpDate = dogProfile.PickedUpDate;
+            IsFixed = dogProfile.IsFixed;
+            GraduationDate = dogProfile.GraduationDate;
+            CreatedTimeUTC = dogProfile.CreatedTimeUTC;
+            CreatedByUserID = dogProfile.CreatedByUserID;
+            IsApproved = dogProfile.IsApproved;
+            LocationId = dogProfile.LocationId;
+            HealthCondition = dogProfile.HealthCondition;
+            DogEvents = dogProfile.DogEvents;
+            DogMedicalRecords = dogProfile.DogMedicalRecords;
+            DogNotes = dogProfile.DogNotes;
+            DogSkills = dogProfile.DogSkills;
+            Location = dogProfile.Location;
+            Images = dogProfile.Images;
+            DogMedications = dogProfile.DogMedications;
+        }
+
         [Key]
         public int ProfileID { get; set; }
         

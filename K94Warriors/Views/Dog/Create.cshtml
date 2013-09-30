@@ -18,37 +18,37 @@
     
     <div class="form-group">
         <label>Name</label>
-        <input type="text" class="form-control input-lg" name="Name" placeholder="Dog Name">
+        @Html.K9TextBoxFor(t => t.Name, "Dog Name")
         @Html.ValidationMessageFor(t => t.Name, "", new { @class = "help-block" })
     </div>
     <div class="form-group">
         <label>Gender</label>
-        @*        <input type="text" class="form-control input-lg" name="Gender" placeholder="Dog Gender">*@
-        @Html.EnumDropDownListFor(t => t.Gender, "Select a gender...", new Dictionary<string, object> { { "class", "form-control input-lg" } })
+        @Html.EnumDropDownListFor(t => t.Gender, "Select a gender...")
         @Html.ValidationMessageFor(t => t.Gender, "", new { @class = "help-block" })
     </div>
 
     <div class="form-group">
         <label>Breed</label>
-        <input type="text" class="form-control input-lg" name="Breed" placeholder="Dog Breed">
+        @Html.K9TextBoxFor(t => t.Breed, "Dog Breed")
         @Html.ValidationMessageFor(t => t.Breed, "", new { @class = "help-block" })
     </div>
 
     <div class="form-group">
-        <label>Age</label>
-        <input type="text" class="form-control input-lg" name="Age" placeholder="Dog Age">
+        <label>Birth Year</label>
+        @Html.K9TextBoxFor(t => t.BirthYear, "Birth Year")
         @Html.ValidationMessageFor(t => t.BirthYear, "", new { @class = "help-block" })
     </div>
 
     <div class="form-group">
         <label>Color</label>
-        <input type="text" class="form-control input-lg" name="Color" placeholder="Dog Color">
+        @Html.K9TextBoxFor(t => t.Color, "Dog Color")
         @Html.ValidationMessageFor(t => t.Color, "", new { @class = "help-block" })
     </div>
     
     <div class="form-group">
         <label>Health Condition</label>
-        <textarea class="form-control" name="HealthCondition" placeholder="Health Condition" rows="4"></textarea>
+@*        <textarea class="form-control" name="HealthCondition" placeholder="Health Condition" rows="4"></textarea>*@
+        @Html.TextAreaFor(t => t.HealthCondition, new { rows = "4", placeholder = "Health Condition", @class="form-control"})
         @Html.ValidationMessageFor(t => t.HealthCondition, "", new { @class = "help-block" })
     </div>
 
@@ -60,14 +60,14 @@
 
     <div class="checkbox">
         <label>
-            <input type="checkbox" name="IsFixed" value="true">
+            @Html.CheckBoxFor(t => t.IsFixed)
             Is Dog Fixed?
         </label>
         @Html.ValidationMessageFor(t => t.IsFixed, "", new { @class = "help-block" })
     </div>
     <div class="checkbox">
         <label>
-            <input type="checkbox" name="IsApproved" value="true">
+            @Html.CheckBoxFor(t => t.IsApproved)
             Is Dog Approved?
         </label>
         @Html.ValidationMessageFor(t => t.IsApproved, "", new { @class = "help-block" })
@@ -75,7 +75,7 @@
     
     <div class="form-group">
         <label>Upload an Image</label>
-        <input type="file" name="images-upload" class="form-control input-lg" title="Upload an image..." accept="image/*" multiple />
+        <input type="file" name="images" class="form-control input-lg" title="Upload an image..." accept="image/*" multiple />
     </div>
 
 

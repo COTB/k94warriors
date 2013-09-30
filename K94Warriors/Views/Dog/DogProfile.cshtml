@@ -7,14 +7,18 @@
 
 @section subnav {
     @{
-        Html.RenderAction("GetDogSection", "Dog", new {dogId = ViewBag.DogId });
+        Html.RenderAction("GetDogSection", "Dog", new { dogId = ViewBag.DogId });
     }
 }
 
 
 <div class="col col-lg-12">
     <div class="heading">
-        <h2 class="pull-left">@Model.Name</h2>
+        <h2 class="pull-left">@Model.Name </h2>
+        <a href="@Url.Action("Edit", new { dogProfileId = Model.ProfileID })" class="pull-left btn-xs btn-primary" style="margin-left: 10px; margin-top: 1.9em;" title="Edit @Model.Name">
+            <i class="icon-pencil"></i>
+        </a>
+
         <h3 class="pull-right">@Model.Gender @Model.Breed, @Model.Age years old</h3>
 
     </div>
@@ -66,7 +70,7 @@
     </div>
     <div>
         <h4>Last 5 Notes</h4>
-        <hr/>
+        <hr />
         <div class="col col-lg-12">
             <table class="table table-bordered">
 

@@ -14,7 +14,7 @@ using K94Warriors.ViewModels;
 namespace K94Warriors.Controllers
 {
     [Authorize]
-    public class DogController : ControllerBase
+    public class DogController : BaseController
     {
         private readonly IRepository<DogProfile> _dogRepo;
         private readonly IRepository<DogImage> _dogImageRepo;
@@ -56,7 +56,9 @@ namespace K94Warriors.Controllers
         public ActionResult DogProfile(int dogProfileId)
         {
             ViewBag.DogId = dogProfileId;
-            var model = _dogRepo.GetById(dogProfileId);
+            var model = _dogRepo.GetAll()
+                .Include(profile => profile.Location)
+                .FirstOrDefault(profile => profile.ProfileID == dogProfileId);
 
             return View(new DogProfileViewModel(model));
         }
@@ -101,6 +103,8 @@ namespace K94Warriors.Controllers
 
             if (model == null)
                 return RedirectToAction("Index", "Home");
+
+            SetDogViewBag(model);
 
             return View(model);
         }

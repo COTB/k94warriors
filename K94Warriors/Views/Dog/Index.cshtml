@@ -8,7 +8,7 @@
 <div class="row" id="dog-list-header">
     <div class="col-lg-12">
         <div class="pull-right">
-            <a href="/Dog/CreateOrUpdateDog" class="btn btn-primary"><i class="glyphicon-plus glyphicon"></i> New Dog</a>
+            <a href="/Dog/Create" class="btn btn-primary"><i class="glyphicon-plus glyphicon"></i> New Dog</a>
         </div>
         <h2>Dogs</h2>
     </div>
@@ -37,7 +37,7 @@
                     const int thumbSize = 32;
                     var imageResult = Url.Action("DogThumbnail", new { dogId = dog.ProfileID, size = thumbSize })
                                       ?? "http://placehold.it/" + thumbSize + "x" + thumbSize;
-                    var detailUrl = Url.Action("DogProfile", new { id = dog.ProfileID });
+                    var detailUrl = Url.Action("DogProfile", new { dogProfileId = dog.ProfileID });
                         }
                         <td class="col col-lg-6">
                             <div class="media">

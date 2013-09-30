@@ -179,7 +179,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\DogController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
@@ -190,6 +189,7 @@
     <Compile Include="Controllers\MedicationController.cs" />
     <Compile Include="Controllers\NotesController.cs" />
     <Compile Include="Core\HtmlHelperExtensions\EnumDropdownHelper.cs" />
+    <Compile Include="Core\HtmlHelperExtensions\K9TextBoxHelper.cs" />
     <Compile Include="Core\ImageResizing\ImageResizer.cs" />
     <Compile Include="Data\K9BlobRepository.cs" />
     <Compile Include="Data\EFRepository.cs" />
@@ -254,9 +254,9 @@
     <Compile Include="Migrations\201309301519213_Feeding.Designer.cs">
       <DependentUpon>201309301519213_Feeding.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201309301642095_DogNoteAttachmentsAndDiscriminatorCol.cs" />
-    <Compile Include="Migrations\201309301642095_DogNoteAttachmentsAndDiscriminatorCol.Designer.cs">
-      <DependentUpon>201309301642095_DogNoteAttachmentsAndDiscriminatorCol.cs</DependentUpon>
+    <Compile Include="Migrations\201309301642095_DiscriminatorColumn.cs" />
+    <Compile Include="Migrations\201309301642095_DiscriminatorColumn.Designer.cs">
+      <DependentUpon>201309301642095_DiscriminatorColumn.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Accounts\ExternalLogin.cs" />
     <Compile Include="Models\Accounts\LocalPasswordModel.cs" />
@@ -512,8 +512,8 @@
     <EmbeddedResource Include="Migrations\201309301519213_Feeding.resx">
       <DependentUpon>201309301519213_Feeding.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201309301642095_DogNoteAttachmentsAndDiscriminatorCol.resx">
-      <DependentUpon>201309301642095_DogNoteAttachmentsAndDiscriminatorCol.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201309301642095_DiscriminatorColumn.resx">
+      <DependentUpon>201309301642095_DiscriminatorColumn.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

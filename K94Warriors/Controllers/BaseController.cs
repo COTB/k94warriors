@@ -1,9 +1,6 @@
 ﻿using K94Warriors.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using WebMatrix.WebData;
 
 namespace K94Warriors.Controllers
 {
@@ -13,6 +10,11 @@ namespace K94Warriors.Controllers
         {
             ViewBag.DogId = dog.ProfileID;
             ViewBag.DogName = dog.Name;
+        }
+
+        protected int CurrentUserId
+        {
+            get { return WebSecurity.CurrentUserId; }
         }
     }
 }

@@ -16,50 +16,56 @@
 
     <div class="form-group">
         <label>Name</label>
-        <input type="text" class="form-control input-lg" name="Name" placeholder="Dog Name">
+        @Html.K9TextBoxFor(t => t.Name, "Dog Name")
         @Html.ValidationMessageFor(t => t.Name, "", new { @class = "help-block" })
     </div>
     <div class="form-group">
         <label>Gender</label>
-        @*        <input type="text" class="form-control input-lg" name="Gender" placeholder="Dog Gender">*@
         @Html.EnumDropDownListFor(t => t.Gender, "Select a gender...", new Dictionary<string, object> { { "class", "form-control input-lg" } })
         @Html.ValidationMessageFor(t => t.Gender, "", new { @class = "help-block" })
     </div>
 
     <div class="form-group">
         <label>Breed</label>
-        <input type="text" class="form-control input-lg" name="Breed" placeholder="Dog Breed">
+        @Html.K9TextBoxFor(t => t.Breed, "Dog Breed")
         @Html.ValidationMessageFor(t => t.Breed, "", new { @class = "help-block" })
     </div>
 
     <div class="form-group">
-        <label>Age</label>
-        <input type="text" class="form-control input-lg" name="Age" placeholder="Dog Age">
-        @Html.ValidationMessageFor(t => DateTime.Now.Year - t.BirthYear, "", new { @class = "help-block" })
+        <label>Birth Year</label>
+        @Html.K9TextBoxFor(t => t.BirthYear, "Birth Year")
+        @Html.ValidationMessageFor(t => t.BirthYear, "", new { @class = "help-block" })
     </div>
 
     <div class="form-group">
         <label>Color</label>
-        <input type="text" class="form-control input-lg" name="Color" placeholder="Dog Color">
+        @Html.K9TextBoxFor(t => t.Color, "Dog Color")
         @Html.ValidationMessageFor(t => t.Color, "", new { @class = "help-block" })
     </div>
 
     <div class="form-group">
+        <label>Health Condition</label>
+@*        <textarea class="form-control" name="HealthCondition" placeholder="Health Condition" rows="4"></textarea>*@
+        @Html.TextAreaFor(t => t.HealthCondition, new { rows = "4", placeholder = "Health Condition", @class="form-control"})
+        @Html.ValidationMessageFor(t => t.HealthCondition, "", new { @class = "help-block" })
+    </div>
+    
+    <div class="form-group">
         <label>Picked-Up Date (Optional) </label>
-        <input type="date" class="form-control input-lg" name="PickedUpDate" data-value="@Model.PickedUpDate.Value.ToString("yyyy-MM-dd")">
+        <input type="date" class="form-control input-lg" name="PickedUpDate" data-value="@(Model.PickedUpDate.HasValue ? Model.PickedUpDate.Value.ToString("yyyy-MM-dd") : null)">
         @Html.ValidationMessageFor(t => t.PickedUpDate, "", new { @class = "help-block" })
     </div>
 
     <div class="checkbox">
         <label>
-            <input type="checkbox" name="IsFixed" value="true">
+            @Html.CheckBoxFor(t => t.IsFixed)
             Is Dog Fixed?
         </label>
         @Html.ValidationMessageFor(t => t.IsFixed, "", new { @class = "help-block" })
     </div>
     <div class="checkbox">
         <label>
-            <input type="checkbox" name="IsApproved" value="true">
+            @Html.CheckBoxFor(t => t.IsApproved)
             Is Dog Approved?
         </label>
         @Html.ValidationMessageFor(t => t.IsApproved, "", new { @class = "help-block" })
