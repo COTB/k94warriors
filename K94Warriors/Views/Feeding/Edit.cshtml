@@ -1,0 +1,76 @@
+﻿@model K94Warriors.Models.DogFeedingEntry
+
+@{
+    string dogName = ViewBag.DogName;
+    ViewBag.Title = "Edit Feeding Requirement for " + dogName;
+}
+@section subnav {
+    @{
+        Html.RenderAction("GetDogSection", "Dog", new { dogId = ViewBag.DogId });
+    }
+}
+
+<div class="well">
+    <h1>Edit Feeding Requirement</h1>
+    <p>Use this form to change the '@Model.FoodName' feeding requirement for @(dogName).</p>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.HiddenFor(i => i.DogFeedingEntryID)
+    @Html.HiddenFor(i => i.DogProfileID)
+    
+    <div class="form-group">
+        @Html.LabelFor(model => model.FoodName)
+        @Html.TextBoxFor(model => model.FoodName, new { @class = "form-control input-lg" })
+        @Html.ValidationMessageFor(model => model.FoodName)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.AmountDescription)
+        @Html.TextBoxFor(model => model.AmountDescription, new { @class = "form-control input-lg" })
+        @Html.ValidationMessageFor(model => model.AmountDescription)
+    </div>
+        
+    <div class="form-group">
+        <label>
+            @Html.CheckBoxFor(model => model.AMFeeding) @Html.DisplayNameFor(model => model.AMFeeding)
+        </label>
+        @Html.ValidationMessageFor(model => model.AMFeeding)
+    </div>
+
+    <div class="form-group">
+        <label>
+            @Html.CheckBoxFor(model => model.NoonFeeding) @Html.DisplayNameFor(model => model.NoonFeeding)
+        </label>
+        @Html.ValidationMessageFor(model => model.NoonFeeding)
+    </div>
+
+    <div class="form-group">
+        <label>
+            @Html.CheckBoxFor(model => model.PMFeeding) @Html.DisplayNameFor(model => model.PMFeeding)
+        </label>
+        @Html.ValidationMessageFor(model => model.PMFeeding)
+    </div>
+    
+    <div class="form-group">
+        @Html.LabelFor(model => model.Notes)
+        @Html.TextAreaFor(model => model.Notes, new { rows = 4, @class = "form-control input-lg" })
+        @Html.ValidationMessageFor(model => model.Notes)
+    </div>
+    
+    <p>
+        <button type="submit" class="btn">Save Changes</button>
+    </p>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index", new { dog = ViewBag.DogId }, null)
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

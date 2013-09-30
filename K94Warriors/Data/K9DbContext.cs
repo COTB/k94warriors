@@ -17,6 +17,8 @@ namespace K94Warriors.Data
         
         public DbSet<DogEvent> DogEvents { get; set; }
 
+        public DbSet<DogFeedingEntry> DogFeedingEntries { get; set; }
+
         public DbSet<DogImage> DogImages { get; set; }
 
         public DbSet<DogMedicalRecord> DogMedicalRecords { get; set; }
