@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -14,11 +15,13 @@ namespace K94Warriors.Controllers
         private readonly IRepository<DogProfile> _dogProfileRepo;
         private readonly IRepository<DogMedicalRecord> _dogMedicalRecordsRepo;
         private readonly IRepository<DogMedicalRecordImage> _dogMedicalRecordImageRepo;
+        private readonly IRepository<MedicalRecordType> _medicalRecordTypesRepo;
         private readonly IBlobRepository _blobRepo;
 
         public MedicalRecordsController(IRepository<DogProfile> dogProfileRepo,
                                         IRepository<DogMedicalRecord> dogMedicalRecordsRepo,
                                         IRepository<DogMedicalRecordImage> dogMedicalRecordImageRepo,
+                                        IRepository<MedicalRecordType> medicalRecordTypesRepo,
                                         IBlobRepository blobRepo)
         {
             if (dogProfileRepo == null)
@@ -32,6 +35,10 @@ namespace K94Warriors.Controllers
             if (dogMedicalRecordImageRepo == null)
                 throw new ArgumentNullException("dogMedicalRecordImageRepo");
             _dogMedicalRecordImageRepo = dogMedicalRecordImageRepo;
+
+            if (medicalRecordTypesRepo == null)
+                throw new ArgumentNullException("medicalRecordTypesRepo");
+            _medicalRecordTypesRepo = medicalRecordTypesRepo;
 
             if (blobRepo == null)
                 throw new ArgumentNullException("blobRepo");
@@ -49,7 +56,7 @@ namespace K94Warriors.Controllers
 
             SetDogViewBag(dog);
 
-            var model = _dogMedicalRecordsRepo.Where(record => record.DogProfileID == dog.ProfileID).ToList();
+            var model = _dogMedicalRecordsRepo.Where(record => record.DogProfileID == dog.ProfileID).Include(i => i.MedicalRecordType).ToList();
 
             return View(model);
         }
@@ -63,6 +70,8 @@ namespace K94Warriors.Controllers
         {
             if (dog == null)
                 return RedirectToAction("Index", "Dog");
+
+            ViewBag.MedicalRecordTypesSelectList = new SelectList(_medicalRecordTypesRepo.GetAll(), "MedicalRecordTypeID", "Name");
 
             SetDogViewBag(dog);
 
@@ -79,7 +88,11 @@ namespace K94Warriors.Controllers
             if (!ModelState.IsValid)
             {
                 var dog = _dogProfileRepo.GetById(model.DogProfileID);
+                
                 SetDogViewBag(dog);
+
+                ViewBag.MedicalRecordTypesSelectList = new SelectList(_medicalRecordTypesRepo.GetAll(), "MedicalRecordTypeID", "Name");
+                
                 return View(model);
             }
 
@@ -88,7 +101,7 @@ namespace K94Warriors.Controllers
             if (files != null)
                 await UploadFiles(model.RecordID, files);
 
-            return RedirectToAction("Index", new { dogProfileId = model.DogProfileID });
+            return RedirectToAction("Index", new { dog = model.DogProfileID });
         }
 
 
@@ -105,6 +118,8 @@ namespace K94Warriors.Controllers
 
             SetDogViewBag(dog);
 
+            ViewBag.MedicalRecordTypesSelectList = new SelectList(_medicalRecordTypesRepo.GetAll(), "MedicalRecordTypeID", "Name");
+
             return View(model);
         }
 
@@ -118,7 +133,11 @@ namespace K94Warriors.Controllers
             if (!ModelState.IsValid)
             {
                 var dog = _dogProfileRepo.GetById(model.DogProfileID);
+                
                 SetDogViewBag(dog);
+
+                ViewBag.MedicalRecordTypesSelectList = new SelectList(_medicalRecordTypesRepo.GetAll(), "MedicalRecordTypeID", "Name");
+
                 return View(model);
             }
 
@@ -127,7 +146,7 @@ namespace K94Warriors.Controllers
             if (files != null)
                 await UploadFiles(model.RecordID, files);
 
-            return RedirectToAction("Index", new { dogProfileId = model.DogProfileID });
+            return RedirectToAction("Index", new { dog = model.DogProfileID });
         }
 
 
