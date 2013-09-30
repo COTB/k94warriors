@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using K94Warriors.Core.ImageResizing;
+using K9ImageResizer = K94Warriors.Core.ImageResizing.ImageResizer;
 using K94Warriors.Data.Contracts;
 using K94Warriors.Models;
 using K94Warriors.ViewModels;
@@ -14,17 +14,15 @@ using K94Warriors.ViewModels;
 namespace K94Warriors.Controllers
 {
     [Authorize]
-    public class DogController : Controller
+    public class DogController : ControllerBase
     {
         private readonly IRepository<DogProfile> _dogRepo;
         private readonly IRepository<DogImage> _dogImageRepo;
-        private readonly IRepository<User> _userRepo;
         private readonly IBlobRepository _blobRepo;
 
         public DogController(IRepository<DogProfile> dogRepo,
-                                IRepository<DogImage> dogImageRepo,
-                                IRepository<User> userRepo,
-                                IBlobRepository blobRepo)
+                             IRepository<DogImage> dogImageRepo,
+                             IBlobRepository blobRepo)
         {
             if (dogRepo == null)
                 throw new ArgumentNullException("dogRepo");
@@ -34,14 +32,14 @@ namespace K94Warriors.Controllers
                 throw new ArgumentNullException("dogImageRepo");
             _dogImageRepo = dogImageRepo;
 
-            if (userRepo == null)
-                throw new ArgumentNullException("userRepo");
-            _userRepo = userRepo;
-
             if (blobRepo == null)
                 throw new ArgumentNullException("blobRepo");
             _blobRepo = blobRepo;
         }
+
+
+        //
+        // GET: /Dog/Index/
 
         public ActionResult Index()
         {
@@ -51,30 +49,21 @@ namespace K94Warriors.Controllers
             return View(dogs);
         }
 
-        public async Task<ActionResult> DogThumbnail(int dogId, int size)
+
+        // 
+        // GET: /Dog/DogProfile/{dogProfileId}
+
+        public ActionResult DogProfile(int dogProfileId)
         {
-            var dogImage = _dogImageRepo
-                                .GetAll()
-                                .FirstOrDefault(i => i.DogProfileID == dogId);
+            ViewBag.DogId = dogProfileId;
+            var model = _dogRepo.GetById(dogProfileId);
 
-            if (dogImage == null)
-                return null;
-
-            var imageStream = await _blobRepo.GetImageAsync<MemoryStream>(dogImage.BlobKey.ToString());
-            var sizedImage = ImageResizer.ResizeToByteArray(imageStream, size, size, false);
-            return new FileContentResult(sizedImage, dogImage.MimeType);
+            return View(new DogProfileViewModel(model));
         }
 
-        [HttpGet]
-        public ActionResult CreateOrUpdateDog(int? id)
-        {
-            var viewModel = id.HasValue
-                                ? _dogRepo.GetById(id.Value)
-                                : new DogProfile { PickedUpDate = DateTime.UtcNow };
 
-            return View(viewModel);
-        }
-
+        // 
+        // GET: /Dog/Create/
 
         [HttpGet]
         public ActionResult Create()
@@ -83,20 +72,27 @@ namespace K94Warriors.Controllers
         }
 
 
+        //
+        // POST: /Dog/Create/
+
         [HttpPost]
-        public ActionResult Create(DogProfile model)
+        public async Task<ActionResult> Create(DogProfile model, IEnumerable<HttpPostedFileBase> images)
         {
             if (!ModelState.IsValid)
                 return View(model);
 
-            var user = _userRepo.Where(u => u.Email == HttpContext.User.Identity.Name).FirstOrDefault();
-
-            model.CreatedByUserID = user.UserID;
+            model.CreatedByUserID = CurrentUserId;
 
             _dogRepo.Insert(model);
 
+            await UploadFiles(model.ProfileID, images);
+
             return RedirectToAction("Index");
         }
+
+
+        //
+        // GET: /Dog/Edit/{dogProfileId}
 
         [HttpGet]
         public ActionResult Edit(int dogProfileId)
@@ -109,23 +105,49 @@ namespace K94Warriors.Controllers
             return View(model);
         }
 
+
+        // 
+        // POST: /Dog/Edit/
+
         [HttpPost]
-        public ActionResult Edit(DogProfile model)
+        public async Task<ActionResult> Edit(DogProfile model, IEnumerable<HttpPostedFileBase> images)
         {
             if (!ModelState.IsValid)
                 return View(model);
 
             _dogRepo.Update(model);
 
+            await UploadFiles(model.ProfileID, images);
+
             return RedirectToAction("Index");
         }
 
-        public ActionResult DogProfile(int id)
-        {
-            ViewBag.DogId = id;
-            var dog = _dogRepo.GetById(id);
 
-            return View(DogProfileViewModel.FromDogProfile(dog));
+        //
+        // POST: /Dog/Delete/{dogProfileId}
+
+        [HttpPost]
+        public ActionResult Delete(int dogProfileId)
+        {
+            _dogRepo.Delete(dogProfileId);
+            return RedirectToAction("Index");
+        }
+
+
+        #region Partials and Child Actions
+
+        public async Task<ActionResult> DogThumbnail(int dogId, int size)
+        {
+            var dogImage = _dogImageRepo
+                                .GetAll()
+                                .FirstOrDefault(i => i.DogProfileID == dogId);
+
+            if (dogImage == null)
+                return null;
+
+            var imageStream = await _blobRepo.GetImageAsync<MemoryStream>(dogImage.BlobKey.ToString());
+            var sizedImage = K9ImageResizer.ResizeToByteArray(imageStream, size, size, false);
+            return new FileContentResult(sizedImage, dogImage.MimeType);
         }
 
         [ChildActionOnly]
@@ -138,31 +160,15 @@ namespace K94Warriors.Controllers
         public async Task<ActionResult> ImageForBlobKey(string blobKey, string mimeType, int height, int width)
         {
             var image = await _blobRepo.GetImageAsync<MemoryStream>(blobKey);
-            var resized = ImageResizer.ResizeToByteArray(image, 320, 180, false);
+            var resized = K9ImageResizer.ResizeToByteArray(image, 320, 180, false);
             return new FileContentResult(resized, mimeType);
         }
-
-        [HttpGet]
-        public ActionResult Delete(int id)
-        {
-            var dog = _dogRepo.GetById(id);
-            return View(dog);
-        }
-
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection formCollection)
-        {
-            _dogRepo.Delete(id);
-            return RedirectToAction("Index");
-        }
-
 
         public async Task<ActionResult> GetImage(string id)
         {
             var memoryStream = await _blobRepo.GetImageAsync<MemoryStream>(id);
             return File(memoryStream, "image/jpeg");
         }
-
 
         [ChildActionOnly]
         public ActionResult GetDogSection(int dogId)
@@ -174,6 +180,9 @@ namespace K94Warriors.Controllers
             return View("_DogSection");
         }
 
+        #endregion
+
+        #region Private Methods
 
         private async Task UploadFiles(int dogProfileId, IEnumerable<HttpPostedFileBase> files)
         {
@@ -187,5 +196,7 @@ namespace K94Warriors.Controllers
             }
             _dogImageRepo.Insert(dogImages);
         }
+
+        #endregion
     }
 }

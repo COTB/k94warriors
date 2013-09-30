@@ -23,6 +23,7 @@ namespace K94Warriors.Controllers
             _dogEventsRepo = dogEventsRepo;
         }
 
+
         //
         // GET: /Events/
 
@@ -35,6 +36,10 @@ namespace K94Warriors.Controllers
 
             return View(model);
         }
+
+
+        //
+        // GET: /Events/Create/{dogProfileId}
 
         public ActionResult Create(int dogProfileId)
         {
@@ -49,6 +54,10 @@ namespace K94Warriors.Controllers
             return View(new DogEvent { DogProfileID = dogProfileId });
         }
 
+
+        //
+        // POST: /Events/Create/
+
         [HttpPost]
         public ActionResult Create(DogEvent model)
         {
@@ -59,6 +68,10 @@ namespace K94Warriors.Controllers
 
             return RedirectToAction("Index", new {dogProfileId = model.DogProfileID});
         }
+
+
+        //
+        // GET: /Events/Edit/{dogEventId}
 
         public ActionResult Edit(int dogEventId)
         {
@@ -74,6 +87,10 @@ namespace K94Warriors.Controllers
             return View(model);
         }
 
+
+        // 
+        // POST: /Events/Edit/
+
         [HttpPost]
         public ActionResult Edit(DogEvent model)
         {
@@ -84,6 +101,10 @@ namespace K94Warriors.Controllers
 
             return RedirectToAction("Index", new { dogProfileId = model.DogProfileID });
         }
+
+
+        // 
+        // POST: /Events/Delete/{dogEventId}
 
         [HttpPost]
         public ActionResult Delete(int dogEventId, int? dogProfileId)

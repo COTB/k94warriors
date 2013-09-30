@@ -27,7 +27,7 @@
         <div class="col col-lg-8">
             <div class="col col-lg-4">
                 <strong>Created Date</strong>
-                <p>@Model.DateCreated.ToLongDateString()</p>
+                <p>@Model.CreatedTimeUTC.ToLongDateString()</p>
             </div>
             <div class="col col-lg-2">
                 <strong>Color</strong>
@@ -75,7 +75,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (DogNote dogNotes in Model.Notes.Take(5))
+                    @foreach (DogNote dogNotes in Model.DogNotes.Take(5))
                     {
                         <tr>
                             <td class="col col-lg-3">@dogNotes.NoteType.Name</td>
