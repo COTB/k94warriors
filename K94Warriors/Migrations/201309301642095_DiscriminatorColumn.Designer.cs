@@ -5,13 +5,13 @@ namespace K94Warriors.Migrations
     using System.Data.Entity.Migrations.Infrastructure;
     using System.Resources;
     
-    public sealed partial class DogNoteAttachmentsAndDiscriminatorCol : IMigrationMetadata
+    public sealed partial class DiscriminatorColumn : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(DogNoteAttachmentsAndDiscriminatorCol));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(DiscriminatorColumn));
         
         string IMigrationMetadata.Id
         {
-            get { return "201309301642095_DogNoteAttachmentsAndDiscriminatorCol"; }
+            get { return "201309301642095_DiscriminatorColumn"; }
         }
         
         string IMigrationMetadata.Source
