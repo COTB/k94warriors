@@ -47,7 +47,8 @@ header .navbar-header {
     display: inline-block;
 }
 
-.medication-container .checkbox-label {
+.medication-container .checkbox-label,
+.feeding-container .checkbox-label {
     margin: 0px 20px 0px 10px;
     vertical-align: top;
 }

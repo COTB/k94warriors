@@ -62,5 +62,7 @@ namespace K94Warriors.Models
         public virtual ICollection<DogImage> Images { get; set; }
 
         public virtual ICollection<DogMedication> DogMedications { get; set; }
+
+        public virtual ICollection<DogFeedingEntry> DogFeedingEntries { get; set; }
     }
 }
