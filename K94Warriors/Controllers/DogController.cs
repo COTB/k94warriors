@@ -196,12 +196,12 @@ namespace K94Warriors.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> UploadDogImages(int dogProfileId, IList<HttpPostedFileBase> files)
+        public async Task<ActionResult> UploadDogImages(DogImageUploadViewModel model)
         {
-            if (files.Count < 1)
+            if (model.Files.Count < 1)
                 return Json(new { success = false, message = "No files in request." });
 
-            await UploadFiles(dogProfileId, files);
+            await UploadFiles(model.DogProfileId, model.Files);
 
             return Json(new {success = true});
         }

@@ -92,14 +92,14 @@ function ThumbnailModalViewModel(profileId) {
         //    }
         //});
 
-        //var formData = new FormData(document.getElementById('imageUploadForm'));
-        var formData = new FormData();
-        formData.append('dogProfileId', $('#dogProfileId').val());
-        var fi = document.getElementById('imageFileUpload');
-        var files = [];
-        for (var i = 0; i < fi.files.length; i++) 
-            files.push(fi.files[i]);
-        formData.append('files', files);
+        var formData = new FormData(document.getElementById('imageUploadForm'));
+        //var formData = new FormData();
+        //formData.append('dogProfileId', $('#dogProfileId').val());
+        //var fi = document.getElementById('imageFileUpload');
+        //var files = [];
+        //for (var i = 0; i < fi.files.length; i++) 
+        //    files.push(fi.files[i]);
+        //formData.append('files', files);
         $.ajax({
             url: '/Dog/UploadDogImages',
             type: 'POST',
