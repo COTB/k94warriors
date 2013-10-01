@@ -77,29 +77,7 @@ function ThumbnailModalViewModel(profileId) {
 
     // Exported methods
     self.uploadFiles = function () {
-        //var input = $(filePicker);
-        //input.ajaxfileupload({
-        //    action: '/Dog/UploadDogImages',
-        //    params: { dogProfileId: $('#upload form input:hidden') },
-        //    onComplete: function(response) {
-        //        alert(JSON.stringify(response));
-        //    },
-        //    onStart: function() {
-                
-        //    },
-        //    onCancel: function() {
-                
-        //    }
-        //});
-
-        var formData = new FormData(document.getElementById('imageUploadForm'));
-        //var formData = new FormData();
-        //formData.append('dogProfileId', $('#dogProfileId').val());
-        //var fi = document.getElementById('imageFileUpload');
-        //var files = [];
-        //for (var i = 0; i < fi.files.length; i++) 
-        //    files.push(fi.files[i]);
-        //formData.append('files', files);
+        var formData = new FormData($('#imageUploadForm')[0]);
         $.ajax({
             url: '/Dog/UploadDogImages',
             type: 'POST',

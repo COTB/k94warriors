@@ -16,7 +16,7 @@
     <style type="text/css">
         #button-edit-images {
             position: absolute;
-            top: 5px;
+            bottom: 5px;
             left: 5px;
             border-top-left-radius: 0;
             border-top-right-radius: 0;
@@ -68,6 +68,12 @@
             $('#image-thumbnail-modal').on('show.bs.modal', function () {
                 $('#modal-tabs a:first').tab('show');
             });
+            
+            if ($('.carousel-inner').length > 0) {
+                $('#dog-image-carousel').carousel({
+                    interval: 8000
+                });
+            }
 
             DogPicViewModel = new ThumbnailModalViewModel(@ViewBag.DogId);
 

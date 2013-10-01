@@ -17,9 +17,9 @@
                             <div id="thumbnail-picker" class="col-md-12" data-bind="foreach: frames" style="overflow-y: auto;">
                                 <div class="row" data-bind="foreach: $data">
                                     <div class="col-md-3">
-                                        <a href="#" class="thumbnail container" data-bind="attr: { id: 'image' + index() }">
+                                        <a href="#" class="thumbnail container" data-bind="attr: { id: 'image' + blobKey() }">
                                             <img data-bind="attr: { src: thumbnailUrl }" alt="Image" />
-                                            <span data-bind="click: $root.deleteImage, hoverVisible: true, hoverTargetId: 'image' + index()" class="btn btn-xs btn-danger">Delete
+                                            <span data-bind="click: $root.deleteImage, hoverVisible: true, hoverTargetId: 'image' + blobKey()" class="btn btn-xs btn-danger">Delete
                                             </span>
                                         </a>
                                     </div>
