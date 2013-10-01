@@ -11,6 +11,70 @@
     }
 }
 
+@section styles
+{
+    <style type="text/css">
+        #button-edit-images {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        #image-thumbnail-modal .modal-dialog {
+            width: 75%;
+        }
+
+        #thumbnail-picker {
+            max-height: 28em;
+            overflow-y: auto;
+        }
+
+            #thumbnail-picker a span.btn {
+                width: 100%;
+                padding: 2px 12px;
+                position: absolute;
+                bottom: 0;
+            }
+
+        a.thumbnail {
+            padding: 0;
+            position: relative;
+            margin-bottom: 4px;
+        }
+
+            a.thumbnail span.btn {
+                position: absolute;
+                bottom: 0;
+                max-width: 100%;
+                width: 100%;
+            }
+    </style>
+}
+
+
+@section scripts {
+    <script src="~/Scripts/knockout-2.2.0.js"></script>
+    <script src="~/Scripts/profile-image-picker.js"></script>
+    <script src="~/Scripts/jquery.ajaxfileupload.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#button-edit-images').click(function () {
+                $('#image-thumbnail-modal').modal('show');
+            });
+
+            $('#image-thumbnail-modal').on('show.bs.modal', function () {
+                $('#modal-tabs a:first').tab('show');
+            });
+
+            DogPicViewModel = new ThumbnailModalViewModel(@ViewBag.DogId);
+
+            ko.applyBindings(DogPicViewModel, document.getElementById('#thumbnail-picker'));
+        });
+    </script>
+}
 
 <div class="col col-lg-12">
     <div class="heading">
@@ -25,7 +89,7 @@
     <hr />
     <div class="information">
 
-        <div class="col col-lg-4">
+        <div class="col col-xs-12 col-lg-4">
             @Html.Action("DogImagesPartial", new { id = ViewBag.DogId })
         </div>
         <div class="col col-lg-8">
@@ -99,3 +163,8 @@
 
     </div>
 </div>
+
+@{
+    ViewData["ProfileID"] = ViewBag.DogId;
+    Html.RenderPartial("_ImageThumbnailModal");
+}

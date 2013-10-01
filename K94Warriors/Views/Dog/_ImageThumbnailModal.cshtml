@@ -1,0 +1,70 @@
+﻿<div id="image-thumbnail-modal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Profile Images</h4>
+            </div>
+            <div class="modal-body" style="overflow-y: hidden;">
+                <ul id="modal-tabs" class="nav nav-tabs">
+                    <li><a href="#manage" data-toggle="tab">Manage</a></li>
+                    <li><a href="#upload" data-toggle="tab">Upload</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane active" id="manage">
+                        <div class="well">
+                            <div id="thumbnail-picker" class="col-md-12" data-bind="foreach: frames" style="overflow-y: auto;">
+                                <div class="row" data-bind="foreach: $data">
+                                    <div class="col-md-3">
+                                        <a href="#" class="thumbnail container" data-bind="attr: { id: 'image' + index() }">
+                                            <img data-bind="attr: { src: thumbnailUrl }" alt="Image" />
+                                            <span data-bind="click: $root.deleteImage, hoverVisible: true, hoverTargetId: 'image' + index()" class="btn btn-xs btn-danger">Delete
+                                            </span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="upload">
+                        <div class="well">
+                            <p class="text-center">
+                                Select images to upload. 
+                            </p>
+                            <div class="row">
+                                <form id="imageUploadForm" enctype='multipart/form-data'>
+                                    <input id="dogProfileId" type="hidden" name="dogProfileId" data-bind="value: $root.profileId"/>
+                                    <input id="imageFileUpload" type="file" data-bind="event: { change: fileInputChanged }" class="form-control input-lg" title="Choose images..." accept="image/*" multiple />
+                                </form>
+                            </div>
+                            <br />
+                            <br />
+                            <div class="row">
+                                <div class="form-control input-lg progress progress-striped active" data-bind="visible: $root.isUploading">
+                                    <div class="progress-bar">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" id="cancelButton" class="btn btn-default" data-bind="event: { click: cancelPickedFiles }">
+                                    Cancel 
+                                </button>
+                                <button type="button" id="uploaderButton" class="btn btn-primary" 
+                                    data-bind="enable: uploadEnabled, event: { click: $root.uploadFiles }">
+                                    Upload 
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

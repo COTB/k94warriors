@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using K94Warriors.Core;
 using K94Warriors.Data.Contracts;
 using K94Warriors.Models;
 
@@ -10,22 +11,16 @@ namespace K94Warriors.Controllers
 {
     public class NotesController : BaseController
     {
-        private readonly IRepository<DogProfile> _dogRepo;
         private readonly IRepository<DogNote> _dogNoteRepo;
         private readonly IRepository<DogNoteAttachment> _dogNoteAttachmentRepo; 
         private readonly IRepository<NoteType> _noteTypeRepo;
         private readonly IBlobRepository _blobRepo;
 
-        public NotesController(IRepository<DogProfile> dogRepo,
-                               IRepository<DogNote> dogNoteRepo,
+        public NotesController(IRepository<DogNote> dogNoteRepo,
                                IRepository<NoteType> noteTypeRepo,
                                IRepository<DogNoteAttachment> dogNoteAttachmentRepo,
                                IBlobRepository blobRepo)
         {
-            if (dogRepo == null)
-                throw new ArgumentNullException("dogRepo");
-            _dogRepo = dogRepo;
-
             if (dogNoteRepo == null)
                 throw new ArgumentNullException("dogNoteRepo");
             _dogNoteRepo = dogNoteRepo;

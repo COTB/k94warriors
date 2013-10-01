@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
@@ -8,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using K9ImageResizer = K94Warriors.Core.ImageResizing.ImageResizer;
 using K94Warriors.Data.Contracts;
+using K94Warriors.Core;
 using K94Warriors.Models;
 using K94Warriors.ViewModels;
 
@@ -78,16 +80,14 @@ namespace K94Warriors.Controllers
         // POST: /Dog/Create/
 
         [HttpPost]
-        public async Task<ActionResult> Create(DogProfile model, IEnumerable<HttpPostedFileBase> images)
+        public async Task<ActionResult> Create(DogProfile model)
         {
             if (!ModelState.IsValid)
                 return View(model);
 
-            model.CreatedByUserID = CurrentUserId;
+            //model.CreatedByUserID = CurrentUserId;
 
             _dogRepo.Insert(model);
-
-            await UploadFiles(model.ProfileID, images);
 
             return RedirectToAction("Index");
         }
@@ -114,14 +114,12 @@ namespace K94Warriors.Controllers
         // POST: /Dog/Edit/
 
         [HttpPost]
-        public async Task<ActionResult> Edit(DogProfile model, IEnumerable<HttpPostedFileBase> images)
+        public async Task<ActionResult> Edit(DogProfile model)
         {
             if (!ModelState.IsValid)
                 return View(model);
 
             _dogRepo.Update(model);
-
-            await UploadFiles(model.ProfileID, images);
 
             return RedirectToAction("Index");
         }
@@ -161,7 +159,7 @@ namespace K94Warriors.Controllers
             return PartialView("_DogImagesPartial", viewModel);
         }
 
-        public async Task<ActionResult> ImageForBlobKey(string blobKey, string mimeType, int height, int width)
+        public async Task<ActionResult> ImageForBlobKey(string blobKey, string mimeType, int? height, int? width)
         {
             var image = await _blobRepo.GetImageAsync<MemoryStream>(blobKey);
             var resized = K9ImageResizer.ResizeToByteArray(image, 320, 180, false);
@@ -184,9 +182,62 @@ namespace K94Warriors.Controllers
             return View("_DogSection");
         }
 
+        public ActionResult ImageKeysForDogProfile(int dogProfileId)
+        {
+            var keys = _dogImageRepo
+                .Where(image => image.DogProfileID == dogProfileId)
+                .Select(image => new
+                    {
+                        image.BlobKey,
+                        image.MimeType
+                    });
+
+            return Json(keys, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> UploadDogImages(int dogProfileId, IList<HttpPostedFileBase> files)
+        {
+            if (files.Count < 1)
+                return Json(new { success = false, message = "No files in request." });
+
+            await UploadFiles(dogProfileId, files);
+
+            return Json(new {success = true});
+        }
+
+        [HttpPost]
+        public ActionResult DeleteImage(string blobKey)
+        {
+            Guid key;
+            var success = Guid.TryParse(blobKey, out key);
+            if (!success)
+                return Json(new { success = false, message = "Invalid blob key" });
+
+            var image = _dogImageRepo.Where(i => i.BlobKey.Equals(key)).FirstOrDefault();
+            if (image == null)
+                return Json(new { success = false, message = "No image found for specified key" });
+
+            _dogImageRepo.Delete(image);
+            _blobRepo.DeleteImageIfExistsAsync(blobKey);
+            return Json(new { success = true });
+        }
+
         #endregion
 
         #region Private Methods
+
+        private async Task UploadFiles(int dogProfileId, HttpFileCollectionBase fileCollection)
+        {
+            var fileList = new List<HttpPostedFileBase>();
+            HttpPostedFileBase file;
+            var enumerator = fileCollection.GetEnumerator();
+            while (enumerator.MoveNext())
+                if ((file = enumerator.Current as HttpPostedFileBase) != null)
+                    fileList.Add(file);
+
+            await UploadFiles(dogProfileId, fileList);
+        }
 
         private async Task UploadFiles(int dogProfileId, IEnumerable<HttpPostedFileBase> files)
         {
