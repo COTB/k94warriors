@@ -12,7 +12,8 @@ namespace K94Warriors
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                namespaces: new [] { "K94Warriors.Controllers" }
             );
 
             // 404 catch-all

@@ -1,8 +1,12 @@
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
+using System.Web.Http;
 using K94Warriors.Controllers;
 using K94Warriors.Data;
 using K94Warriors.Data.Contracts;
+using K94Warriors.ScheduledTaskServices;
+using K94Warriors.ScheduledTaskServices.Tasks;
 
 [assembly: WebActivator.PreApplicationStartMethod(typeof(K94Warriors.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivator.ApplicationShutdownMethodAttribute(typeof(K94Warriors.App_Start.NinjectWebCommon), "Stop")]
@@ -50,6 +54,10 @@ namespace K94Warriors.App_Start
             kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
 
             RegisterServices(kernel);
+
+            // Install our Ninject-based IDependencyResolver into the Web API config
+            GlobalConfiguration.Configuration.DependencyResolver = new NinjectDependencyResolver(kernel);
+
             return kernel;
         }
 
@@ -87,6 +95,17 @@ namespace K94Warriors.App_Start
                                            ConfigurationManager.AppSettings["StorageAccountConnectionString"])
                   .WithConstructorArgument("imageContainer",
                                            ConfigurationManager.AppSettings["NotesBlobContainerName"]);
+
+            // Scheduled tasks with Aditi cloud scheduler
+            kernel.Bind<IScheduledTaskService>().To<ScheduledTaskService>()
+                  .WhenInjectedInto<SchedulerApiController>();
+            kernel.Bind<IScheduledTaskFactory>().To<ScheduledTaskFactory>()
+                  .WhenInjectedInto<IScheduledTaskService>()
+                  .WithConstructorArgument("taskDictionary", new Dictionary<string, Type>
+                      {
+                          {"email", typeof(MorningEmailTask)},
+                      });
+            kernel.Bind<ScheduledTaskFactory>().ToSelf().InSingletonScope();
         }
     }
 }
