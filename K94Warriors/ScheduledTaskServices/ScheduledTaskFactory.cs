@@ -27,6 +27,8 @@ namespace K94Warriors.ScheduledTaskServices
         public IScheduledTask GetTask(string key)
         {
             var type = _taskDictionary[key];
+            if (type == null)
+                return null;
             return Activator.CreateInstance(type) as IScheduledTask;
         }
     }
