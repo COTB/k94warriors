@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security;
+using System.Threading.Tasks;
 using System.Web.Http;
 using K94Warriors.ScheduledTaskServices;
 
@@ -27,7 +28,7 @@ namespace K94Warriors.Controllers
         /// </summary>
         /// <param name="token"></param>
         /// <param name="taskKey"></param>
-        public void Post(string token, string taskKey)
+        public async Task Post(string token, string taskKey)
         {
             Debug.WriteLine("Aditi API request received. Token: {0} TaskKey: {1}", token, taskKey);
 
@@ -39,7 +40,7 @@ namespace K94Warriors.Controllers
                 throw new SecurityException("Request made to Aditi API with invalid token.");
 
             // Received the correct token. Run the task.
-            _taskService.RunTaskForKey(taskKey);
+            await _taskService.RunTaskForKey(taskKey);
         }
     }
 }
