@@ -450,6 +450,8 @@
     <Content Include="Views\Medication\Create.cshtml" />
     <Content Include="Views\Medication\Edit.cshtml" />
     <Content Include="Views\Feeding\Index.cshtml" />
+    <Content Include="Views\Feeding\Create.cshtml" />
+    <Content Include="Views\Feeding\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
