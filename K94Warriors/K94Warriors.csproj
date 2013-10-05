@@ -200,6 +200,8 @@
     <Compile Include="Data\EFRepository.cs" />
     <Compile Include="Data\Contracts\IBlobRepository.cs" />
     <Compile Include="Data\K9UsersContext.cs" />
+    <Compile Include="Email\EmailBuilder.cs" />
+    <Compile Include="Email\IMailer.cs" />
     <Compile Include="Email\SmtpMailer.cs" />
     <Compile Include="Enums\GenderEnum.cs" />
     <Compile Include="Enums\UserTypeEnum.cs" />
@@ -305,6 +307,7 @@
     <Compile Include="ScheduledTaskServices\ScheduledTaskService.cs" />
     <Compile Include="ViewModels\DogImageUploadViewModel.cs" />
     <Compile Include="ViewModels\DogProfileViewModel.cs" />
+    <Compile Include="ViewModels\EmailNotifications\EmailViewModel.cs" />
     <Compile Include="ViewModels\Medication\MedicationPrintLogViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

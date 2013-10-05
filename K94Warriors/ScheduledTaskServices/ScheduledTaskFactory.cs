@@ -1,12 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace K94Warriors.ScheduledTaskServices
 {
-    /// <summary>
-    /// This class is the resolver, but it is also the global scope
-    /// so we derive from NinjectScope.
-    /// </summary>
     public class ScheduledTaskFactory : IScheduledTaskFactory
     {
         private readonly IDictionary<string, Type> _taskDictionary;
@@ -15,6 +12,13 @@ namespace K94Warriors.ScheduledTaskServices
         {
             if (taskDictionary == null)
                 throw new ArgumentNullException("taskDictionary", "Task types must be registered.");
+
+            // validate registered types
+            if (taskDictionary.Values.Any(value => !value.GetInterfaces().Contains(typeof(IScheduledTask))))
+            {
+                throw new ArgumentException("Registered types must implement interface IScheduledTask.");
+            }
+
             _taskDictionary = taskDictionary;
         }
 
