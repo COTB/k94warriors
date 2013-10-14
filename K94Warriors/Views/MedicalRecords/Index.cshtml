@@ -35,15 +35,20 @@
             {
                 <tr>
                     <td class="col col-lg-3">
-                        <h4>
-                            @Html.ActionLink(item.Title, "Edit", new { dogMedicalRecordId = item.RecordID })
-                        </h4>
+                        @Html.ActionLink(item.Title, "Edit", new { dogMedicalRecordId = item.RecordID })
                     </td>
                     <td class="col col-lg-2">
                         @item.MedicalRecordType.Name
                     </td>
                     <td class="col col-lg-2 hidden-xs">
-                        @Html.DisplayFor(modelItem => item.RecordExpirationDate)
+                        @if (item.RecordExpirationDate.HasValue)
+                        {
+                            @item.RecordExpirationDate.Value.ToShortDateString()
+                        }
+                        else
+                        {
+                            <span>n/a</span>
+                        }
                     </td>
                     <td class="col col-lg-5 hidden-xs">
                         <a href="@item.RecordURL" target="_blank">@item.RecordURL</a>
