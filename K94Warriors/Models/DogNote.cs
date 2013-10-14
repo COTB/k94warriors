@@ -6,6 +6,11 @@ namespace K94Warriors.Models
 {
     public class DogNote
     {
+        public DogNote()
+        {
+            CreatedDate = DateTime.Now;
+        }
+
         [Key]
         public int NoteID { get; set; }
 

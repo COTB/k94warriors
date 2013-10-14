@@ -205,6 +205,7 @@
     <Compile Include="Enums\UserTypeEnum.cs" />
     <Compile Include="Filters\EmailErrorAttribute.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
+    <Compile Include="Filters\K9AuthorizeAttribute.cs" />
     <Compile Include="Filters\PageTitleAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -479,6 +480,8 @@
     <Content Include="Views\Medication\Create.cshtml" />
     <Content Include="Views\Medication\Edit.cshtml" />
     <Content Include="Views\Feeding\Index.cshtml" />
+    <Content Include="Views\Feeding\Create.cshtml" />
+    <Content Include="Views\Feeding\Edit.cshtml" />
     <Content Include="Views\Dog\_ImageThumbnailModal.cshtml" />
   </ItemGroup>
   <ItemGroup>

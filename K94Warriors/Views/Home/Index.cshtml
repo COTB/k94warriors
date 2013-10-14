@@ -10,7 +10,7 @@
     @* TODO: Repeat me from DogEvents, foo!*@
     <thead>
         <tr>
-            <th class="col col-lg-3">Dog Name
+            <th class="col col-lg-2">Dog Name
             </th>
             <th class="col col-lg-4">Subject
             </th>
@@ -18,6 +18,7 @@
             </th>
             <th class="col col-lg-2">Days From Now
             </th>
+            <th class="col col-lg-1">Status</th>
         </tr>
     </thead>
     <tbody>
@@ -26,10 +27,19 @@
             foreach (var dogEvent in Model)
             {
                 <tr>
-                    <td class="col col-lg-3">@Html.ActionLink(dogEvent.DogProfile.Name, "DogProfile", "Dog", new { dogProfileId = dogEvent.DogProfileID }, null)</td>
+                    <td class="col col-lg-2">@Html.ActionLink(dogEvent.DogProfile.Name, "DogProfile", "Dog", new { id = dogEvent.DogProfileID }, null)</td>
                     <td class="col col-lg-4">@Html.ActionLink(dogEvent.Subject, "Edit", "Events", new { dogEventId = dogEvent.EventID }, null)</td>
                     <td class="col col-lg-3">@dogEvent.EventDate.ToLongDateString()</td>
                     <td class="col col-lg-2">@((dogEvent.EventDate - DateTime.UtcNow).Days)</td>
+                    <td class="col col-lg-1">
+                        @if (dogEvent.EventDate == DateTime.Now.Date) {
+                            <span class="label label-warning">Today</span>
+                        } else if (dogEvent.EventDate > DateTime.Now.Date) {
+                            <span class="label label-default">Upcoming</span>
+                        } else {
+                            <span class="label label-danger">Expired</span>
+                        }
+                    </td>
                 </tr>
             }
         }
