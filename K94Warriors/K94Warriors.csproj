@@ -72,6 +72,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="ImageResizer">
+      <HintPath>..\packages\ImageResizer.3.3.3\lib\ImageResizer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -172,9 +175,13 @@
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\NinjectDependencyResolver.cs" />
+    <Compile Include="App_Start\NinjectDependencyScope.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\DogController.cs" />
@@ -185,8 +192,9 @@
     <Compile Include="Controllers\MedicalRecordsController.cs" />
     <Compile Include="Controllers\MedicationController.cs" />
     <Compile Include="Controllers\NotesController.cs" />
-    <Compile Include="Core\AsyncExtensions\CloudBlockBlobExtensions.cs" />
+    <Compile Include="Controllers\SchedulerApiController.cs" />
     <Compile Include="Core\HtmlHelperExtensions\EnumDropdownHelper.cs" />
+    <Compile Include="Core\HtmlHelperExtensions\K9TextBoxHelper.cs" />
     <Compile Include="Core\ImageResizing\ImageResizer.cs" />
     <Compile Include="Data\K9BlobRepository.cs" />
     <Compile Include="Data\EFRepository.cs" />
@@ -197,6 +205,7 @@
     <Compile Include="Enums\UserTypeEnum.cs" />
     <Compile Include="Filters\EmailErrorAttribute.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
+    <Compile Include="Filters\K9AuthorizeAttribute.cs" />
     <Compile Include="Filters\PageTitleAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -239,6 +248,10 @@
     <Compile Include="Migrations\201309262139118_DogProfileHealthCondition.Designer.cs">
       <DependentUpon>201309262139118_DogProfileHealthCondition.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201309262223500_AddNoteAttachments.cs" />
+    <Compile Include="Migrations\201309262223500_AddNoteAttachments.Designer.cs">
+      <DependentUpon>201309262223500_AddNoteAttachments.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201309301412571_MedicalRecordTypes.cs" />
     <Compile Include="Migrations\201309301412571_MedicalRecordTypes.Designer.cs">
       <DependentUpon>201309301412571_MedicalRecordTypes.cs</DependentUpon>
@@ -246,6 +259,10 @@
     <Compile Include="Migrations\201309301519213_Feeding.cs" />
     <Compile Include="Migrations\201309301519213_Feeding.Designer.cs">
       <DependentUpon>201309301519213_Feeding.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201309301642095_DiscriminatorColumn.cs" />
+    <Compile Include="Migrations\201309301642095_DiscriminatorColumn.Designer.cs">
+      <DependentUpon>201309301642095_DiscriminatorColumn.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Accounts\ExternalLogin.cs" />
     <Compile Include="Models\Accounts\LocalPasswordModel.cs" />
@@ -281,6 +298,13 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScheduledTaskServices\IScheduledTaskFactory.cs" />
+    <Compile Include="ScheduledTaskServices\Tasks\MorningEmailTask.cs" />
+    <Compile Include="ScheduledTaskServices\IScheduledTaskService.cs" />
+    <Compile Include="ScheduledTaskServices\IScheduledTask.cs" />
+    <Compile Include="ScheduledTaskServices\ScheduledTaskFactory.cs" />
+    <Compile Include="ScheduledTaskServices\ScheduledTaskService.cs" />
+    <Compile Include="ViewModels\DogImageUploadViewModel.cs" />
     <Compile Include="ViewModels\DogProfileViewModel.cs" />
     <Compile Include="ViewModels\Medication\MedicationPrintLogViewModel.cs" />
   </ItemGroup>
@@ -349,6 +373,7 @@
     <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Content\toastr.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\font\fontawesome-webfont.woff" />
@@ -366,6 +391,10 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Areas\Admin\Views\Web.config" />
+    <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <None Include="Properties\PublishProfiles\k94warriors - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\k94warriors - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
@@ -376,6 +405,7 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.8.24.js" />
     <Content Include="Scripts\jquery-ui-1.8.24.min.js" />
+    <Content Include="Scripts\jquery.ajaxfileupload.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -385,6 +415,8 @@
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\profile-image-picker.js" />
+    <Content Include="Scripts\toastr.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -425,8 +457,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Skills\Index.cshtml" />
     <Content Include="Views\Shared\Error404.cshtml" />
-    <Content Include="Views\Dog\Delete.cshtml" />
-    <Content Include="Views\Dog\CreateOrUpdateDog.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DogProfile.cshtml" />
     <Content Include="Views\Dog\Index.cshtml" />
     <Content Include="Views\Web.config" />
@@ -452,9 +482,11 @@
     <Content Include="Views\Feeding\Index.cshtml" />
     <Content Include="Views\Feeding\Create.cshtml" />
     <Content Include="Views\Feeding\Edit.cshtml" />
+    <Content Include="Views\Dog\_ImageThumbnailModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -496,11 +528,17 @@
     <EmbeddedResource Include="Migrations\201309262139118_DogProfileHealthCondition.resx">
       <DependentUpon>201309262139118_DogProfileHealthCondition.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201309262223500_AddNoteAttachments.resx">
+      <DependentUpon>201309262223500_AddNoteAttachments.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201309301412571_MedicalRecordTypes.resx">
       <DependentUpon>201309301412571_MedicalRecordTypes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201309301519213_Feeding.resx">
       <DependentUpon>201309301519213_Feeding.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201309301642095_DiscriminatorColumn.resx">
+      <DependentUpon>201309301642095_DiscriminatorColumn.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

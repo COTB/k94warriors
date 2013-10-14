@@ -1,5 +1,4 @@
-﻿@using K94Warriors.Models
-@model IEnumerable<K94Warriors.Models.DogEvent>
+﻿@model IEnumerable<K94Warriors.Models.DogEvent>
 @{
     ViewBag.Title = "Home Page";
 }
@@ -27,14 +26,13 @@
             foreach (var dogEvent in Model)
             {
                 <tr>
-                    <td class="col col-lg-3"><a href="/dog/readdog/@dogEvent.DogProfileID">@dogEvent.DogProfile.Name</a></td>
-                    <td class="col col-lg-4"><a href="/dog/CreateOrUpdateDogEvent?dogId=@dogEvent.DogProfileID&eventId=@dogEvent.EventID">@dogEvent.Subject</a></td>
+                    <td class="col col-lg-3">@Html.ActionLink(dogEvent.DogProfile.Name, "DogProfile", "Dog", new { dogProfileId = dogEvent.DogProfileID }, null)</td>
+                    <td class="col col-lg-4">@Html.ActionLink(dogEvent.Subject, "Edit", "Events", new { dogEventId = dogEvent.EventID }, null)</td>
                     <td class="col col-lg-3">@dogEvent.EventDate.ToLongDateString()</td>
                     <td class="col col-lg-2">@((dogEvent.EventDate - DateTime.UtcNow).Days)</td>
                 </tr>
             }
         }
-
     </tbody>
 
     @*/Repeat me from DogEvents, foo!*@

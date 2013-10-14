@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using K94Warriors.Core;
 using K94Warriors.Data.Contracts;
 using K94Warriors.Models;
 
@@ -10,22 +11,18 @@ namespace K94Warriors.Controllers
 {
     public class NotesController : BaseController
     {
-        private readonly IRepository<DogProfile> _dogRepo;
+        private readonly IRepository<DogProfile> _dogProfileRepo;
         private readonly IRepository<DogNote> _dogNoteRepo;
         private readonly IRepository<DogNoteAttachment> _dogNoteAttachmentRepo; 
         private readonly IRepository<NoteType> _noteTypeRepo;
         private readonly IBlobRepository _blobRepo;
 
-        public NotesController(IRepository<DogProfile> dogRepo,
-                               IRepository<DogNote> dogNoteRepo,
+        public NotesController(IRepository<DogNote> dogNoteRepo,
                                IRepository<NoteType> noteTypeRepo,
                                IRepository<DogNoteAttachment> dogNoteAttachmentRepo,
+                               IRepository<DogProfile> dogProfileRepo,
                                IBlobRepository blobRepo)
         {
-            if (dogRepo == null)
-                throw new ArgumentNullException("dogRepo");
-            _dogRepo = dogRepo;
-
             if (dogNoteRepo == null)
                 throw new ArgumentNullException("dogNoteRepo");
             _dogNoteRepo = dogNoteRepo;
@@ -41,6 +38,8 @@ namespace K94Warriors.Controllers
             if (blobRepo == null)
                 throw new ArgumentNullException("blobRepo");
             _blobRepo = blobRepo;
+
+            _dogProfileRepo = dogProfileRepo;
         }
 
 
@@ -83,7 +82,7 @@ namespace K94Warriors.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var dog = _dogRepo.GetById(model.DogProfileID);
+                var dog = _dogProfileRepo.GetById(model.DogProfileID);
 
                 SetDogViewBag(dog);
 
@@ -96,7 +95,7 @@ namespace K94Warriors.Controllers
 
             await UploadFiles(model.NoteID, files);
 
-            return RedirectToAction("Index", new { dogProfileId = model.DogProfileID });
+            return RedirectToAction("Index", new { dog = model.DogProfileID });
         }
 
 
@@ -122,7 +121,7 @@ namespace K94Warriors.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var dog = _dogRepo.GetById(model.DogProfileID);
+                var dog = _dogProfileRepo.GetById(model.DogProfileID);
                 
                 SetDogViewBag(dog);
 
@@ -131,11 +130,13 @@ namespace K94Warriors.Controllers
                 return View(model);
             }
 
+            model.CreatedByUserId = CurrentUserId;
+
             _dogNoteRepo.Insert(model);
 
             await UploadFiles(model.NoteID, files);
 
-            return RedirectToAction("Index", new { dogProfileId = model.DogProfileID });
+            return RedirectToAction("Index", new { dog = model.DogProfileID });
         }
 
 
@@ -147,13 +148,16 @@ namespace K94Warriors.Controllers
             _dogNoteRepo.Delete(id);
 
             if (dogProfileId.HasValue)
-                return RedirectToAction("Index", new { dogProfileId = dogProfileId.Value });
+                return RedirectToAction("Index", new { dog = dogProfileId.Value });
             return RedirectToAction("Index", "Dog");
         }
 
 
         private async Task UploadFiles(int dogNoteId, IEnumerable<HttpPostedFileBase> files)
         {
+            if (files == null)
+                return;
+
             var dogNoteAttachments = new List<DogNoteAttachment>();
             foreach (var file in files)
             {

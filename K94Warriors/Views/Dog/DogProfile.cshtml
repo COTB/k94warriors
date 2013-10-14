@@ -7,27 +7,101 @@
 
 @section subnav {
     @{
-        Html.RenderAction("GetDogSection", "Dog", new {dogId = ViewBag.DogId });
+        Html.RenderAction("GetDogSection", "Dog", new { dogId = ViewBag.DogId });
     }
 }
 
+@section styles
+{
+    <style type="text/css">
+        #button-edit-images {
+            position: absolute;
+            bottom: 5px;
+            left: 5px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        #image-thumbnail-modal .modal-dialog {
+            width: 75%;
+        }
+
+        #thumbnail-picker {
+            max-height: 28em;
+            overflow-y: auto;
+        }
+
+            #thumbnail-picker a span.btn {
+                width: 100%;
+                padding: 2px 12px;
+                position: absolute;
+                bottom: 0;
+            }
+
+        a.thumbnail {
+            padding: 0;
+            position: relative;
+            margin-bottom: 4px;
+        }
+
+            a.thumbnail span.btn {
+                position: absolute;
+                bottom: 0;
+                max-width: 100%;
+                width: 100%;
+            }
+    </style>
+}
+
+
+@section scripts {
+    <script src="~/Scripts/knockout-2.2.0.js"></script>
+    <script src="~/Scripts/profile-image-picker.js"></script>
+    <script src="~/Scripts/jquery.ajaxfileupload.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#button-edit-images').click(function () {
+                $('#image-thumbnail-modal').modal('show');
+            });
+
+            $('#image-thumbnail-modal').on('show.bs.modal', function () {
+                $('#modal-tabs a:first').tab('show');
+            });
+            
+            if ($('.carousel-inner').length > 0) {
+                $('#dog-image-carousel').carousel({
+                    interval: 8000
+                });
+            }
+
+            DogPicViewModel = new ThumbnailModalViewModel(@ViewBag.DogId);
+
+            ko.applyBindings(DogPicViewModel, document.getElementById('#thumbnail-picker'));
+        });
+    </script>
+}
 
 <div class="col col-lg-12">
     <div class="heading">
-        <h2 class="pull-left">@Model.Name</h2>
+        <h2 class="pull-left">@Model.Name </h2>
+        <a href="@Url.Action("Edit", new { dogProfileId = Model.ProfileID })" class="pull-left btn-xs btn-primary" style="margin-left: 10px; margin-top: 1.9em;" title="Edit @Model.Name">
+            <i class="icon-pencil"></i>
+        </a>
+
         <h3 class="pull-right">@Model.Gender @Model.Breed, @Model.Age years old</h3>
 
     </div>
     <hr />
     <div class="information">
 
-        <div class="col col-lg-4">
+        <div class="col col-xs-12 col-lg-4">
             @Html.Action("DogImagesPartial", new { id = ViewBag.DogId })
         </div>
         <div class="col col-lg-8">
             <div class="col col-lg-4">
                 <strong>Created Date</strong>
-                <p>@Model.DateCreated.ToLongDateString()</p>
+                <p>@Model.CreatedTimeUTC.ToLongDateString()</p>
             </div>
             <div class="col col-lg-2">
                 <strong>Color</strong>
@@ -66,7 +140,7 @@
     </div>
     <div>
         <h4>Last 5 Notes</h4>
-        <hr/>
+        <hr />
         <div class="col col-lg-12">
             <table class="table table-bordered">
 
@@ -79,7 +153,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (DogNote dogNotes in Model.Notes.Take(5))
+                    @foreach (DogNote dogNotes in Model.DogNotes.Take(5))
                     {
                         <tr>
                             <td class="col col-lg-3">@dogNotes.NoteType.Name</td>
@@ -95,3 +169,8 @@
 
     </div>
 </div>
+
+@{
+    ViewData["ProfileID"] = ViewBag.DogId;
+    Html.RenderPartial("_ImageThumbnailModal");
+}

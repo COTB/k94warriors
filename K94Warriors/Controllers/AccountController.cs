@@ -2,7 +2,6 @@
 using K94Warriors.Data;
 using K94Warriors.Enums;
 using K94Warriors.Filters;
-using K94Warriors.Models;
 using K94Warriors.Models.Accounts;
 using Microsoft.Web.WebPages.OAuth;
 using System;
@@ -54,6 +53,7 @@ namespace K94Warriors.Controllers
         public virtual ActionResult LogOff()
         {
             WebSecurity.Logout();
+            Session.Abandon();
 
             return RedirectToAction("Index", "Home");
         }

@@ -26,7 +26,7 @@ namespace K94Warriors.Core.HtmlHelperExtensions
                                                                         Expression<Func<TModel, TProperty>> modelExpression, 
                                                                         string firstElement)
         {
-            return EnumDropDownListFor(htmlHelper, modelExpression, firstElement, new Dictionary<string, object>());
+            return EnumDropDownListFor(htmlHelper, modelExpression, firstElement, new Dictionary<string, object> { {"class", "form-control input-lg"} });
         }
     }
 }

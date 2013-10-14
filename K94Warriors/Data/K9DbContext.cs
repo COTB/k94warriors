@@ -28,6 +28,8 @@ namespace K94Warriors.Data
         public DbSet<DogMedication> DogMedications { get; set; }
 
         public DbSet<DogNote> DogNotes { get; set; }
+
+        public DbSet<DogNoteAttachment> DogNoteAttachments { get; set; }
         
         public DbSet<DogProfile> DogProfiles { get; set; }
         

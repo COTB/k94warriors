@@ -1,9 +1,7 @@
-﻿using K94Warriors.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using K94Warriors.Filters;
+using K94Warriors.Models;
 using System.Web.Mvc;
+using WebMatrix.WebData;
 
 namespace K94Warriors.Controllers
 {
@@ -13,6 +11,21 @@ namespace K94Warriors.Controllers
         {
             ViewBag.DogId = dog.ProfileID;
             ViewBag.DogName = dog.Name;
+        }
+
+        protected int CurrentUserId
+        {
+            get 
+            {
+                var user = Session["CurrentUser"] as User;
+
+                if (user == null)
+                {
+                    user = K9AuthorizeAttribute.ReloadUserIntoSession(HttpContext);
+                }
+
+                return user.UserID;
+            }
         }
     }
 }
