@@ -42,6 +42,7 @@ namespace K94Warriors.Models
             Location = dogProfile.Location;
             Images = dogProfile.Images;
             DogMedications = dogProfile.DogMedications;
+            LocationDescription = dogProfile.LocationDescription;
         }
 
         [Key]
@@ -55,6 +56,7 @@ namespace K94Warriors.Models
         [StringLength(200)]
         public string Breed { get; set; }
         
+        [Display(Name = "Birth Year")]
         public int? BirthYear { get; set; }
         
         [Required]
@@ -63,8 +65,10 @@ namespace K94Warriors.Models
         
         public GenderEnum Gender { get; set; }
         
+        [Display(Name = "Picked Up Date")]
         public DateTime? PickedUpDate { get; set; }
         
+        [Display(Name = "Is Fixed?")]
         public bool IsFixed { get; set; }
         
         public DateTime? GraduationDate { get; set; }
@@ -73,11 +77,16 @@ namespace K94Warriors.Models
         
         public int CreatedByUserID { get; set; }
         
+        [Display(Name = "Is Approved?")]
         public bool IsApproved { get; set; }
         
         public int LocationId { get; set; }
 
+        [Display(Name = "Health Condition")]
         public string HealthCondition { get; set; }
+
+        [Display(Name = "Location")]
+        public string LocationDescription { get; set; }
         
         public virtual ICollection<DogEvent> DogEvents { get; set; }
         
