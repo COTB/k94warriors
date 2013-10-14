@@ -23,6 +23,7 @@ namespace K94Warriors.Controllers
         {
             var events = _dogEventRepo
                 .Where(f => f.IsComplete == false)
+                .OrderBy(i => i.EventDate) // to show expired ones first
                 .Include(i => i.DogProfile)
                 .ToList();
 
