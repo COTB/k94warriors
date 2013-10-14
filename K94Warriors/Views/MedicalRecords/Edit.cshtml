@@ -22,6 +22,7 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
+    @Html.HiddenFor(model => model.DogProfileID)
     @Html.HiddenFor(model => model.RecordID)
 
     <div class="form-group">
@@ -49,7 +50,7 @@
             @Html.LabelFor(model => model.RecordExpirationDate, "Expiration Date")
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => model.RecordExpirationDate, new { @class = "form-control input-lg", type = "date" })
+            <input type="date" name="RecordExpirationDate" class="form-control input-lg" value="@(Model.RecordExpirationDate.HasValue ? Model.RecordExpirationDate.Value.ToString("yyyy-MM-dd") : null)" />
             @Html.ValidationMessageFor(model => model.RecordExpirationDate)
         </div>
     </div>
