@@ -1,4 +1,5 @@
-﻿using K94Warriors.Models;
+﻿using K94Warriors.Filters;
+using K94Warriors.Models;
 using System.Web.Mvc;
 using WebMatrix.WebData;
 
@@ -14,7 +15,17 @@ namespace K94Warriors.Controllers
 
         protected int CurrentUserId
         {
-            get { return WebSecurity.CurrentUserId; }
+            get 
+            {
+                var user = Session["CurrentUser"] as User;
+
+                if (user == null)
+                {
+                    user = K9AuthorizeAttribute.ReloadUserIntoSession(HttpContext);
+                }
+
+                return user.UserID;
+            }
         }
     }
 }

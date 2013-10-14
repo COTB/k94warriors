@@ -53,6 +53,7 @@ namespace K94Warriors.Controllers
         public virtual ActionResult LogOff()
         {
             WebSecurity.Logout();
+            Session.Abandon();
 
             return RedirectToAction("Index", "Home");
         }

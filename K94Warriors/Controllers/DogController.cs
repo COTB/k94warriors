@@ -55,12 +55,13 @@ namespace K94Warriors.Controllers
         // 
         // GET: /Dog/DogProfile/{dogProfileId}
 
-        public ActionResult DogProfile(int dogProfileId)
+        public ActionResult DogProfile(int id)
         {
-            ViewBag.DogId = dogProfileId;
             var model = _dogRepo.GetAll()
                 .Include(profile => profile.Location)
-                .FirstOrDefault(profile => profile.ProfileID == dogProfileId);
+                .FirstOrDefault(profile => profile.ProfileID == id);
+
+            SetDogViewBag(model);
 
             return View(new DogProfileViewModel(model));
         }

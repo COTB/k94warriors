@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Data.Objects;
 using System.Linq;
 using System.Web.Mvc;
@@ -7,7 +8,7 @@ using K94Warriors.Models;
 
 namespace K94Warriors.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly IRepository<DogEvent> _dogEventRepo;
 
@@ -20,9 +21,11 @@ namespace K94Warriors.Controllers
 
         public virtual ActionResult Index()
         {
-            IQueryable<DogEvent> events =
-                _dogEventRepo.Where(
-                    f => f.EventDate > DateTime.UtcNow && f.EventDate < EntityFunctions.AddDays(DateTime.Now, 7));
+            var events = _dogEventRepo
+                .Where(f => f.IsComplete == false)
+                .OrderBy(i => i.EventDate) // to show expired ones first
+                .Include(i => i.DogProfile)
+                .ToList();
 
             return View(events);
         }

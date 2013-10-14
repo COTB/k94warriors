@@ -21,7 +21,7 @@ namespace K94Warriors
                 View = "Error",
             });*/
 
-            filters.Add(new AuthorizeAttribute());
+            filters.Add(new K9AuthorizeAttribute());
         }
     }
 }
