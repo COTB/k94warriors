@@ -57,9 +57,7 @@ namespace K94Warriors.Controllers
 
         public ActionResult DogProfile(int id)
         {
-            var model = _dogRepo.GetAll()
-                .Include(profile => profile.Location)
-                .FirstOrDefault(profile => profile.ProfileID == id);
+            var model = _dogRepo.GetById(id);
 
             SetDogViewBag(model);
 
@@ -122,7 +120,7 @@ namespace K94Warriors.Controllers
 
             _dogRepo.Update(model);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("DogProfile", new { id = model.ProfileID });
         }
 
 
