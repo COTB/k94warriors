@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Add an Event";
+    ViewBag.Title = "Edit Event";
 }
 @model K94Warriors.Models.DogEvent
 @section subnav {
@@ -14,10 +14,12 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    @Html.Hidden("DogProfileID", @Model.DogProfileID)
+    @Html.HiddenFor(i => i.DogProfileID)
+    @Html.HiddenFor(i => i.EventID)
     <div class="form-group">
-        <label>Note Type</label>
-        @Html.DropDownList("EventTypeId", null, "Select Event Type", new { @class = "form-control" })
+        @Html.LabelFor(i => i.EventTypeId, "Event Type")
+        @Html.DropDownListFor(i => i.EventTypeId, (SelectList)ViewBag.EventTypeSelectList, "Select Event Type", new { @class = "form-control" })
+        @Html.ValidationMessageFor(t => t.EventTypeId, "", new { @class = "help-block" })
     </div>
     <div class="form-group">
         <label>Event Date</label>

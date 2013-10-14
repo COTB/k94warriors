@@ -15,12 +15,16 @@ namespace K94Warriors.Models
         
         public string Body { get; set; }
 
+        [Display(Name = "Is Complete?")]
         public bool IsComplete { get; set; }
 
         public DateTime EventDate { get; set; }
 
+        [Required]
         public int DogProfileID { get; set; }
 
+        [Required]
+        [Display(Name = "Event Type")]
         public int EventTypeId { get; set; }
 
         [ForeignKey("DogProfileID")]

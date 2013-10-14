@@ -1,7 +1,8 @@
 ﻿@model IEnumerable<K94Warriors.Models.DogEvent>
 
 @{
-    ViewBag.Title = "title";
+    string dogName = ViewBag.DogName;
+    ViewBag.Title = dogName + "'s Events";
 
 }
 @section subnav {
@@ -13,9 +14,9 @@
 <div class="row">
     <div class="col col-lg-12">
         <div class="pull-right">
-            <a href="/Events/Create?dog=@ViewBag.DogId" class="btn btn-primary">Add Event</a>
+            <a href="/Events/Create?dog=@ViewBag.DogId" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Add Event</a>
         </div>
-        <h4>View All Events</h4>
+        <h4>@ViewBag.DogName's Events</h4>
     </div>
 </div>
 
@@ -26,8 +27,9 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th class="col col-lg-3">Event Type</th>
-                        <th class="col col-lg-7">Subject</th>
+                        <th class="col col-lg-2">Event Type</th>
+                        <th class="col col-lg-2">Date</th>
+                        <th class="col col-lg-6">Subject</th>
                         <th class="col col-lg-2">Completed?</th>
                     </tr>
                 </thead>
@@ -35,9 +37,19 @@
                     @foreach (var dogEvent in Model)
                     {
                         <tr>
-                            <td class="col col-lg-3">@dogEvent.EventType.Name</td>
-                            <td class="col col-lg-7"><a href="/dog/CreateOrUpdateDogEvent?dogId=@dogEvent.DogProfileID&eventId=@dogEvent.EventID">@dogEvent.Subject</a></td>
-                            <td class="col col-lg-2">@dogEvent.IsComplete</td>
+                            <td class="col col-lg-2">@dogEvent.EventType.Name</td>
+                            <td class="col col-lg-2">@dogEvent.EventDate.ToShortDateString()</td>
+                            <td class="col col-lg-6"><a href="/Events/Edit?dogEventId=@dogEvent.EventID">@dogEvent.Subject</a></td>
+                            <td class="col col-lg-2">
+                                @if (dogEvent.IsComplete)
+                                {
+                                    <span class="label label-success">YES</span>
+                                }
+                                else
+                                {
+                                    <span class="label label-warning">NO</span>
+                                }
+                            </td>
                         </tr>
                     }
                 </tbody>

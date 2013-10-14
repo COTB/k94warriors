@@ -82,7 +82,15 @@ namespace K94Warriors.Controllers
         public async Task<ActionResult> Edit(DogNote model, IEnumerable<HttpPostedFileBase> files)
         {
             if (!ModelState.IsValid)
+            {
+                var dog = _dogRepo.GetById(model.DogProfileID);
+
+                SetDogViewBag(dog);
+
+                ViewBag.NoteTypeSelectList = new SelectList(_noteTypeRepo.GetAll(), "ID", "Name", model.NoteTypeId);
+                
                 return View(model);
+            }
 
             _dogNoteRepo.Update(model);
 
@@ -113,7 +121,15 @@ namespace K94Warriors.Controllers
         public async Task<ActionResult> Create(DogNote model, IEnumerable<HttpPostedFileBase> files)
         {
             if (!ModelState.IsValid)
+            {
+                var dog = _dogRepo.GetById(model.DogProfileID);
+                
+                SetDogViewBag(dog);
+
+                ViewBag.NoteTypeSelectList = new SelectList(_noteTypeRepo.GetAll(), "ID", "Name", model.NoteTypeId);
+                
                 return View(model);
+            }
 
             _dogNoteRepo.Insert(model);
 
