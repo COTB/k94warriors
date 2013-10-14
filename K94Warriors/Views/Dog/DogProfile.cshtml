@@ -100,20 +100,26 @@
         </div>
         <div class="col col-lg-8">
             <div class="col col-lg-4">
-                <strong>Created Date</strong>
+                <strong>Entry Date</strong>
                 <p>@Model.CreatedTimeUTC.ToLongDateString()</p>
             </div>
-            <div class="col col-lg-2">
+            <div class="col col-lg-4">
                 <strong>Color</strong>
                 <p>@Model.Color</p>
             </div>
-            <div class="col col-lg-3">
+            <div class="col col-lg-4">
                 <strong>Gender</strong>
                 <p>@Model.Gender</p>
             </div>
-            <div class="col col-lg-2">
+
+            <div class="col col-lg-4">
+                <strong>Breed</strong>
+                <p>@Model.Breed</p>
+            </div>
+
+            <div class="col col-lg-4">
                 <strong>Location</strong>
-                <p>@Model.Location.Name</p>
+                <p>@Model.LocationDescription</p>
             </div>
 
             <div class="col col-lg-4">
@@ -121,16 +127,16 @@
                 <p>@Model.HealthCondition</p>
             </div>
 
-            <div class="col col-lg-2">
+            <div class="col col-lg-4">
                 <strong>Fixed</strong>
                 <p>@Model.IsFixed</p>
             </div>
-            <div class="col col-lg-3">
+            <div class="col col-lg-4">
                 <strong>Approved</strong>
                 <p>@Model.IsApproved</p>
             </div>
 
-            <div class="col col-lg-2">
+            <div class="col col-lg-4">
                 <strong>Picked-Up Date</strong>
                 <p>@(Model.PickedUpDate.HasValue ? Model.PickedUpDate.Value.ToLongDateString() : "Not Picked Up")</p>
             </div>

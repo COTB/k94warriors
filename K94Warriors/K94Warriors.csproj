@@ -207,6 +207,7 @@
     <Compile Include="Enums\UserTypeEnum.cs" />
     <Compile Include="Filters\EmailErrorAttribute.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
+    <Compile Include="Filters\K9AuthorizeAttribute.cs" />
     <Compile Include="Filters\PageTitleAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -264,6 +265,10 @@
     <Compile Include="Migrations\201309301642095_DiscriminatorColumn.cs" />
     <Compile Include="Migrations\201309301642095_DiscriminatorColumn.Designer.cs">
       <DependentUpon>201309301642095_DiscriminatorColumn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201310141654523_LocationDescription.cs" />
+    <Compile Include="Migrations\201310141654523_LocationDescription.Designer.cs">
+      <DependentUpon>201310141654523_LocationDescription.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Accounts\ExternalLogin.cs" />
     <Compile Include="Models\Accounts\LocalPasswordModel.cs" />
@@ -482,6 +487,8 @@
     <Content Include="Views\Medication\Create.cshtml" />
     <Content Include="Views\Medication\Edit.cshtml" />
     <Content Include="Views\Feeding\Index.cshtml" />
+    <Content Include="Views\Feeding\Create.cshtml" />
+    <Content Include="Views\Feeding\Edit.cshtml" />
     <Content Include="Views\Dog\_ImageThumbnailModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -539,6 +546,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201309301642095_DiscriminatorColumn.resx">
       <DependentUpon>201309301642095_DiscriminatorColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201310141654523_LocationDescription.resx">
+      <DependentUpon>201310141654523_LocationDescription.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
