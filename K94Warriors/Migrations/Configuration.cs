@@ -1,10 +1,11 @@
 namespace K94Warriors.Migrations
 {
-    using K94Warriors.Models;
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Migrations;
-    using System.Linq;
+    using K94Warriors.Enums;
+using K94Warriors.Models;
+using System;
+using System.Data.Entity;
+using System.Data.Entity.Migrations;
+using System.Linq;
 
     internal sealed class Configuration : DbMigrationsConfiguration<K94Warriors.Data.K9DbContext>
     {

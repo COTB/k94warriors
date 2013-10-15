@@ -1,8 +1,10 @@
 ﻿using K94Warriors.Data.Contracts;
+using K94Warriors.Enums;
 using K94Warriors.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 
@@ -26,6 +28,19 @@ namespace K94Warriors.Filters
                 if (user == null)
                     return false;
             }
+
+            var claimsIdentity = httpContext.User.Identity as ClaimsIdentity;
+
+            if (claimsIdentity == null)
+                return true;
+
+            if (user.UserTypeID == (int)UserTypeEnum.Administrator)
+            {
+                claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, "Admin"));
+            }
+
+            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+            httpContext.User = claimsPrincipal;
 
             return true;
         }

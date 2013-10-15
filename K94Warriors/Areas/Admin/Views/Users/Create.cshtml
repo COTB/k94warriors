@@ -1,0 +1,60 @@
+﻿@model K94Warriors.Models.User
+@using K94Warriors.Core.HtmlHelperExtensions
+
+@{
+    ViewBag.Title = "Create New User";
+}
+
+<h2>Create New User</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Email)
+        @Html.K9TextBoxFor(model => model.Email, "someone@example.com")
+        @Html.ValidationMessageFor(model => model.Email)
+    </div>
+        
+    <div class="form-group">
+        @Html.LabelFor(model => model.DisplayName)
+        @Html.K9TextBoxFor(model => model.DisplayName, "John Doe")
+        @Html.ValidationMessageFor(model => model.DisplayName)
+    </div>
+    
+    <div class="form-group">
+        @Html.LabelFor(model => model.Phone)
+        @Html.K9TextBoxFor(model => model.Phone, "904-555-1212")
+        @Html.ValidationMessageFor(model => model.Phone)
+    </div>
+    
+    <div class="form-group">
+        @Html.Label("Password")
+        @Html.Password("Password", null, new { @class = "form-control input-lg" })
+        @Html.ValidationMessage("Password")
+    </div>
+    
+    @*
+    <div class="editor-label">
+        @Html.LabelFor(model => model.PhoneProvider)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.PhoneProvider)
+        @Html.ValidationMessageFor(model => model.PhoneProvider)
+    </div>*@
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.UserTypeID)
+        @Html.DropDownListFor(model => model.UserTypeID, (SelectList)ViewBag.UserTypesSelectList, new { @class = "form-control input-lg" })
+        @Html.ValidationMessageFor(model => model.UserTypeID)
+    </div>
+
+    <p>
+        <input class="btn" type="submit" value="Create User" />
+    </p>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

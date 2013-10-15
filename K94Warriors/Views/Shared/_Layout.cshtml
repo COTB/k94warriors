@@ -23,7 +23,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="/">K9 For Warriors</a>
+                        <a class="navbar-brand" href="/">K9s For Warriors</a>
                     </div>
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
@@ -34,6 +34,12 @@
                                     <li>@Html.ActionLink("Add Dog", "Create", "Dog")</li>
                                 </ul>
                             </li>
+                            @if (User.IsInRole("Admin"))
+                            {
+                            <li>
+                                <a href="/Admin">Administration</a>
+                            </li>
+                            }
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             @Html.Partial("_LoginPartial")
