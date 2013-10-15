@@ -27,7 +27,9 @@
         </td>        
         <td class="col col-lg-6">
             <a href="/Admin/Users/Edit/@item.UserID"><i class="glyphicon glyphicon-pencil"></i></a>
+            @if (item.UserID != ViewBag.CurrentUserId) {
             <a href="/Admin/Users/Delete/@item.UserID" onclick="return confirm('Are you sure you want to delete this user?')"><i class="glyphicon glyphicon-trash"></i></a>
+            }
         </td>
     </tr>
 }

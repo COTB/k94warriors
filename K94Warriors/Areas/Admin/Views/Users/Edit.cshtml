@@ -1,0 +1,68 @@
+﻿@model K94Warriors.Models.User
+@using K94Warriors.Core.HtmlHelperExtensions
+
+@{
+    ViewBag.Title = "Edit User " + Model.Email;
+}
+
+<h2>Edit User @Model.Email</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(i => i.UserID)
+    @Html.Hidden("ExistingUserTypeID", Model.UserTypeID)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Email)
+        @Html.K9TextBoxFor(model => model.Email, "someone@example.com")
+        @Html.ValidationMessageFor(model => model.Email)
+    </div>
+        
+    <div class="form-group">
+        @Html.LabelFor(model => model.DisplayName)
+        @Html.K9TextBoxFor(model => model.DisplayName, "John Doe")
+        @Html.ValidationMessageFor(model => model.DisplayName)
+    </div>
+    
+    <div class="form-group">
+        @Html.LabelFor(model => model.Phone)
+        @Html.K9TextBoxFor(model => model.Phone, "904-555-1212")
+        @Html.ValidationMessageFor(model => model.Phone)
+    </div>
+    
+    <div class="form-group">
+        @Html.Label("Password", "Change Password (leave blank to leave unchanged)")
+        @Html.Password("Password", null, new { @class = "form-control input-lg", autocomplete = "off" })
+        @Html.ValidationMessage("Password")
+    </div>
+    
+    @*
+    <div class="editor-label">
+        @Html.LabelFor(model => model.PhoneProvider)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.PhoneProvider)
+        @Html.ValidationMessageFor(model => model.PhoneProvider)
+    </div>*@
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.UserTypeID)
+        @if (ViewBag.CurrentUserId == Model.UserID)
+        {
+            @Html.DropDownListFor(model => model.UserTypeID, (SelectList)ViewBag.UserTypesSelectList, new { @class = "form-control input-lg", disabled = true })
+        }
+        else {
+            @Html.DropDownListFor(model => model.UserTypeID, (SelectList)ViewBag.UserTypesSelectList, new { @class = "form-control input-lg" })
+        }
+        @Html.ValidationMessageFor(model => model.UserTypeID)
+    </div>
+
+    <p>
+        <input class="btn" type="submit" value="Save Changes" />
+    </p>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
