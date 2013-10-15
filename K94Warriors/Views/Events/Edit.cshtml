@@ -27,6 +27,11 @@
         @Html.ValidationMessageFor(t => t.EventDate, "", new { @class = "help-block" })
     </div>
     <div class="form-group">
+        <label>Event Time</label>
+        <input type="text" name="EventTime" value="@Model.EventDate.ToString("h:mm tt")" class="form-control input-lg" />
+        @Html.ValidationMessage("EventTime")
+    </div>
+    <div class="form-group">
         <label>Event Subject</label>
         <input class="form-control input-lg" name="Subject" placeholder="Note" value="@Model.Subject" type="text" required=""/>
         @Html.ValidationMessageFor(t => t.Subject, "", new { @class = "help-block" })

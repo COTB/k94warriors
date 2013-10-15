@@ -13,6 +13,11 @@ namespace K94Warriors.Helpers
             if (string.IsNullOrEmpty(input))
                 return null;
 
+            input = input.Trim();
+
+            if (input.Length > 10)
+                return null; // prevent runaway call stacks
+
             var fsm = new TimeParserFiniteStateMachine(input);
 
             return fsm.Parse();
@@ -22,6 +27,7 @@ namespace K94Warriors.Helpers
         {
             private readonly CharStream stream;
             private const int zeroChar = (int)'0';
+            private const char EOF = (char)0;
 
             public TimeParserFiniteStateMachine(string input)
             {
@@ -34,11 +40,16 @@ namespace K94Warriors.Helpers
                 return LookForHourChar(state);
             }
 
+            public TimeSpan? Finish(TimeState state)
+            {
+                return state.IsComplete ? state.ToTimeSpan() : null;
+            }
+
             private TimeSpan? LookForHourChar(TimeState state, bool beenHere = false)
             {
                 char c = stream.ReadChar();
 
-                if (c == (char)0)
+                if (c == EOF)
                     return beenHere && state.IsComplete ? state.ToTimeSpan() : null;
 
                 switch (c)
@@ -87,8 +98,8 @@ namespace K94Warriors.Helpers
             {
                 char c = stream.Peek(0);
 
-                if (c == (char)0)
-                    return state.IsComplete ? state.ToTimeSpan() : null;
+                if (c == EOF)
+                    return Finish(state);
 
                 switch (c)
                 {
@@ -126,8 +137,8 @@ namespace K94Warriors.Helpers
             {
                 char c = stream.ReadChar();
 
-                if (c == (char)0)
-                    return state.IsComplete ? state.ToTimeSpan() : null;
+                if (c == EOF)
+                    return Finish(state);
 
                 switch (c)
                 {
@@ -155,14 +166,14 @@ namespace K94Warriors.Helpers
             {
                 char c = stream.ReadChar();
 
-                if (c == (char)0)
-                    return state.IsComplete ? state.ToTimeSpan() : null;
+                if (c == EOF)
+                    return Finish(state);
 
                 switch (c)
                 {
                     case 'm':
                     case 'M':
-                        return state.IsComplete ? state.ToTimeSpan() : null;
+                        return Finish(state);
                     default:
                         return null;
                 }
@@ -172,7 +183,7 @@ namespace K94Warriors.Helpers
             {
                 char c = stream.ReadChar();
 
-                if (c == (char)0)
+                if (c == EOF)
                     return beenHere && state.IsComplete ? state.ToTimeSpan() : null;
 
                 switch (c)
