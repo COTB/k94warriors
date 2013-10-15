@@ -110,7 +110,7 @@ namespace K94Warriors.Controllers
 
             ViewBag.NoteTypeSelectList = new SelectList(_noteTypeRepo.GetAll(), "ID", "Name", model.NoteTypeId);
 
-            return View(new DogNote { DogProfileID = dog.ProfileID });
+            return View(model);
         }
 
 
@@ -142,7 +142,7 @@ namespace K94Warriors.Controllers
 
         // 
         // POST: /Notes/Delete/{id}
-        [HttpPost]
+        
         public ActionResult Delete(int id, int? dogProfileId)
         {
             _dogNoteRepo.Delete(id);
