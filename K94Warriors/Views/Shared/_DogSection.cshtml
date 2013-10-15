@@ -33,6 +33,9 @@
                 <li class="dropdown">
                     @Html.ActionLink(dogName + "'s Events", "Index", "Events", new { dog = ViewBag.DogId }, null)
                 </li>
+                <li class="dropdown">
+                    @Html.ActionLink(dogName + "'s Certifications", "Index", "Certifications", new { dog = ViewBag.DogId }, null)
+                </li>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
