@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using K94Warriors.Data.Contracts;
 using K94Warriors.Models;
+using K94Warriors.Helpers;
 
 namespace K94Warriors.Controllers
 {
@@ -65,8 +66,16 @@ namespace K94Warriors.Controllers
         // POST: /Events/Create/
 
         [HttpPost]
-        public ActionResult Create(DogEvent model)
+        public ActionResult Create(DogEvent model, string eventTime)
         {
+            var timespan = TimeParserHelper.Parse(eventTime);
+
+            if (!timespan.HasValue)
+            {
+                // this will trigger ModelState being invalid below
+                ModelState.AddModelError("EventTime", "Please enter a valid time.");
+            }
+
             if (!ModelState.IsValid)
             {
                 var dog = _dogProfileRepo.GetById(model.DogProfileID);
@@ -77,6 +86,8 @@ namespace K94Warriors.Controllers
 
                 return View(model);
             }
+
+            model.EventDate = model.EventDate.Add(timespan.Value);
 
             _dogEventsRepo.Insert(model);
 
@@ -107,8 +118,16 @@ namespace K94Warriors.Controllers
         // POST: /Events/Edit/
 
         [HttpPost]
-        public ActionResult Edit(DogEvent model)
+        public ActionResult Edit(DogEvent model, string eventTime)
         {
+            var timespan = TimeParserHelper.Parse(eventTime);
+
+            if (!timespan.HasValue)
+            {
+                // this will trigger ModelState being invalid below
+                ModelState.AddModelError("EventTime", "Please enter a valid time.");
+            }
+
             if (!ModelState.IsValid)
             {
                 var dog = _dogProfileRepo.GetById(model.DogProfileID);
@@ -119,6 +138,8 @@ namespace K94Warriors.Controllers
 
                 return View(model);
             }
+
+            model.EventDate = model.EventDate.Add(timespan.Value);
 
             _dogEventsRepo.Update(model);
 

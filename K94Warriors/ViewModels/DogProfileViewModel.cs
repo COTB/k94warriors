@@ -10,7 +10,11 @@ namespace K94Warriors.ViewModels
         {
             get { return DateTime.Now.Year - BirthYear; }
         }
-        
+
+        public DogProfileViewModel()
+        {
+        }
+
         public DogProfileViewModel(DogProfile dogProfile) 
             : base(dogProfile) 
         { 
