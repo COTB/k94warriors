@@ -13,7 +13,6 @@ namespace K94Warriors.Filters
         // The from email address
         private const string _subjectFormat = "K94WARRIORS: Exception of type {0} occurred";
         private readonly string _from;
-        private readonly SmtpMailer _smtpMailer;
         // The to email address
         private readonly string _to;
         // THe subject format
@@ -26,13 +25,9 @@ namespace K94Warriors.Filters
         /// <param name="to">The to email address.</param>
         /// <exception cref="System.ArgumentNullException">Thrown when smtpMailer is null.</exception>
         /// <exception cref="System.ArgumentException">Thrown when from or to is null, empty, or white space.</exception>
-        public EmailErrorAttribute(SmtpMailer smtpMailer, string from, string to)
+        public EmailErrorAttribute(string from, string to)
         {
             // Sanitize
-            if (smtpMailer == null)
-            {
-                throw new ArgumentNullException("smtpMailer");
-            }
             if (string.IsNullOrWhiteSpace(from))
             {
                 throw new ArgumentException("cannot be null, empty, or white space", "from");
@@ -43,7 +38,6 @@ namespace K94Warriors.Filters
             }
 
             // Set fields
-            _smtpMailer = smtpMailer;
             _from = from;
             _to = to;
         }
@@ -55,12 +49,13 @@ namespace K94Warriors.Filters
         public override void OnException(ExceptionContext filterContext)
         {
             // Get the exception
-            Exception ex = filterContext.Exception;
+            var ex = filterContext.Exception;
 
             // Log it
             try
             {
-                _smtpMailer.Send(_from, _to, string.Format(_subjectFormat, ex.GetType()), ex.ToString());
+                var mailer = new SmtpMailer();
+                mailer.Send(_from, _to, string.Format(_subjectFormat, ex.GetType()), ex.ToString());
             }
             catch
             {

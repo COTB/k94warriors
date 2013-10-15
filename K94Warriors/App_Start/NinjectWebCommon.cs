@@ -5,6 +5,7 @@ using System.Web.Http;
 using K94Warriors.Controllers;
 using K94Warriors.Data;
 using K94Warriors.Data.Contracts;
+using K94Warriors.Email;
 using K94Warriors.ScheduledTaskServices;
 using K94Warriors.ScheduledTaskServices.Tasks;
 
@@ -104,8 +105,13 @@ namespace K94Warriors.App_Start
                   .WithConstructorArgument("taskDictionary", new Dictionary<string, Type>
                       {
                           {"email", typeof(MorningEmailTask)},
+                          {"test", typeof(string)}
                       });
             kernel.Bind<ScheduledTaskFactory>().ToSelf().InSingletonScope();
+
+
+            // Bind IMailer to the SmtpMailer (could also use SendGrid, etc)
+            kernel.Bind<IMailer>().To<SmtpMailer>();
         }
     }
 }
