@@ -145,7 +145,12 @@
 
     </div>
     <div>
-        <h4>Last 5 Notes</h4>
+        <div>
+            <p class="pull-right">
+                @Html.ActionLink("View All Notes", "Index", "Notes", new { dog = ViewBag.DogId }, null)
+            </p>
+            <h4>Last 5 Notes</h4>
+        </div>
         <hr />
         <div class="col col-lg-12">
             <table class="table table-bordered">
@@ -159,11 +164,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (DogNote dogNotes in Model.DogNotes.Take(5))
+                    @foreach (DogNote dogNotes in Model.DogNotes.OrderByDescending(i => i.CreatedDate).Take(5))
                     {
                         <tr>
                             <td class="col col-lg-3">@dogNotes.NoteType.Name</td>
-                            <td class="col col-lg-6"><a href="/dog/CreateOrUpdateDogNote?dogId=@dogNotes.DogProfileID&noteId=@dogNotes.NoteID">@dogNotes.Note</a></td>
+                            <td class="col col-lg-6"><a href="/Notes/Edit/@dogNotes.NoteID">@dogNotes.Note</a></td>
                             <td class="col col-lg-3">@dogNotes.CreatedDate.ToLongDateString()</td>
 
                         </tr>
