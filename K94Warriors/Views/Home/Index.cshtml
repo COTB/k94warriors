@@ -16,8 +16,7 @@
             </th>
             <th class="col col-lg-3">Date
             </th>
-            <th class="col col-lg-2">Days From Now
-            </th>
+            <th class="col col-lg-2">Time</th>
             <th class="col col-lg-1">Status</th>
         </tr>
     </thead>
@@ -29,8 +28,8 @@
                 <tr>
                     <td class="col col-lg-2">@Html.ActionLink(dogEvent.DogProfile.Name, "DogProfile", "Dog", new { id = dogEvent.DogProfileID }, null)</td>
                     <td class="col col-lg-4">@Html.ActionLink(dogEvent.Subject, "Edit", "Events", new { dogEventId = dogEvent.EventID }, null)</td>
-                    <td class="col col-lg-3">@dogEvent.EventDate.ToLongDateString()</td>
-                    <td class="col col-lg-2">@((dogEvent.EventDate - DateTime.UtcNow).Days)</td>
+                    <td class="col col-lg-3">@dogEvent.EventDate.ToLongDateString() </td>
+                    <td class="col col-lg-2">@dogEvent.EventDate.ToShortTimeString()</td>
                     <td class="col col-lg-1">
                         @if (dogEvent.EventDate == DateTime.Now.Date) {
                             <span class="label label-warning">Today</span>

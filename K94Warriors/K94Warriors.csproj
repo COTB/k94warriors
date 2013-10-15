@@ -214,6 +214,7 @@
     </Compile>
     <Compile Include="Data\Contracts\IRepository.cs" />
     <Compile Include="Data\K9DbContext.cs" />
+    <Compile Include="Helpers\TimeParserHelper.cs" />
     <Compile Include="Migrations\201309181925507_DogGenderDataType.cs" />
     <Compile Include="Migrations\201309181925507_DogGenderDataType.Designer.cs">
       <DependentUpon>201309181925507_DogGenderDataType.cs</DependentUpon>
