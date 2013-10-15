@@ -1,0 +1,27 @@
+﻿@model K94Warriors.Models.MedicalRecordType
+@using K94Warriors.Core.HtmlHelperExtensions
+
+@{
+    ViewBag.Title = "Create New Medical Record Type";
+}
+
+<h2>Create New Medical Record Type</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Name)
+        @Html.K9TextBoxFor(model => model.Name, "Medical Record Type Name")
+        @Html.ValidationMessageFor(model => model.Name)
+    </div>
+
+    <p>
+        <input class="btn" type="submit" value="Create Medical Record Type" />
+    </p>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

@@ -181,7 +181,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\EventTypesController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MedicalRecordTypesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\NoteTypesController.cs" />
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -413,6 +416,15 @@
     <Content Include="Areas\Admin\Views\Users\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Users\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Users\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\NoteTypes\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\NoteTypes\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\NoteTypes\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\MedicalRecordTypes\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\MedicalRecordTypes\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\MedicalRecordTypes\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\EventTypes\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\EventTypes\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\EventTypes\Index.cshtml" />
     <None Include="Properties\PublishProfiles\k94warriors - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\k94warriors - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />

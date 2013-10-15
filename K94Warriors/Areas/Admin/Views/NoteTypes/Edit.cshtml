@@ -1,0 +1,28 @@
+﻿@model K94Warriors.Models.NoteType
+@using K94Warriors.Core.HtmlHelperExtensions
+
+@{
+    ViewBag.Title = "Edit Note Type " + Model.Name;
+}
+
+<h2>Edit Note Type</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(i => i.ID)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Name)
+        @Html.K9TextBoxFor(model => model.Name, "Note Type Name")
+        @Html.ValidationMessageFor(model => model.Name)
+    </div>
+        
+    <p>
+        <input class="btn" type="submit" value="Save Changes" />
+    </p>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

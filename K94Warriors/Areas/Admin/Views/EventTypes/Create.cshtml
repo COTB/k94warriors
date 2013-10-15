@@ -1,0 +1,27 @@
+﻿@model K94Warriors.Models.EventType
+@using K94Warriors.Core.HtmlHelperExtensions
+
+@{
+    ViewBag.Title = "Create New Event Type";
+}
+
+<h2>Create New Event Type</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Name)
+        @Html.K9TextBoxFor(model => model.Name, "Event Type Name")
+        @Html.ValidationMessageFor(model => model.Name)
+    </div>
+
+    <p>
+        <input class="btn" type="submit" value="Create Event Type" />
+    </p>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
