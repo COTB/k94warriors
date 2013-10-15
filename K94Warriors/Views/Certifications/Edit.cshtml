@@ -1,0 +1,43 @@
+﻿@{
+    string dogName = ViewBag.DogName;
+    ViewBag.Title = "Edit Certification";
+}
+@model K94Warriors.Models.DogCertification
+@section subnav {
+    @{
+        Html.RenderAction("GetDogSection", "Dog", new {dogId = ViewBag.DogId });
+    }
+}
+
+<div class="well">
+    <h1>Edit Certification</h1>
+    <div>Modify the certification '@Model.Name' for @dogName.</div>
+</div>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(i => i.DogProfileID)
+    @Html.HiddenFor(i => i.DogCertificationID)
+    
+        <div class="form-group">
+        @Html.LabelFor(i => i.Name)
+        @Html.TextBoxFor(i => i.Name, new { @class = "form-control input-lg" })
+        @Html.ValidationMessageFor(i => i.Name, "", new { @class = "help-block" })
+    </div>
+    
+    <div class="form-group">
+        @Html.LabelFor(i => i.DateReceived)
+        <input type="date" class="form-control input-lg" name="DateReceived" value="@Model.DateReceived.ToString("yyyy-MM-dd")" />
+        @Html.ValidationMessageFor(i => i.DateReceived, "", new { @class = "help-block" })
+    </div>
+    
+    <div class="form-group">
+        @Html.LabelFor(i => i.ExpirationDate)
+        <input type="date" class="form-control input-lg" name="ExpirationDate" value="@(Model.ExpirationDate.HasValue ? Model.ExpirationDate.Value.ToString("yyyy-MM-dd") : null)" />
+        @Html.ValidationMessageFor(i => i.ExpirationDate, "", new { @class = "help-block" })
+    </div>
+    
+    <p>
+        <button type="submit" class="btn">Save Changes</button>
+    </p>
+}
