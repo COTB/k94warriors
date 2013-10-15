@@ -147,6 +147,40 @@
     <div>
         <div>
             <p class="pull-right">
+                @Html.ActionLink("View All Events", "Index", "Events", new { dog = ViewBag.DogId }, null)
+            </p>
+            <h4>Uncompleted Events</h4>
+        </div>
+        <hr />
+        <div class="col col-lg-12">
+            <table class="table table-bordered">
+
+                <thead>
+                    <tr>
+                        <th class="col col-lg-3">Event Type</th>
+                        <th class="col col-lg-6">Subject</th>
+                        <th class="col col-lg-3">Date/Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var e in Model.DogEvents.Where(i => !i.IsComplete).OrderBy(i => i.EventDate))
+                    {
+                        <tr>
+                            <td class="col col-lg-3">@e.EventType.Name</td>
+                            <td class="col col-lg-6"><a href="/Events/Edit?dogEventId=@e.EventID">@e.Subject</a></td>
+                            <td class="col col-lg-3">@e.EventDate.ToShortDateString() @e.EventDate.ToShortTimeString()</td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+    <div>
+        <div>
+            <p class="pull-right">
                 @Html.ActionLink("View All Notes", "Index", "Notes", new { dog = ViewBag.DogId }, null)
             </p>
             <h4>Last 5 Notes</h4>
