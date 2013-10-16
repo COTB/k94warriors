@@ -1,139 +1,28 @@
-k94warriors
-===========
+# K9s for Warriors Kennel Management Software
+## A [Code on the Beach](http://www.codeonthebeach.com) 2013 Hackathon Project
 
-Schema:
-------
+This project is a collaboration between Code on the Beach volunteers and K9s for Warriors 
+to produce a working kennel management website for keeping track of the dogs in their system.
 
-http://i.imgur.com/aXWwy3y.png
+[K9s for Warriors](http://www.k9sforwarriors.org) provides dogs rescued from shelters and service K9s to our military troops
+and veterans suffering from Post Traumatic Stress Disorder (PTSD).
 
-Requirements:
-------------
+At Code on the Beach 2013, over 20 attendees worked late into the night on Friday and Saturday night of 
+the conference to produce this website for K9s for Warriors. After the conference, a group of volunteers
+has been working to finish the project for them. We at Code on the Beach are excited to help such a great
+local organization and show support for our troops.
 
-Core Requirements
+## Technologies
 
-	* Must have some sort of alerting - Immediate SMS?  Immediate email?  Daily Report? 
-	* Must be able to create dog records based on initial evaluation of dog
-	* 
-		* Positive or negative - take dog or pass
+We use the following technologies on this project:
+* ASP.NET MVC 4 with C#
+* SQL Server / Windows Azure SQL Database
+* Windows Azure Storage
+* HTML5
+* Bootstrap
+* Entity Framework Code First
+* Ninject
 
-	* Must be able to track dog records for daily facilities - Volunteers
-	* 
-		* Types of notes -
-		* 
-			* Daily Status Note
-			* Critical Note
+## Contributing
 
-
-	* Must be able to track Reminders on the dog records
-	* 
-		* Vets
-		* Other actions that need to happen
-
-	* Must be able to track Commands 
-	* 
-		* Same as notes
-
-	* Must be able to track dog training records - Trainers
-	* Must be able to track dogs to warriors
-	* Must be able to track feeding plan and records
-	* 
-		* Feedings would be notes
-		* Dog Feeding text associated with dog
-
-	* Must be able to track vet records by Dogs
-	* 
-		* Associate image to the vet record
-		* Track shot history
-
-	* Must be able to track graduation and re-certification at specific timeframes?
-	* Must be able to track location of dog inside kennel 
-	* Must be able to track kennel cleaning/operations 
-	* Must be able to support user types:
-	* 
-		* Ability to add new users
-
-
-
-Secondary Requirements:
-
-	* Tracking Dogs to Sponsors
-	* Warriors able to update statuses / photos of dogs after?
-	* 
-		* Tie into social?
-
-	* Ability to track history of shelter information
-
-		* Ability to have different types of users 
-		* 
-			* Nice to have - Types of Users:
-			* 
-				* Volunteers
-				* Trainers
-				* Dog Evaluators
-				* Administrative
-				* Warriors/Veterns
-
-
-
-
-
-High Level Models:
-
-	* Dog:
-	* 
-		* Dog Properties:
-		* 
-			* Source - Where the dog came from?  Shelter/home/etc?
-			* 
-				* Sources database
-				* Associated to types in the Sources database
-
-			* Birthdate?  (Age?)
-			* Breed
-			* Color
-			* Photos
-			* Spaid/Neutered date
-			* Current Temperament - Aggression
-			* Energy Level
-			* Current Medical Issues
-			* Date Acquired
-			* Date Graduated
-			* Warrior Adopted to
-			* Re certification Due Date
-			* Name (Optional)
-			* ID (Required)
-
-		* Training Log
-		* 
-			* General - Free Text
-
-		* Daily Status Updates
-		* 
-			* General - Free Text
-			* Temperament Updates
-			* Alerts
-
-		* Vet Records
-		* 
-			* General - Free Text / File Upload
-			* Structured - Shots
-			* Medical History
-
-		* Feeding Schedule
-		* Feeding Event
-		* Interview Contact - Person who did the interview
-		* Skills 
-		* Warrior Follow Up / Recertification
-
-	* User: 
-	* Kennel:
-	* Warriors:
-	* Dog Source:
-	* 
-		* Shelter
-		* Individual
-		* Organization
-		* Notes on the source
-
-
-
+To contribute, please review our [Wiki](https://github.com/COTB/k94warriors/wiki) and our open [Issues](https://github.com/COTB/k94warriors/issues).
