@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
@@ -9,7 +8,6 @@ using System.Web;
 using System.Web.Mvc;
 using K9ImageResizer = K94Warriors.Core.ImageResizing.ImageResizer;
 using K94Warriors.Data.Contracts;
-using K94Warriors.Core;
 using K94Warriors.Models;
 using K94Warriors.ViewModels;
 

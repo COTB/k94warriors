@@ -1,4 +1,5 @@
 ﻿@{
+    string dogName = ViewBag.DogName;
     ViewBag.Title = "Edit Note";
 }
 @model K94Warriors.Models.DogNote
@@ -9,32 +10,33 @@
 }
 
 <div class="well">
-    <h1>Note</h1>
-    <div>Pick a note type that best fits your entry.</div>
+    <h1>@ViewBag.Title</h1>
+    <div>Edit this note for @dogName.</div>
 </div>
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     @Html.Hidden("DogProfileId", @Model.DogProfileID)
     <div class="form-group">
-        <label>Note Type</label>
-        @Html.DropDownList("NoteTypeId", null, "Select Note Type", new {@class = "form-control"})
+        @Html.LabelFor(i => i.NoteTypeId, "Note Type")
+        @Html.DropDownListFor(i => i.NoteTypeId, (SelectList) ViewBag.NoteTypeSelectList, "Select Note Type", new {@class = "form-control"})
     </div>
 
     <div class="form-group">
-        <label>Note</label>
-        <textarea class="form-control input-lg" name="Note" placeholder="Note">@Model.Note</textarea>
+        @Html.LabelFor(i => i.Note)
+        @Html.TextAreaFor(i => i.Note, new {@class = "form-control input-lg", placeholder = "Note"})
         @Html.ValidationMessageFor(t => t.Note, "", new {@class = "help-block"})
     </div>
 
     <div class="checkbox">
         <label>
-            <input type="checkbox" name="IsCritical" value="true" @(Model.IsCritical ? "checked" : "")> Is Note Critical (Will send trainer e-mail alert)
+            @Html.CheckBoxFor(i => i.IsCritical) Is Note Critical (Will send trainer e-mail alert)
         </label>
         @Html.ValidationMessageFor(t => t.IsCritical, "", new {@class = "help-block"})
     </div>
 
     <p>
-        <button type="submit" class="btn">Submit</button>
+        <button type="submit" class="btn">Save Note</button>
     </p>
 }

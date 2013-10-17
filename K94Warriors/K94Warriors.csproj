@@ -72,6 +72,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="ImageResizer">
       <HintPath>..\packages\ImageResizer.3.3.3\lib\ImageResizer.dll</HintPath>
     </Reference>
@@ -280,6 +283,14 @@
     <Compile Include="Migrations\201310151721491_DogCertifications.Designer.cs">
       <DependentUpon>201310151721491_DogCertifications.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201310171935539_NoteAttachmentFileExtension.cs" />
+    <Compile Include="Migrations\201310171935539_NoteAttachmentFileExtension.Designer.cs">
+      <DependentUpon>201310171935539_NoteAttachmentFileExtension.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201310171951228_NoteAttachmentFileName.cs" />
+    <Compile Include="Migrations\201310171951228_NoteAttachmentFileName.Designer.cs">
+      <DependentUpon>201310171951228_NoteAttachmentFileName.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Accounts\ExternalLogin.cs" />
     <Compile Include="Models\Accounts\LocalPasswordModel.cs" />
     <Compile Include="Models\Accounts\LoginModel.cs" />
@@ -315,16 +326,17 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScheduledTaskServices\IScheduledTaskFactory.cs" />
+    <Compile Include="ScheduledTaskServices\IScheduledTaskProvider.cs" />
     <Compile Include="ScheduledTaskServices\Tasks\MorningEmailTask.cs" />
     <Compile Include="ScheduledTaskServices\IScheduledTaskService.cs" />
     <Compile Include="ScheduledTaskServices\IScheduledTask.cs" />
-    <Compile Include="ScheduledTaskServices\ScheduledTaskFactory.cs" />
+    <Compile Include="ScheduledTaskServices\ScheduledTaskProvider.cs" />
     <Compile Include="ScheduledTaskServices\ScheduledTaskService.cs" />
     <Compile Include="ViewModels\DogImageUploadViewModel.cs" />
     <Compile Include="ViewModels\DogProfileViewModel.cs" />
     <Compile Include="ViewModels\EmailNotifications\EmailViewModel.cs" />
     <Compile Include="ViewModels\Medication\MedicationPrintLogViewModel.cs" />
+    <Compile Include="ViewModels\NoteAttachmentUploadViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap\bootstrap.css" />
@@ -428,6 +440,7 @@
     <None Include="Properties\PublishProfiles\k94warriors - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\k94warriors - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
+    <Content Include="Scripts\app\ko-mouseover-binding.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
@@ -445,7 +458,8 @@
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\profile-image-picker.js" />
+    <Content Include="Scripts\app\note-attachment-modal.js" />
+    <Content Include="Scripts\app\profile-image-picker.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -516,6 +530,7 @@
     <Content Include="Views\Certifications\Create.cshtml" />
     <Content Include="Views\Certifications\Edit.cshtml" />
     <Content Include="Views\Certifications\Index.cshtml" />
+    <Content Include="Views\Notes\_NoteAttachmentModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -578,6 +593,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201310151721491_DogCertifications.resx">
       <DependentUpon>201310151721491_DogCertifications.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201310171935539_NoteAttachmentFileExtension.resx">
+      <DependentUpon>201310171935539_NoteAttachmentFileExtension.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201310171951228_NoteAttachmentFileName.resx">
+      <DependentUpon>201310171951228_NoteAttachmentFileName.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

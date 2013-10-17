@@ -28,17 +28,98 @@
         @foreach (var note in Model)
         {
             <div class="well note-container">
-                <h4>
-                    @note.NoteType.Name 
-                    @if (note.IsCritical)
-                    {
-                        <span class="label label-danger">Critical</span>
-                    }
-                </h4>
-                <p>Date: @note.CreatedDate.ToLongDateString()</p>
-                <p>@note.Note</p>
+                <div class="row">
+                    <div class="col-md-10">
+                        <h4>
+                            @note.NoteType.Name
+                            @if (note.IsCritical)
+                            {
+                                <span class="label label-danger">Critical</span>
+                            }
+                        </h4>
+                        <p>Date: @note.CreatedDate.ToLongDateString()</p>
+                        <p>@note.Note</p>
+                    </div>
+                    <div class="col-md-2">
+                        <h5>Actions</h5>
+                        <a href="#" title="Manage Files" data-toggle="tooltip" onclick="showAttachmentModal(@note.NoteID)"><i class="glyphicon glyphicon-cloud-upload"></i></a>
+                        <a href="/Notes/Edit/@note.NoteID" title="Edit Note" data-toggle="tooltip"><i class="glyphicon glyphicon-pencil"></i></a>
+                        <a href="@Url.Action("Delete", new { id = note.NoteID, dogProfileId = ViewBag.DogId })" title="Delete Note" data-toggle="tooltip" onclick="return confirm('Are you sure you want to delete this note?')"><i class="glyphicon glyphicon-trash"></i></a>
+                    </div>
+                </div>
             </div>
         }
 
     </div>
 </div>
+
+@Html.Partial("_NoteAttachmentModal")
+
+@section scripts {
+    <script src="~/Scripts/knockout-2.2.0.js"></script>
+    <script src="~/Scripts/app/ko-mouseover-binding.js"></script>
+    <script src="~/Scripts/app/note-attachment-modal.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#note-attachment-modal').on('show.bs.modal', function () {
+                $('#modal-tabs a:first').tab('show');
+            });
+        });
+
+        function unapplyBindings($node) {
+            $node.find("*").each(function () {
+                $(this).unbind();
+            });
+
+            ko.cleanNode($node[0]);
+        }
+
+        function showAttachmentModal(noteId) {
+            var modal = $('#note-attachment-modal');
+            var viewModel = new AttachmentModalViewModel(noteId);
+            ko.applyBindings(viewModel, modal[0]);
+            modal.modal('show');
+            modal.on('hidden.bs.modal', function () {
+                viewModel = null;
+                unapplyBindings(modal);
+            });
+        }
+    </script>
+}
+
+@section styles {
+    <style type="text/css">
+        #note-attachment-modal .modal-dialog {
+            width: 75%;
+        }
+
+        #thumbnail-picker {
+            max-height: 28em;
+            overflow-y: auto;
+        }
+
+            #thumbnail-picker a span.btn {
+                width: 100%;
+                padding: 2px 12px;
+                position: absolute;
+                bottom: 0;
+            }
+
+        a.thumbnail {
+            padding: 0;
+            position: relative;
+            margin-bottom: 4px;
+        }
+
+            a.thumbnail i {
+                font-size: 8.5em;
+            }
+
+            a.thumbnail span.btn {
+                position: absolute;
+                bottom: 0;
+                max-width: 100%;
+                width: 100%;
+            }
+    </style>
+}

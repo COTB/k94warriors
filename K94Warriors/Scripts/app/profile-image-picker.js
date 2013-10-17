@@ -30,10 +30,6 @@ function ThumbnailModalViewModel(profileId) {
 
     var imagesPerFrame = 4;
 
-    var doFileUpload = function (form, url, progressHandler, success, error) {
-
-    };
-
     var filePicker = $('#upload form input:file')[0];
 
     // Exported properties
@@ -116,7 +112,6 @@ function ThumbnailModalViewModel(profileId) {
     };
 
     self.deleteImage = function (image) {
-        console.log('Delete: ' + image.blobKey());
         $.ajax({
             url: '/Dog/DeleteImage',
             method: 'POST',
@@ -146,7 +141,7 @@ function ThumbnailModalViewModel(profileId) {
                 });
             },
             error: function () {
-                alert('Error retrieving image data for dog!');
+                toastr.error('Error retrieving image data for dog!');
             }
         });
     };
@@ -154,24 +149,4 @@ function ThumbnailModalViewModel(profileId) {
     self.getImageKeys();
 }
 
-function setupCustomBindings() {
-    ko.bindingHandlers.hoverTargetId = {};
-    ko.bindingHandlers.hoverVisible = {
-        init: function (element, valueAccessor, allBindingsAccessor) {
-
-            function showOrHideElement(show) {
-                var canShow = ko.utils.unwrapObservable(valueAccessor());
-                $(element).toggle(show && canShow);
-            }
-
-            var hideElement = showOrHideElement.bind(null, false);
-            var showElement = showOrHideElement.bind(null, true);
-            var $hoverTarget = $('#' + ko.utils.unwrapObservable(allBindingsAccessor().hoverTargetId));
-            ko.utils.registerEventHandler($hoverTarget, 'mouseover', showElement);
-            ko.utils.registerEventHandler($hoverTarget, 'mouseout', hideElement);
-            hideElement();
-        }
-    };
-}
-
-setupCustomBindings();
+KoMouseover.SetupBindings(ko);

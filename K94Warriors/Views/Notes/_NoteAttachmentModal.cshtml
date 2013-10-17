@@ -1,0 +1,91 @@
+﻿<div id="note-attachment-modal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Note Attachments</h4>
+            </div>
+            <div class="modal-body">
+                <ul id="modal-tabs" class="nav nav-tabs">
+                    <li><a href="#manage" data-toggle="tab">Manage</a></li>
+                    <li><a href="#upload" data-toggle="tab">Upload</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane active" id="manage">
+                        @*<div class="well">
+                                <div id="thumbnail-picker" class="col-md-12" data-bind="foreach: frames" style="overflow-y: auto;">
+                                    <div class="row" data-bind="foreach: $data">
+                                        <div class="col-md-3">
+                                            <a href="#" class="thumbnail container" data-bind="attr: { id: 'attachment' + blobKey() }">
+                                                <div style="height: 250px; width: 250px;"><i class="glyphicon glyphicon-file"></i></div>
+                                                <span data-bind="text: fileName"></span>
+                                                <span data-bind="click: $root.deleteAttachment, hoverVisible: true, hoverTargetId: 'attachment' + blobKey()" class="btn btn-xs btn-danger">
+                                                    Delete
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>*@
+                        <div class="well">
+                            <span>
+                                <a data-bind="attr: {href: downloadAllLink}"><i class="glyphicon glyphicon-download-alt"></i> Download All Attachments</a>
+                            </span>
+                            <hr />
+                            <div id="thumbnail-picker" class="col-md-12" data-bind="foreach: attachments" style="overflow-y: auto;">
+                                <div class="well">
+                                    <div class="row">
+                                        <span class="col-md-10">
+                                            <a data-bind="attr: {href: downloadLink}">
+                                                <i class="glyphicon glyphicon-file"></i>
+                                                <!--ko text: fileName--><!--/ko-->
+                                            </a>
+                                        </span>
+                                        <span class="col-md-2">
+                                            <a data-bind="attr: {href: downloadLink}" title="Download" data-toggle="tooltip"><i class="glyphicon glyphicon-download-alt"></i></a>
+                                            <a href="#" data-bind="click: $parent.deleteAttachment" title="Delete" data-toggle="tooltip"><i class="glyphicon glyphicon-trash"></i></a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="upload">
+                        <div class="well">
+                            <p class="text-center">
+                                Select images to upload.
+                            </p>
+                            <div class="row">
+                                <form id="fileUploadForm" enctype='multipart/form-data'>
+                                    <input id="noteId" type="hidden" name="dogNoteId" data-bind="value: $root.noteId" />
+                                    <input name="files" id="imageFileUpload" type="file" data-bind="event: { change: fileInputChanged }" class="form-control input-lg" title="Choose files..." multiple />
+                                </form>
+                            </div>
+                            <br />
+                            <br />
+                            <div class="row">
+                                <div class="form-control input-lg progress progress-striped active" data-bind="visible: $root.isUploading">
+                                    <div class="progress-bar">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" id="cancelButton" class="btn btn-default" data-bind="event: { click: cancelPickedFiles }">
+                                    Cancel
+                                </button>
+                                <button type="button" id="uploaderButton" class="btn btn-primary"
+                                        data-bind="enable: uploadEnabled, event: { click: $root.uploadFiles }">
+                                    Upload
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="closeButton" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

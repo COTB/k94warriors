@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +21,7 @@ namespace K94Warriors.Email
         /// <param name="subject">The subject.</param>
         /// <param name="body">The body.</param>
         /// <exception cref="System.ArgumentException">Thrown when any parameter is null, empty, or white space.</exception>
-        public async Task Send(string from, string to, string subject, string body)
+        public async Task Send(string from, IList<string> to, string subject, string body)
         {
             await new Task(() =>
                 {
@@ -28,9 +30,9 @@ namespace K94Warriors.Email
                     {
                         throw new ArgumentException("cannot be null, empty, or white space", "from");
                     }
-                    if (string.IsNullOrWhiteSpace(to))
+                    if (!to.Any())
                     {
-                        throw new ArgumentException("cannot be null, empty, or white space", "to");
+                        throw new ArgumentException("must provide at least one recipient address", "to");
                     }
                     if (string.IsNullOrWhiteSpace(subject))
                     {
@@ -42,8 +44,11 @@ namespace K94Warriors.Email
                     }
 
                     // Create the mail message
-                    using (var mailMessage = new MailMessage(from, to, subject, body))
+                    using (var mailMessage = new MailMessage {From = new MailAddress(from), Subject = subject, Body = body})
                     {
+                        foreach (var address in to)
+                            mailMessage.To.Add(address);
+
                         mailMessage.BodyEncoding = Encoding.UTF8;
                         mailMessage.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
 
@@ -54,6 +59,11 @@ namespace K94Warriors.Email
                         }
                     }
                 });
+        }
+
+        public async Task Send(string from, string to, string subject, string body)
+        {
+            await Send(from, new[] {to}, subject, body);
         }
 
         public async Task Send(EmailViewModel viewModel)

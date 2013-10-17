@@ -1,10 +1,17 @@
-﻿namespace K94Warriors.ViewModels.EmailNotifications
+﻿using System.Collections.Generic;
+
+namespace K94Warriors.ViewModels.EmailNotifications
 {
-    public abstract class EmailViewModel
+    public class EmailViewModel
     {
+        public EmailViewModel()
+        {
+            To = new List<string>();
+        }
+
         public string From { get; set; }
 
-        public string To { get; set; }
+        public List<string> To { get; set; }
 
         public string Subject { get; set; }
 

@@ -65,5 +65,11 @@
         @Scripts.Render("~/bundles/bootstrap")
         <script type="text/javascript" src="~/Scripts/toastr.js"></script>
         @RenderSection("scripts", required: false)
+        
+        <script type="text/javascript">
+            $(function () {
+                $('*[data-toggle="tooltip"]').tooltip();
+            });
+        </script>
     </body>
 </html>

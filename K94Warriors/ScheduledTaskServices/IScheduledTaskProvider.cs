@@ -1,6 +1,6 @@
 ﻿namespace K94Warriors.ScheduledTaskServices
 {
-    public interface IScheduledTaskFactory
+    public interface IScheduledTaskProvider
     {
         IScheduledTask GetTask(string key);
     }

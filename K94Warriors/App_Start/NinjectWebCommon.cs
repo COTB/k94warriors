@@ -8,6 +8,7 @@ using K94Warriors.Data.Contracts;
 using K94Warriors.Email;
 using K94Warriors.ScheduledTaskServices;
 using K94Warriors.ScheduledTaskServices.Tasks;
+using Ninject.Activation;
 
 [assembly: WebActivator.PreApplicationStartMethod(typeof(K94Warriors.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivator.ApplicationShutdownMethodAttribute(typeof(K94Warriors.App_Start.NinjectWebCommon), "Stop")]
@@ -73,6 +74,8 @@ namespace K94Warriors.App_Start
             kernel.Bind<DbContext>().To<K9DbContext>().InRequestScope()
                   .WithConstructorArgument("nameOrConnectionString", "K9");
 
+
+
             // Bind to the Images blob container for DogController
             kernel.Bind<IBlobRepository>().To<K9BlobRepository>()
                   .WhenInjectedInto<DogController>()
@@ -80,6 +83,8 @@ namespace K94Warriors.App_Start
                                            ConfigurationManager.AppSettings["StorageAccountConnectionString"])
                   .WithConstructorArgument("imageContainer",
                                            ConfigurationManager.AppSettings["ImageBlobContainerName"]);
+
+
 
             // Bind to the Medical Records blob container for MedicalRecordsController
             kernel.Bind<IBlobRepository>().To<K9BlobRepository>()
@@ -89,6 +94,8 @@ namespace K94Warriors.App_Start
                   .WithConstructorArgument("imageContainer",
                                            ConfigurationManager.AppSettings["MedicalRecordBlobContainerName"]);
 
+
+
             // Bind to the Notes blob container for MedicalRecordsController
             kernel.Bind<IBlobRepository>().To<K9BlobRepository>()
                   .WhenInjectedInto<NotesController>()
@@ -97,17 +104,25 @@ namespace K94Warriors.App_Start
                   .WithConstructorArgument("imageContainer",
                                            ConfigurationManager.AppSettings["NotesBlobContainerName"]);
 
+
+
             // Scheduled tasks with Aditi cloud scheduler
+            kernel.Bind<IScheduledTask>().To<MorningEmailTask>().Named("email")
+                .WithConstructorArgument("to", "")
+                .WithConstructorArgument("from", "")
+                .WithConstructorArgument("subject", "");
+
             kernel.Bind<IScheduledTaskService>().To<ScheduledTaskService>()
                   .WhenInjectedInto<SchedulerApiController>();
-            kernel.Bind<IScheduledTaskFactory>().To<ScheduledTaskFactory>()
+            
+            kernel.Bind<IScheduledTaskProvider>().To<ScheduledTaskProvider>()
                   .WhenInjectedInto<IScheduledTaskService>()
-                  .WithConstructorArgument("taskDictionary", new Dictionary<string, Type>
+                  .WithConstructorArgument("factories", new Dictionary<string, Func<IScheduledTask>>
                       {
-                          {"email", typeof(MorningEmailTask)},
-                          {"test", typeof(string)}
+                          {"email", () => kernel.Get<IScheduledTask>("email")},
                       });
-            kernel.Bind<ScheduledTaskFactory>().ToSelf().InSingletonScope();
+
+            kernel.Bind<ScheduledTaskProvider>().ToSelf().InSingletonScope();
 
 
             // Bind IMailer to the SmtpMailer (could also use SendGrid, etc)

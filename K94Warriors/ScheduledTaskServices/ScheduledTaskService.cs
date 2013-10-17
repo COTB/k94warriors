@@ -5,18 +5,18 @@ namespace K94Warriors.ScheduledTaskServices
 {
     public class ScheduledTaskService : IScheduledTaskService
     {
-        private readonly IScheduledTaskFactory _factory;
+        private readonly IScheduledTaskProvider _provider;
 
-        public ScheduledTaskService(IScheduledTaskFactory factory)
+        public ScheduledTaskService(IScheduledTaskProvider provider)
         {
-            if (factory == null)
-                throw new ArgumentNullException("factory");
-            _factory = factory;
+            if (provider == null)
+                throw new ArgumentNullException("provider");
+            _provider = provider;
         }
 
         public async Task<bool> RunTaskForKey(string taskKey)
         {
-            var task = _factory.GetTask(taskKey);
+            var task = _provider.GetTask(taskKey);
             if (task != null)
                 return await task.Run();
             return await new Task<bool>(() => false);

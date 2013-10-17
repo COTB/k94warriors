@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using K94Warriors.Core;
+using ICSharpCode.SharpZipLib.Core;
+using ICSharpCode.SharpZipLib.Zip;
 using K94Warriors.Data.Contracts;
 using K94Warriors.Models;
+using K94Warriors.ViewModels;
 
 namespace K94Warriors.Controllers
 {
@@ -13,7 +17,7 @@ namespace K94Warriors.Controllers
     {
         private readonly IRepository<DogProfile> _dogProfileRepo;
         private readonly IRepository<DogNote> _dogNoteRepo;
-        private readonly IRepository<DogNoteAttachment> _dogNoteAttachmentRepo; 
+        private readonly IRepository<DogNoteAttachment> _dogNoteAttachmentRepo;
         private readonly IRepository<NoteType> _noteTypeRepo;
         private readonly IBlobRepository _blobRepo;
 
@@ -87,13 +91,13 @@ namespace K94Warriors.Controllers
                 SetDogViewBag(dog);
 
                 ViewBag.NoteTypeSelectList = new SelectList(_noteTypeRepo.GetAll(), "ID", "Name", model.NoteTypeId);
-                
+
                 return View(model);
             }
 
             _dogNoteRepo.Update(model);
 
-            await UploadFiles(model.NoteID, files);
+            await DoFileUpload(model.NoteID, files);
 
             return RedirectToAction("Index", new { dog = model.DogProfileID });
         }
@@ -122,11 +126,11 @@ namespace K94Warriors.Controllers
             if (!ModelState.IsValid)
             {
                 var dog = _dogProfileRepo.GetById(model.DogProfileID);
-                
+
                 SetDogViewBag(dog);
 
                 ViewBag.NoteTypeSelectList = new SelectList(_noteTypeRepo.GetAll(), "ID", "Name", model.NoteTypeId);
-                
+
                 return View(model);
             }
 
@@ -134,7 +138,7 @@ namespace K94Warriors.Controllers
 
             _dogNoteRepo.Insert(model);
 
-            await UploadFiles(model.NoteID, files);
+            await DoFileUpload(model.NoteID, files);
 
             return RedirectToAction("Index", new { dog = model.DogProfileID });
         }
@@ -142,7 +146,7 @@ namespace K94Warriors.Controllers
 
         // 
         // POST: /Notes/Delete/{id}
-        
+
         public ActionResult Delete(int id, int? dogProfileId)
         {
             _dogNoteRepo.Delete(id);
@@ -152,9 +156,105 @@ namespace K94Warriors.Controllers
             return RedirectToAction("Index", "Dog");
         }
 
-
-        private async Task UploadFiles(int dogNoteId, IEnumerable<HttpPostedFileBase> files)
+        public ActionResult AttachmentKeys(int dogNoteId)
         {
+            var dogNote = _dogNoteRepo.GetById(dogNoteId);
+            if (dogNote == null)
+                return null;
+
+            var attachments = _dogNoteAttachmentRepo.Where(x => x.DogNoteID == dogNote.NoteID);
+            var keys = (from a in attachments
+                        select new
+                            {
+                                a.DogNoteAttachmentID,
+                                a.FileName
+                            }).ToList();
+
+            return Json(keys, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> UploadFiles(NoteAttachmentUploadViewModel model)
+        {
+            var dogNote = _dogNoteRepo.GetById(model.DogNoteId);
+            if (dogNote == null)
+                return Json(new {success = false, errorMessage = "Invalid dog note id sent with request."});
+
+            if (model.Files.Count < 1)
+                return Json(new { success = false, errorMessage = "No files in request." });
+
+            await DoFileUpload(model.DogNoteId, model.Files);
+
+            return Json(new { success = true });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteFile(int id)
+        {
+            try
+            {
+                var attachment = _dogNoteAttachmentRepo.GetById(id);
+                if (attachment == null)
+                    return null;
+
+                await _blobRepo.DeleteImageIfExistsAsync(attachment.BlobKey.ToString());
+                _dogNoteAttachmentRepo.Delete(attachment);
+            }
+            catch (Exception ex)
+            {
+                return Json(new {success = false, errorMessage = ex.Message});
+            }
+
+            return Json(new {success = true});
+        }
+
+
+        public async Task<ActionResult> DownloadAllFiles(int dogNoteId)
+        {
+            var dogNote = _dogNoteRepo.GetById(dogNoteId);
+            if (dogNote == null)
+                return null;
+
+            var attachments = _dogNoteAttachmentRepo.Where(x => x.DogNoteID == dogNote.NoteID);
+            if (!attachments.Any())
+                return null;
+
+            var outputStream = new MemoryStream();
+            var zipStream = new ZipOutputStream(outputStream);
+
+            zipStream.SetLevel(3); // 0-9, 9 is highest compression
+
+            foreach (var attachment in attachments)
+            {
+                await AddFileToZip(attachment, zipStream);
+            }
+
+            zipStream.IsStreamOwner = false;
+            zipStream.Close();
+
+            outputStream.Position = 0;
+
+            return File(outputStream.ToArray(), "application/octet-stream", "NoteAttachments.zip");
+        }
+
+        public async Task<ActionResult> DownloadFile(int id)
+        {
+            var attachment = _dogNoteAttachmentRepo.GetById(id);
+            if (attachment == null)
+                return null;
+
+            var stream = await _blobRepo.GetImageAsync<MemoryStream>(attachment.BlobKey.ToString());
+
+            stream.Position = 0;
+
+            return File(stream.ToArray(), attachment.MimeType, "NoteAttachment." + attachment.FileExtension);
+        }
+
+        private async Task DoFileUpload(int dogNoteId, IEnumerable<HttpPostedFileBase> files)
+        {
+            if (dogNoteId == 0)
+                return;
+
             if (files == null)
                 return;
 
@@ -166,12 +266,28 @@ namespace K94Warriors.Controllers
                 {
                     BlobKey = blobKey,
                     DogNoteID = dogNoteId,
-                    MimeType = file.ContentType
+                    MimeType = file.ContentType,
+                    FileName = file.FileName,
+                    FileExtension = Path.GetExtension(file.FileName)
                 };
                 dogNoteAttachments.Add(dogNoteAttachment);
                 await _blobRepo.InsertOrUpdateImageAsync(blobKey.ToString(), file.InputStream);
             }
             _dogNoteAttachmentRepo.Insert(dogNoteAttachments);
+        }
+
+        private async Task AddFileToZip(DogNoteAttachment attachment, ZipOutputStream zipStream)
+        {
+            var entry = new ZipEntry(attachment.FileName) { DateTime = DateTime.Now };
+
+            zipStream.PutNextEntry(entry);
+
+            using (var stream = await _blobRepo.GetImageAsync<MemoryStream>(attachment.BlobKey.ToString()))
+            {
+                StreamUtils.Copy(stream, zipStream, new byte[4096]);
+            }
+
+            zipStream.CloseEntry();
         }
     }
 }

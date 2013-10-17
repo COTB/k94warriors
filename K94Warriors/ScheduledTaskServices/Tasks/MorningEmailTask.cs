@@ -19,7 +19,8 @@ namespace K94Warriors.ScheduledTaskServices.Tasks
         public MorningEmailTask(IMailer mailer, 
                                 IRepository<DogEvent> dogEventRepo,
                                 IRepository<DogFeedingEntry> dogFeedingRepo,
-                                IRepository<DogMedication> dogMedicationRepo)
+                                IRepository<DogMedication> dogMedicationRepo,
+                                IList<string> to, string from, string subject)
         {
             if (mailer == null)
                 throw new ArgumentNullException("mailer");
@@ -58,7 +59,12 @@ namespace K94Warriors.ScheduledTaskServices.Tasks
 
             try
             {
-                var email = EmailBuilder.BuildListEmail(lists);
+                var eb = new EmailBuilder();
+
+                eb.To("").From("").WithSubject("").WithBody(lists);
+
+                var email = eb.ToViewModel();
+
                 await _mailer.Send(email);
             }
             catch

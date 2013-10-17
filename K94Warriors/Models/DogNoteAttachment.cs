@@ -12,6 +12,10 @@ namespace K94Warriors.Models
 
         public Guid BlobKey { get; set; }
 
+        public string FileName { get; set; }
+
+        public string FileExtension { get; set; }
+
         public string MimeType { get; set; }
 
         public virtual DogNote DogNote { get; set; }
