@@ -37,6 +37,8 @@ function ThumbnailModalViewModel(profileId) {
     self.images = ko.observableArray([]);
     self.selectedImage = ko.observable();
 
+    self.dirty = ko.observable(false);
+
     self.uploadProgress = ko.observable(0);
     self.isUploading = ko.observable(false);
     self.filesSelected = ko.observable(false);
@@ -94,6 +96,7 @@ function ThumbnailModalViewModel(profileId) {
             success: function (result) { // success
                 if (result.success) {
                     self.getImageKeys();
+                    self.dirty(true);
                     toastr.success('File upload complete.');
                 } else {
                     toastr.error(result.message);
@@ -112,6 +115,10 @@ function ThumbnailModalViewModel(profileId) {
     };
 
     self.deleteImage = function (image) {
+        var result = confirm('Are you sure you want to delete this image?');
+
+        if (!result) return;
+
         $.ajax({
             url: '/Dog/DeleteImage',
             method: 'POST',
@@ -119,6 +126,7 @@ function ThumbnailModalViewModel(profileId) {
             success: function (result) {
                 if (result.success) {
                     toastr.success('Image deleted.');
+                    self.dirty(true);
                     self.getImageKeys();
                 } else {
                     toastr.error(result.message);

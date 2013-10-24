@@ -228,7 +228,7 @@ namespace K94Warriors.Controllers
         }
 
         [HttpPost]
-        public ActionResult DeleteImage(string blobKey)
+        public async Task<ActionResult> DeleteImage(string blobKey)
         {
             Guid key;
             var success = Guid.TryParse(blobKey, out key);
@@ -240,7 +240,7 @@ namespace K94Warriors.Controllers
                 return Json(new { success = false, message = "No image found for specified key" });
 
             _dogImageRepo.Delete(image);
-            _blobRepo.DeleteImageIfExistsAsync(blobKey);
+            await _blobRepo.DeleteImageIfExistsAsync(blobKey);
             return Json(new { success = true });
         }
 

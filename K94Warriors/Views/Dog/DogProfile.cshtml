@@ -59,7 +59,6 @@
     <script src="~/Scripts/knockout-2.2.0.js"></script>
     <script src="~/Scripts/app/ko-mouseover-binding.js"></script>
     <script src="~/Scripts/app/profile-image-picker.js"></script>
-    @*<script src="~/Scripts/jquery.ajaxfileupload.js"></script>*@
     <script type="text/javascript">
         $(function () {
             $('#button-edit-images').click(function () {
@@ -72,13 +71,22 @@
 
             if ($('.carousel-inner').length > 0) {
                 $('#dog-image-carousel').carousel({
-                    interval: 8000
+                    interval: 5000
                 });
             }
 
             DogPicViewModel = new ThumbnailModalViewModel(@ViewBag.DogId);
 
-            ko.applyBindings(DogPicViewModel, document.getElementById('#thumbnail-picker'));
+            $('#image-thumbnail-modal').on('hidden.bs.modal', function () {
+                var dirty = DogPicViewModel.dirty();
+
+                delete DogPicViewModel;
+                ko.cleanNode('#thumbnail-picker');
+
+                if (dirty) location.reload(true);
+            });
+
+            ko.applyBindings(DogPicViewModel, document.getElementById('thumbnail-picker'));
         });
     </script>
 }
