@@ -69,13 +69,43 @@ namespace K94Warriors.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
+            BindAzureBlobServices(kernel);
+
+            BindScheduledTaskServices(kernel);
+
             // Bind Entity Framework repository and DbContext
             kernel.Bind(typeof(IRepository<>)).To(typeof(EFRepository<>)).InRequestScope();
             kernel.Bind<DbContext>().To<K9DbContext>().InRequestScope()
                   .WithConstructorArgument("nameOrConnectionString", "K9");
 
 
+            // Bind IMailer to the SmtpMailer (could also use SendGrid, etc)
+            kernel.Bind<IMailer>().To<SmtpMailer>();
+        }
 
+        private static void BindScheduledTaskServices(IKernel kernel)
+        {
+            // Scheduled tasks with Aditi cloud scheduler
+            kernel.Bind<IScheduledTask>().To<MorningEmailTask>().Named("morningTaskEmail")
+                .WithConstructorArgument("to", ConfigurationManager.AppSettings["MorningTasksToEmailAddresses"].Split(','))
+                .WithConstructorArgument("from", ConfigurationManager.AppSettings["MorningTasksFromEmailAddress"])
+                .WithConstructorArgument("subject", ConfigurationManager.AppSettings["MorningTasksEmailSubject"]);
+
+            kernel.Bind<IScheduledTaskService>().To<ScheduledTaskService>()
+                  .WhenInjectedInto<SchedulerApiController>();
+
+            kernel.Bind<IScheduledTaskProvider>().To<ScheduledTaskProvider>()
+                  .WhenInjectedInto<IScheduledTaskService>()
+                  .WithConstructorArgument("factories", new Dictionary<string, Func<IScheduledTask>>
+                      {
+                          {"morningTaskEmail", () => kernel.Get<IScheduledTask>("morningTaskEmail")},
+                      });
+
+            kernel.Bind<ScheduledTaskProvider>().ToSelf().InSingletonScope();
+        }
+
+        private static void BindAzureBlobServices(IKernel kernel)
+        {
             // Bind to the Images blob container for DogController
             kernel.Bind<IBlobRepository>().To<K9BlobRepository>()
                   .WhenInjectedInto<DogController>()
@@ -103,30 +133,6 @@ namespace K94Warriors.App_Start
                                            ConfigurationManager.AppSettings["StorageAccountConnectionString"])
                   .WithConstructorArgument("imageContainer",
                                            ConfigurationManager.AppSettings["NotesBlobContainerName"]);
-
-
-
-            // Scheduled tasks with Aditi cloud scheduler
-            kernel.Bind<IScheduledTask>().To<MorningEmailTask>().Named("email")
-                .WithConstructorArgument("to", ConfigurationManager.AppSettings["MorningTasksToEmailAddresses"].Split(','))
-                .WithConstructorArgument("from",ConfigurationManager.AppSettings["MorningTasksFromEmailAddress"])
-                .WithConstructorArgument("subject", ConfigurationManager.AppSettings["MorningTasksEmailSubject"]);
-
-            kernel.Bind<IScheduledTaskService>().To<ScheduledTaskService>()
-                  .WhenInjectedInto<SchedulerApiController>();
-            
-            kernel.Bind<IScheduledTaskProvider>().To<ScheduledTaskProvider>()
-                  .WhenInjectedInto<IScheduledTaskService>()
-                  .WithConstructorArgument("factories", new Dictionary<string, Func<IScheduledTask>>
-                      {
-                          {"email", () => kernel.Get<IScheduledTask>("email")},
-                      });
-
-            kernel.Bind<ScheduledTaskProvider>().ToSelf().InSingletonScope();
-
-
-            // Bind IMailer to the SmtpMailer (could also use SendGrid, etc)
-            kernel.Bind<IMailer>().To<SmtpMailer>();
         }
     }
 }

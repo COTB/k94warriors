@@ -25,20 +25,27 @@ namespace K94Warriors.Controllers
         /// </summary>
         /// <param name="token"></param>
         /// <param name="taskKey"></param>
-        public async Task Post(string token, string taskKey)
+        public async Task<HttpResponseMessage> Post(string token, string taskKey)
         {
             Debug.WriteLine("Aditi API request received. Token: {0} TaskKey: {1}", token, taskKey);
 
             // Validate the token
-            //var correctToken = ConfigurationManager.AppSettings["AditiApiKey"] ?? string.Empty;
-            const string correctToken = "7hYP7Xb0q1jKwI3s6kK4phAtE0GOs119";
+            var correctToken = ConfigurationManager.AppSettings["AditiApiKey"] ?? string.Empty;
+            //const string correctToken = "7hYP7Xb0q1jKwI3s6kK4phAtE0GOs119";
             if (string.IsNullOrEmpty(correctToken))
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Error verifying API token."));
             if (!correctToken.Equals(token, StringComparison.Ordinal))
                 throw new HttpResponseException(HttpStatusCode.Unauthorized);
 
             // Received the correct token. Run the task.
-            await _taskService.RunTaskForKey(taskKey);
+            if (await _taskService.RunTaskForKey(taskKey))
+            {
+                return new HttpResponseMessage(HttpStatusCode.OK);
+            }
+            else
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Error dispatching task.");
+            }
         }
     }
 }
