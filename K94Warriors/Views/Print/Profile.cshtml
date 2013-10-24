@@ -1,0 +1,166 @@
+﻿@model K94Warriors.ViewModels.DogPrintViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Dog Information Form - @Model.DogProfile.Name</title>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/DogPrintView.css" rel="stylesheet" />
+</head>
+<body>
+    <h1>Dog Information Form</h1>
+
+    <table>
+        <tr>
+            <td class="col-md-8">
+                <h2>Dog:</h2>
+                <span>@Model.DogProfile.Name</span>
+            </td>
+            <td class="col-md-4">
+                <h2>KFW Tag #:</h2>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="col-md-12">
+                <h2>Warrior:</h2>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="col-md-12">
+                <h2>Intake Date:</h2>
+                <span>@(Model.DogProfile.PickedUpDate.HasValue ? Model.DogProfile.PickedUpDate.Value.ToLongDateString() : "")</span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="col-md-12">
+                <h2>Breed:</h2>
+                <span>@Model.DogProfile.Breed</span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="col-md-12">
+                <h2>Sex and DOB:</h2>
+
+                @if (Model.DogProfile.Gender == K94Warriors.Enums.GenderEnum.Female)
+                {
+                    <span>Female</span>
+                    if (Model.DogProfile.IsFixed)
+                    {
+                    <span>(Spayed)</span>
+                    }
+                    else
+                    {
+                    <span>(Not Spayed)</span>
+                    }
+                }
+                else
+                {
+                    <span>Male</span>
+                    if (Model.DogProfile.IsFixed)
+                    {
+                    <span>(Neutered)</span>
+                    }
+                    else
+                    {
+                    <span>(Not Neutered)</span>
+                    }
+                }
+
+                <span>/ </span>
+
+                @if (Model.DogProfile.BirthYear.HasValue)
+                {
+                    <span>Born in @Model.DogProfile.BirthYear.Value</span>
+                }
+                else
+                {
+                    <span>Unknown Birth Year</span>
+                }
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="col-md-12">
+                <h2>Microchip:</h2>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="col-md-12">
+                <h2>Vaccinations:</h2>
+                <div class="clearfix">
+                    @foreach (var vaccination in Model.Vaccinations)
+                    {
+                        <div class="col-md-3">
+                            <p class="vaccine-name">@vaccination.Title:</p>
+                            <p class="vaccine-exp">Exp. @(vaccination.RecordExpirationDate.HasValue ? vaccination.RecordExpirationDate.Value.ToShortDateString() : "Never")</p>
+                        </div>
+                    }
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="col-md-12">
+                <h2>Health Condition:</h2>
+                <span>@Model.DogProfile.HealthCondition</span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="col-md-12">
+                <h2>Notes:</h2>
+                @foreach (var note in Model.Notes)
+                {
+                    <div class="note">
+                        <h2>@note.NoteType.Name:</h2>
+                        <span>@note.Note</span>
+                    </div>
+                }
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="col-md-12">
+                <h2>Feeding:</h2>
+                @foreach (var feeding in Model.Feeding)
+                {
+                    <div class="feeding">
+                        <h2>@feeding.FoodName:</h2>
+                        <span>Amount: @feeding.AmountDescription every
+                            @if (feeding.AMFeeding)
+                            { 
+                                <span>AM</span>
+                            }
+                            @if (feeding.NoonFeeding)
+                            {
+                                <span>Noon</span>
+                            }
+                            @if (feeding.PMFeeding)
+                            {
+                                <span>PM</span>
+                            }
+                        </span>
+                        @if (!string.IsNullOrWhiteSpace(feeding.Notes))
+                        {
+                            <p class="feeding-note">
+                                Notes: @feeding.Notes
+                            </p>
+                        }
+                    </div>
+                }
+            </td>
+        </tr>
+    </table>
+
+    <div class="image-container">
+        @foreach (var image in Model.Images)
+        {
+            <div class="col-md-4">
+                <img src="@Url.Action("ImageForBlobKey", "Dog", new { blobKey = image.BlobKey, mimeType = image.MimeType, height = 180, width = 340 })" />
+            </div>
+        }
+    </div>
+</body>
+</html>

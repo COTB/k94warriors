@@ -200,6 +200,7 @@
     <Compile Include="Controllers\MedicalRecordsController.cs" />
     <Compile Include="Controllers\MedicationController.cs" />
     <Compile Include="Controllers\NotesController.cs" />
+    <Compile Include="Controllers\PrintController.cs" />
     <Compile Include="Controllers\SchedulerApiController.cs" />
     <Compile Include="Core\HtmlHelperExtensions\EnumDropdownHelper.cs" />
     <Compile Include="Core\HtmlHelperExtensions\K9TextBoxHelper.cs" />
@@ -333,6 +334,7 @@
     <Compile Include="ScheduledTaskServices\ScheduledTaskProvider.cs" />
     <Compile Include="ScheduledTaskServices\ScheduledTaskService.cs" />
     <Compile Include="ViewModels\DogImageUploadViewModel.cs" />
+    <Compile Include="ViewModels\DogPrintViewModel.cs" />
     <Compile Include="ViewModels\DogProfileViewModel.cs" />
     <Compile Include="ViewModels\EmailNotifications\EmailViewModel.cs" />
     <Compile Include="ViewModels\Medication\MedicationPrintLogViewModel.cs" />
@@ -341,6 +343,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap\bootstrap.css" />
     <Content Include="Content\bootstrap\bootstrap.min.css" />
+    <Content Include="Content\DogPrintView.css" />
     <Content Include="Content\font-awesome-ie7.css" />
     <Content Include="Content\font-awesome-ie7.min.css" />
     <Content Include="Content\font-awesome.css" />
@@ -531,6 +534,7 @@
     <Content Include="Views\Certifications\Edit.cshtml" />
     <Content Include="Views\Certifications\Index.cshtml" />
     <Content Include="Views\Notes\_NoteAttachmentModal.cshtml" />
+    <Content Include="Views\Print\Profile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

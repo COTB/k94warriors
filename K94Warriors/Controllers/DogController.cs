@@ -131,8 +131,7 @@ namespace K94Warriors.Controllers
             _dogRepo.Delete(dogProfileId);
             return RedirectToAction("Index");
         }
-
-
+        
         #region Partials and Child Actions
 
         public async Task<ActionResult> DogThumbnail(int dogId, int size)

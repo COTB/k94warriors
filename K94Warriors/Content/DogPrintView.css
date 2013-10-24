@@ -1,0 +1,38 @@
+﻿body {
+    font-size: 10pt;
+}
+
+h1 {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 14pt;
+}
+
+h2 {
+    display: inline;
+    font-size: 10pt;
+    text-transform: uppercase;
+}
+
+table, div.image-container {
+    width: 90%;
+    margin: 20px auto;
+}
+
+table tr {
+    border: solid 1px black;
+}
+
+table td {
+    padding: 10px;
+}
+
+p.vaccine-name {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+div.note, div.feeding {
+    padding-left: 15px;
+    margin-top: 10px;
+}
