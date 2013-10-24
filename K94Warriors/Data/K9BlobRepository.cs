@@ -33,11 +33,22 @@ namespace K94Warriors.Data
         public async Task<T> GetImageAsync<T>(string id)
             where T : Stream, new()
         {
-            var container = _client.GetContainerReference(_imageContainer);
-            var blockBlob = container.GetBlockBlobReference(id);
-            var memoryStream = new T();
-            await blockBlob.DownloadToStreamAsync(memoryStream);
-            return memoryStream;
+            try
+            {
+                var container = _client.GetContainerReference(_imageContainer);
+                var blockBlob = container.GetBlockBlobReference(id);
+                var memoryStream = new T();
+                await blockBlob.DownloadToStreamAsync(memoryStream);
+                return memoryStream;
+            }
+            catch (StorageException e)
+            {
+                if (e.RequestInformation.HttpStatusCode == 404)
+                {
+                    return null;
+                }
+                throw;
+            }
         }
 
         public async Task InsertOrUpdateImageAsync(string id, Stream stream)
@@ -49,9 +60,20 @@ namespace K94Warriors.Data
 
         public async Task<bool> DeleteImageIfExistsAsync(string id)
         {
-            var container = _client.GetContainerReference(_imageContainer);
-            var blockBlob = container.GetBlockBlobReference(id);
-            return await blockBlob.DeleteIfExistsAsync();
+            try
+            {
+                var container = _client.GetContainerReference(_imageContainer);
+                var blockBlob = container.GetBlockBlobReference(id);
+                return await blockBlob.DeleteIfExistsAsync();
+            }
+            catch (StorageException e)
+            {
+                if (e.RequestInformation.HttpStatusCode == 404)
+                {
+                    return false;
+                }
+                throw;
+            }
         }
     }
 }

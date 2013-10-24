@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using ImageResizer;
 using K9ImageResizer = K94Warriors.Core.ImageResizing.ImageResizer;
 using K94Warriors.Data.Contracts;
 using K94Warriors.Models;
@@ -131,7 +132,7 @@ namespace K94Warriors.Controllers
             _dogRepo.Delete(dogProfileId);
             return RedirectToAction("Index");
         }
-        
+
         #region Partials and Child Actions
 
         public async Task<ActionResult> DogThumbnail(int dogId, int size)
@@ -143,9 +144,7 @@ namespace K94Warriors.Controllers
             if (dogImage == null)
                 return null;
 
-            var imageStream = await _blobRepo.GetImageAsync<MemoryStream>(dogImage.BlobKey.ToString());
-            var sizedImage = K9ImageResizer.ResizeToByteArray(imageStream, size, size, false);
-            return new FileContentResult(sizedImage, dogImage.MimeType);
+            return await GetSizedImage(dogImage.BlobKey.ToString(), dogImage.MimeType, size, size);
         }
 
         [ChildActionOnly]
@@ -155,11 +154,37 @@ namespace K94Warriors.Controllers
             return PartialView("_DogImagesPartial", viewModel);
         }
 
-        public async Task<ActionResult> ImageForBlobKey(string blobKey, string mimeType, int? height, int? width)
+        public async Task<ActionResult> ImageForBlobKey(string blobKey, string mimeType, int height = 90, int width = 160)
         {
-            var image = await _blobRepo.GetImageAsync<MemoryStream>(blobKey);
-            var resized = K9ImageResizer.ResizeToByteArray(image, 320, 180, false);
-            return new FileContentResult(resized, mimeType);
+            return await GetSizedImage(blobKey, mimeType, height, width);
+        }
+
+        private async Task<FileContentResult> GetSizedImage(string blobKey, string mimeType, int height, int width)
+        {
+            try
+            {
+                var image = await _blobRepo.GetImageAsync<MemoryStream>(blobKey);
+
+                if (image == null) return null;
+
+                var outStream = new MemoryStream();
+                var settings = new ResizeSettings
+                {
+                    Height = height,
+                    Width = width,
+                    Mode = FitMode.Crop
+                };
+                image.Seek(0, SeekOrigin.Begin);
+                ImageBuilder.Current.Build(image, outStream, settings);
+                var resized = outStream.ToArray();
+
+                return new FileContentResult(resized, mimeType);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            return null;
         }
 
         public async Task<ActionResult> GetImage(string id)
@@ -199,7 +224,7 @@ namespace K94Warriors.Controllers
 
             await UploadFiles(model.DogProfileId, model.Files);
 
-            return Json(new {success = true});
+            return Json(new { success = true });
         }
 
         [HttpPost]
