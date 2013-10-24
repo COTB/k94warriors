@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Configuration;
 using System.Diagnostics;
-using System.Security;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using K94Warriors.ScheduledTaskServices;
@@ -29,11 +30,12 @@ namespace K94Warriors.Controllers
             Debug.WriteLine("Aditi API request received. Token: {0} TaskKey: {1}", token, taskKey);
 
             // Validate the token
-            var correctToken = ConfigurationManager.AppSettings["AditiApiKey"] ?? string.Empty;
+            //var correctToken = ConfigurationManager.AppSettings["AditiApiKey"] ?? string.Empty;
+            const string correctToken = "7hYP7Xb0q1jKwI3s6kK4phAtE0GOs119";
             if (string.IsNullOrEmpty(correctToken))
-                return;
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Error verifying API token."));
             if (!correctToken.Equals(token, StringComparison.Ordinal))
-                throw new SecurityException("Request made to Aditi API with invalid token.");
+                throw new HttpResponseException(HttpStatusCode.Unauthorized);
 
             // Received the correct token. Run the task.
             await _taskService.RunTaskForKey(taskKey);

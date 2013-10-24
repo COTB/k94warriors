@@ -15,7 +15,11 @@ namespace K94Warriors.ScheduledTaskServices.Tasks
         private readonly IRepository<DogEvent> _dogEventRepo;
         private readonly IRepository<DogFeedingEntry> _dogFeedingRepo;
         private readonly IRepository<DogMedication> _dogMedicationRepo;
- 
+
+        private readonly IList<string> _to;
+        private readonly string _from;
+        private readonly string _subject;
+
         public MorningEmailTask(IMailer mailer, 
                                 IRepository<DogEvent> dogEventRepo,
                                 IRepository<DogFeedingEntry> dogFeedingRepo,
@@ -34,6 +38,16 @@ namespace K94Warriors.ScheduledTaskServices.Tasks
             if (dogMedicationRepo == null)
                 throw new ArgumentNullException("dogMedicationRepo");
             _dogMedicationRepo = dogMedicationRepo;
+
+            if (to == null || !to.Any())
+                throw new ArgumentNullException("to");
+            _to = to;
+            if (string.IsNullOrEmpty(from))
+                throw new ArgumentNullException("from");
+            _from = from;
+            if (string.IsNullOrEmpty("subject"))
+                throw new ArgumentNullException("subject");
+            _subject = subject;
         }
 
         public async Task<bool> Run()
@@ -61,13 +75,16 @@ namespace K94Warriors.ScheduledTaskServices.Tasks
             {
                 var eb = new EmailBuilder();
 
-                eb.To("").From("").WithSubject("").WithBody(lists);
+                eb.To(_to)
+                    .From(_from)
+                    .WithSubject(_subject)
+                    .WithBody(lists);
 
                 var email = eb.ToViewModel();
 
                 await _mailer.Send(email);
             }
-            catch
+            catch (Exception ex)
             {
                 return false;
             }
@@ -76,8 +93,9 @@ namespace K94Warriors.ScheduledTaskServices.Tasks
 
         private List<DogEvent> GetEvents(int daysInAdvance)
         {
+            var date = DateTime.Now.AddDays(daysInAdvance);
             var events = _dogEventRepo
-                .Where(e => e.EventDate < DateTime.Now.AddDays(daysInAdvance))
+                .Where(e => e.EventDate < date)
                 .ToList();
             return events;
         }

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.UI;
+using System.Xml;
 using K94Warriors.ViewModels.EmailNotifications;
 
 namespace K94Warriors.Email
@@ -56,9 +59,35 @@ namespace K94Warriors.Email
             return this;
         }
 
-        public EmailBuilder WithBody(IDictionary<string, IList> lists)
+        public EmailBuilder WithBody(IEnumerable<KeyValuePair<string, IList>> lists)
         {
-            throw new NotImplementedException();
+            var writer = new StringWriter();
+            var html = new HtmlTextWriter(writer);
+
+            html.RenderBeginTag(HtmlTextWriterTag.H1);
+            html.WriteEncodedText(_viewModel.Subject);
+            html.RenderEndTag();
+            html.WriteBreak();
+            html.WriteBreak();
+            foreach (var list in lists)
+            {
+                html.RenderBeginTag(HtmlTextWriterTag.H3);
+                html.WriteEncodedText(list.Key);
+                html.RenderEndTag();
+                html.RenderBeginTag(HtmlTextWriterTag.Ul);
+                foreach (var item in list.Value)
+                {
+                    html.RenderBeginTag(HtmlTextWriterTag.Li);
+                    html.WriteEncodedText(item.ToString());
+                    html.RenderEndTag();
+                }
+                html.RenderEndTag();
+                html.WriteBreak();
+                html.WriteBreak();
+            }
+
+            _viewModel.Body = writer.ToString();
+
             return this;
         }
 

@@ -108,9 +108,9 @@ namespace K94Warriors.App_Start
 
             // Scheduled tasks with Aditi cloud scheduler
             kernel.Bind<IScheduledTask>().To<MorningEmailTask>().Named("email")
-                .WithConstructorArgument("to", "")
-                .WithConstructorArgument("from", "")
-                .WithConstructorArgument("subject", "");
+                .WithConstructorArgument("to", ConfigurationManager.AppSettings["MorningTasksToEmailAddresses"].Split(','))
+                .WithConstructorArgument("from",ConfigurationManager.AppSettings["MorningTasksFromEmailAddress"])
+                .WithConstructorArgument("subject", ConfigurationManager.AppSettings["MorningTasksEmailSubject"]);
 
             kernel.Bind<IScheduledTaskService>().To<ScheduledTaskService>()
                   .WhenInjectedInto<SchedulerApiController>();

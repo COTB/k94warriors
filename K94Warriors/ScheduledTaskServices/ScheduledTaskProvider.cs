@@ -24,7 +24,8 @@ namespace K94Warriors.ScheduledTaskServices
         public IScheduledTask GetTask(string key)
         {
             var factory = _factories[key];
-            return factory == null ? null : factory();
+            var task = factory == null ? null : factory();
+            return task;
         }
     }
 }
