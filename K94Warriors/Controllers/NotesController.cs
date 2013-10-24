@@ -222,18 +222,27 @@ namespace K94Warriors.Controllers
             var outputStream = new MemoryStream();
             var zipStream = new ZipOutputStream(outputStream);
 
-            zipStream.SetLevel(3); // 0-9, 9 is highest compression
+            zipStream.SetLevel(6); // 0-9, 9 is highest compression
 
             foreach (var attachment in attachments)
             {
-                await AddFileToZip(attachment, zipStream);
+                var entry = new ZipEntry(attachment.FileName) { DateTime = DateTime.Now };
+
+                zipStream.PutNextEntry(entry);
+
+                using (var stream = await _blobRepo.GetImageAsync<MemoryStream>(attachment.BlobKey.ToString()))
+                {
+                    stream.Seek(0, SeekOrigin.Begin);
+                    StreamUtils.Copy(stream, zipStream, new byte[4096]);
+                }
+
+                zipStream.CloseEntry();
             }
 
             zipStream.IsStreamOwner = false;
             zipStream.Close();
 
-            outputStream.Position = 0;
-
+            outputStream.Seek(0, SeekOrigin.Begin);
             return File(outputStream.ToArray(), "application/octet-stream", "NoteAttachments.zip");
         }
 
@@ -245,7 +254,7 @@ namespace K94Warriors.Controllers
 
             var stream = await _blobRepo.GetImageAsync<MemoryStream>(attachment.BlobKey.ToString());
 
-            stream.Position = 0;
+            stream.Seek(0, SeekOrigin.Begin);
 
             return File(stream.ToArray(), attachment.MimeType, "NoteAttachment." + attachment.FileExtension);
         }
@@ -274,20 +283,6 @@ namespace K94Warriors.Controllers
                 await _blobRepo.InsertOrUpdateImageAsync(blobKey.ToString(), file.InputStream);
             }
             _dogNoteAttachmentRepo.Insert(dogNoteAttachments);
-        }
-
-        private async Task AddFileToZip(DogNoteAttachment attachment, ZipOutputStream zipStream)
-        {
-            var entry = new ZipEntry(attachment.FileName) { DateTime = DateTime.Now };
-
-            zipStream.PutNextEntry(entry);
-
-            using (var stream = await _blobRepo.GetImageAsync<MemoryStream>(attachment.BlobKey.ToString()))
-            {
-                StreamUtils.Copy(stream, zipStream, new byte[4096]);
-            }
-
-            zipStream.CloseEntry();
         }
     }
 }

@@ -13,25 +13,19 @@
 
                 <div class="tab-content">
                     <div class="tab-pane active" id="manage">
-                        @*<div class="well">
-                                <div id="thumbnail-picker" class="col-md-12" data-bind="foreach: frames" style="overflow-y: auto;">
-                                    <div class="row" data-bind="foreach: $data">
-                                        <div class="col-md-3">
-                                            <a href="#" class="thumbnail container" data-bind="attr: { id: 'attachment' + blobKey() }">
-                                                <div style="height: 250px; width: 250px;"><i class="glyphicon glyphicon-file"></i></div>
-                                                <span data-bind="text: fileName"></span>
-                                                <span data-bind="click: $root.deleteAttachment, hoverVisible: true, hoverTargetId: 'attachment' + blobKey()" class="btn btn-xs btn-danger">
-                                                    Delete
-                                                </span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>*@
                         <div class="well">
-                            <span>
-                                <a data-bind="attr: {href: downloadAllLink}"><i class="glyphicon glyphicon-download-alt"></i> Download All Attachments</a>
-                            </span>
+                            <div>
+                                <!-- ko if: hasAttachments -->
+                                <a data-bind="attr: {href: downloadAllLink}"><i class="glyphicon glyphicon-download-alt"></i>
+                                    Download All Attachments
+                                </a>
+                                <!-- /ko -->
+                                <!-- ko ifnot: hasAttachments -->
+                                <div class="text-center">
+                                    <span class="text-muted"><em>No attachments have been uploaded for this note.</em></span>
+                                </div>
+                                <!-- /ko -->
+                            </div>
                             <hr />
                             <div id="thumbnail-picker" class="col-md-12" data-bind="foreach: attachments" style="overflow-y: auto;">
                                 <div class="well">
@@ -39,7 +33,8 @@
                                         <span class="col-md-10">
                                             <a data-bind="attr: {href: downloadLink}">
                                                 <i class="glyphicon glyphicon-file"></i>
-                                                <!--ko text: fileName--><!--/ko-->
+                                                <!--ko text: fileName-->
+                                                <!--/ko-->
                                             </a>
                                         </span>
                                         <span class="col-md-2">
@@ -75,7 +70,7 @@
                                     Cancel
                                 </button>
                                 <button type="button" id="uploaderButton" class="btn btn-primary"
-                                        data-bind="enable: uploadEnabled, event: { click: $root.uploadFiles }">
+                                    data-bind="enable: uploadEnabled, event: { click: $root.uploadFiles }">
                                     Upload
                                 </button>
                             </div>

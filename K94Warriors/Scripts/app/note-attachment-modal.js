@@ -20,6 +20,9 @@ function AttachmentModalViewModel(noteId) {
         return '/Notes/DownloadAllFiles?dogNoteId=' + self.noteId();
     }, self);
     self.attachments = ko.observableArray([]);
+    self.hasAttachments = ko.computed(function() {
+        return self.attachments().length > 0;
+    });
     self.selectedAttachment = ko.observable();
 
     self.uploadProgress = ko.observable(0);
