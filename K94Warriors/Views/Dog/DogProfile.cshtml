@@ -60,6 +60,14 @@
     <script src="~/Scripts/app/ko-mouseover-binding.js"></script>
     <script src="~/Scripts/app/profile-image-picker.js"></script>
     <script type="text/javascript">
+        function unapplyBindings($node) {
+            $node.find("*").each(function () {
+                $(this).unbind();
+            });
+
+            ko.cleanNode($node[0]);
+        }
+
         $(function () {
             $('#button-edit-images').click(function () {
                 $('#image-thumbnail-modal').modal('show');
@@ -74,14 +82,14 @@
                     interval: 5000
                 });
             }
-
+        
             DogPicViewModel = new ThumbnailModalViewModel(@ViewBag.DogId);
 
             $('#image-thumbnail-modal').on('hidden.bs.modal', function () {
                 var dirty = DogPicViewModel.dirty();
 
                 delete DogPicViewModel;
-                ko.cleanNode('#thumbnail-picker');
+                unapplyBindings('#thumbnail-picker');
 
                 if (dirty) location.reload(true);
             });

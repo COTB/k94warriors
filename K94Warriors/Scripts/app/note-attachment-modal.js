@@ -28,6 +28,8 @@ function AttachmentModalViewModel(noteId) {
     });
     self.selectedAttachment = ko.observable();
 
+    self.dirty = ko.observable(false);
+
     self.uploadProgress = ko.observable(0);
     self.isUploading = ko.observable(false);
     self.filesSelected = ko.observable(false);
@@ -83,6 +85,7 @@ function AttachmentModalViewModel(noteId) {
             success: function(response) {
                 if (response.success) {
                     self.getAttachmentKeys();
+                    self.dirty(true);
                     toastr.success('File upload complete.');
                 } else {
                     if (response.errorMessage)
@@ -106,6 +109,7 @@ function AttachmentModalViewModel(noteId) {
             success: function (response) {
                 if (response.success) {
                     toastr.success('Attachment deleted.');
+                    self.dirty(true);
                     self.getAttachmentKeys();
                 } else {
                     if (response.errorMessage)

@@ -90,8 +90,12 @@
             ko.applyBindings(viewModel, modal[0]);
             modal.modal('show');
             modal.on('hidden.bs.modal', function () {
+                var dirty = viewModel.dirty();
+
                 viewModel = null;
                 unapplyBindings(modal);
+
+                if (dirty) location.reload(true);
             });
         }
     </script>
