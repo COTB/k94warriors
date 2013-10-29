@@ -142,9 +142,45 @@ namespace K94Warriors.Controllers
                                 .FirstOrDefault(i => i.DogProfileID == dogId);
 
             if (dogImage == null)
-                return null;
+            {
+                return GetCachedMissingImageThumbnail();
+            }
 
-            return await GetSizedImage(dogImage.BlobKey.ToString(), dogImage.MimeType, size, size);
+            try
+            {
+                return await GetSizedImage(dogImage.BlobKey.ToString(), dogImage.MimeType, size, size) ?? GetCachedMissingImageThumbnail();
+            }
+            catch
+            {
+                return GetCachedMissingImageThumbnail();
+            }
+        }
+
+        private ActionResult GetCachedMissingImageThumbnail()
+        {
+            byte[] cachedImage = HttpContext.Cache["missing_dog_image_thumbnail"] as byte[];
+
+            if (cachedImage == null)
+            {
+                using (var image = new FileStream(Server.MapPath("/Content/dog_image_missing.gif"), FileMode.Open))
+                using (var outStream = new MemoryStream())
+                {
+                    var settings = new ResizeSettings
+                    {
+                        Height = 32,
+                        Width = 32,
+                        Mode = FitMode.Crop,
+                        Format = "png"
+                    };
+                    image.Seek(0, SeekOrigin.Begin);
+                    ImageBuilder.Current.Build(image, outStream, settings);
+                    var resized = outStream.ToArray();
+                    cachedImage = resized;
+                    HttpContext.Cache["missing_dog_image_thumbnail"] = cachedImage;
+                }
+            }
+            
+            return new FileContentResult(cachedImage, "image/png");
         }
 
         [ChildActionOnly]
@@ -167,18 +203,20 @@ namespace K94Warriors.Controllers
 
                 if (image == null) return null;
 
-                var outStream = new MemoryStream();
-                var settings = new ResizeSettings
+                using (var outStream = new MemoryStream())
                 {
-                    Height = height,
-                    Width = width,
-                    Mode = FitMode.Crop
-                };
-                image.Seek(0, SeekOrigin.Begin);
-                ImageBuilder.Current.Build(image, outStream, settings);
-                var resized = outStream.ToArray();
+                    var settings = new ResizeSettings
+                    {
+                        Height = height,
+                        Width = width,
+                        Mode = FitMode.Crop
+                    };
+                    image.Seek(0, SeekOrigin.Begin);
+                    ImageBuilder.Current.Build(image, outStream, settings);
+                    var resized = outStream.ToArray();
 
-                return new FileContentResult(resized, mimeType);
+                    return new FileContentResult(resized, mimeType);
+                }
             }
             catch (Exception ex)
             {
