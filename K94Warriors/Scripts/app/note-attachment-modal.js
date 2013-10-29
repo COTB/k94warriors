@@ -23,6 +23,9 @@ function AttachmentModalViewModel(noteId) {
     self.hasAttachments = ko.computed(function() {
         return self.attachments().length > 0;
     });
+    self.showDownloadAllLink = ko.isComputed(function() {
+        return self.attachments().length > 1;
+    });
     self.selectedAttachment = ko.observable();
 
     self.uploadProgress = ko.observable(0);

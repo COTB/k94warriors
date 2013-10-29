@@ -257,7 +257,7 @@ namespace K94Warriors.Controllers
 
             stream.Seek(0, SeekOrigin.Begin);
 
-            return File(stream.ToArray(), attachment.MimeType, "NoteAttachment." + attachment.FileExtension);
+            return File(stream.ToArray(), attachment.MimeType, attachment.FileName);
         }
 
         private async Task DoFileUpload(int dogNoteId, IEnumerable<HttpPostedFileBase> files)

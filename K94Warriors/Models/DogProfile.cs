@@ -87,6 +87,8 @@ namespace K94Warriors.Models
 
         [Display(Name = "Location")]
         public string LocationDescription { get; set; }
+
+        public bool Deleted { get; set; }
         
         public virtual ICollection<DogEvent> DogEvents { get; set; }
         

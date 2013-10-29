@@ -16,7 +16,8 @@
                         <div class="well">
                             <div>
                                 <!-- ko if: hasAttachments -->
-                                <a data-bind="attr: {href: downloadAllLink}"><i class="glyphicon glyphicon-download-alt"></i>
+                                <a data-bind="if: showDownloadAllLink, attr: {href: downloadAllLink}">
+                                    <i class="glyphicon glyphicon-download-alt"></i>
                                     Download All Attachments
                                 </a>
                                 <!-- /ko -->
