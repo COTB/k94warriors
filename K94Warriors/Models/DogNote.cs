@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -33,5 +34,7 @@ namespace K94Warriors.Models
 
         [ForeignKey("CreatedByUserId")]
         public virtual User User { get; set; }
+
+        public virtual ICollection<DogNoteAttachment> DogNoteAttachments { get; set; }
     }
 }

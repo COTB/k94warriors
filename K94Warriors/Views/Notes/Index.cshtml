@@ -39,6 +39,16 @@
                         </h4>
                         <p>Date: @note.CreatedDate.ToLongDateString()</p>
                         <p>@note.Note</p>
+                        @if (note.DogNoteAttachments.Any())
+                        {
+                            <h4>Attachments</h4>
+                            <ul>
+                                @foreach (var attachment in note.DogNoteAttachments)
+                                {
+                                    <li><a href="@Url.Action("DownloadFile", new { id = attachment.DogNoteAttachmentID })"><span class="glyphicon glyphicon-file"></span> @attachment.FileName</a></li>
+                                }
+                            </ul>
+                        }
                     </div>
                     <div class="col-md-2">
                         <h5>Actions</h5>
@@ -89,21 +99,25 @@
 
 @section styles {
     <style type="text/css">
-        #note-attachment-modal .modal-dialog {
-            width: 75%;
+        ul {
+            list-style: none;
         }
+
+         #note-attachment-modal .modal-dialog {
+             width: 75%;
+         }
 
         #thumbnail-picker {
             max-height: 28em;
             overflow-y: auto;
         }
 
-            #thumbnail-picker a span.btn {
-                width: 100%;
-                padding: 2px 12px;
-                position: absolute;
-                bottom: 0;
-            }
+        #thumbnail-picker a span.btn {
+            width: 100%;
+            padding: 2px 12px;
+            position: absolute;
+            bottom: 0;
+        }
 
         a.thumbnail {
             padding: 0;
@@ -111,15 +125,15 @@
             margin-bottom: 4px;
         }
 
-            a.thumbnail i {
-                font-size: 8.5em;
-            }
+        a.thumbnail i {
+            font-size: 8.5em;
+        }
 
-            a.thumbnail span.btn {
-                position: absolute;
-                bottom: 0;
-                max-width: 100%;
-                width: 100%;
-            }
+        a.thumbnail span.btn {
+            position: absolute;
+            bottom: 0;
+            max-width: 100%;
+            width: 100%;
+        }
     </style>
 }

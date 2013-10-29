@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -52,7 +53,7 @@ namespace K94Warriors.Controllers
 
         public ActionResult Index(DogProfile dog)
         {
-            var model = _dogNoteRepo.Where(n => n.DogProfileID == dog.ProfileID);
+            var model = _dogNoteRepo.Where(n => n.DogProfileID == dog.ProfileID).Include(x => x.DogNoteAttachments);
 
             SetDogViewBag(dog);
 
