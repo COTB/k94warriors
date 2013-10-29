@@ -95,7 +95,7 @@ namespace K94Warriors.ScheduledTaskServices.Tasks
         {
             var date = DateTime.Now.AddDays(daysInAdvance);
             var events = _dogEventRepo
-                .Where(e => e.EventDate < date)
+                .Where(e => e.EventDate < date && !e.IsComplete)
                 .ToList();
             return events;
         }

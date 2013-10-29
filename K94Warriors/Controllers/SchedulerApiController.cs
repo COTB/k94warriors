@@ -31,7 +31,6 @@ namespace K94Warriors.Controllers
 
             // Validate the token
             var correctToken = ConfigurationManager.AppSettings["AditiApiKey"] ?? string.Empty;
-            //const string correctToken = "7hYP7Xb0q1jKwI3s6kK4phAtE0GOs119";
             if (string.IsNullOrEmpty(correctToken))
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Error verifying API token."));
             if (!correctToken.Equals(token, StringComparison.Ordinal))

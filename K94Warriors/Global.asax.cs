@@ -1,4 +1,6 @@
-﻿using K94Warriors.Data;
+﻿using System.Data.Entity;
+using K94Warriors.Data;
+using K94Warriors.Migrations;
 using K94Warriors.Models;
 using K94Warriors.Models.Binders;
 using System.Web;
@@ -17,6 +19,11 @@ namespace K94Warriors
         protected void Application_Start()
         {
             //K9DbContext.ForceInitialize();
+
+            Database.SetInitializer<K9DbContext>(
+                new MigrateDatabaseToLatestVersion<K9DbContext, Configuration>());
+            K9DbContext.ForceInitialize();
+            //Database.Initialize(false);
 
             AreaRegistration.RegisterAllAreas();
             WebApiConfig.Register(GlobalConfiguration.Configuration);

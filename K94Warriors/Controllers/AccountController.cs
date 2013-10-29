@@ -1,13 +1,8 @@
-﻿using DotNetOpenAuth.AspNet;
-using K94Warriors.Data;
-using K94Warriors.Enums;
+﻿using K94Warriors.Enums;
 using K94Warriors.Filters;
 using K94Warriors.Models.Accounts;
 using Microsoft.Web.WebPages.OAuth;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Transactions;
 using System.Web.Mvc;
 using System.Web.Security;
 using WebMatrix.WebData;
@@ -18,6 +13,30 @@ namespace K94Warriors.Controllers
     [InitializeSimpleMembership]
     public class AccountController : Controller
     {
+        private const string DefaultUserEmail = "admin@k9sforwarriors.org";
+
+        // 
+        // GET: /Account/CreateInitialAccount
+        [AllowAnonymous]
+        public virtual ActionResult CreateInitialAccount()
+        {
+            bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(DefaultUserEmail));
+
+            if (!hasLocalAccount)
+            {
+                WebSecurity.CreateUserAndAccount(DefaultUserEmail, "admin", new
+                {
+                    UserTypeId = UserTypeEnum.Administrator,
+                    DisplayName = DefaultUserEmail,
+                    Email = DefaultUserEmail,
+                    CreatedTimeUTC = DateTime.UtcNow
+                });
+                return RedirectToAction("Index", "Home");
+            }
+
+            throw new InvalidOperationException("Default initial account already exists!");
+        }
+
         //
         // GET: /Account/Login
 
@@ -111,7 +130,7 @@ namespace K94Warriors.Controllers
 
                     if (changePasswordSucceeded)
                     {
-                        return RedirectToAction("Manage", new {Message = ManageMessageId.ChangePasswordSuccess});
+                        return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
                     }
                     else
                     {
@@ -134,7 +153,7 @@ namespace K94Warriors.Controllers
                     try
                     {
                         WebSecurity.CreateAccount(User.Identity.Name, model.NewPassword);
-                        return RedirectToAction("Manage", new {Message = ManageMessageId.SetPasswordSuccess});
+                        return RedirectToAction("Manage", new { Message = ManageMessageId.SetPasswordSuccess });
                     }
                     catch (Exception)
                     {

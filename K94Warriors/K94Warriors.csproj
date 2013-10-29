@@ -33,6 +33,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <PublishDatabaseSettings>
+      <Objects>
+      </Objects>
+    </PublishDatabaseSettings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -206,6 +210,7 @@
     <Compile Include="Core\HtmlHelperExtensions\EnumDropdownHelper.cs" />
     <Compile Include="Core\HtmlHelperExtensions\K9TextBoxHelper.cs" />
     <Compile Include="Core\ImageResizing\ImageResizer.cs" />
+    <Compile Include="Core\SimpleMembershipInitializer.cs" />
     <Compile Include="Data\K9BlobRepository.cs" />
     <Compile Include="Data\EFRepository.cs" />
     <Compile Include="Data\Contracts\IBlobRepository.cs" />

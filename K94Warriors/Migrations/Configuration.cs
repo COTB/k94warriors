@@ -1,20 +1,17 @@
+using K94Warriors.Data;
+using K94Warriors.Models;
+using System.Data.Entity.Migrations;
+
 namespace K94Warriors.Migrations
 {
-    using K94Warriors.Enums;
-using K94Warriors.Models;
-using System;
-using System.Data.Entity;
-using System.Data.Entity.Migrations;
-using System.Linq;
-
-    internal sealed class Configuration : DbMigrationsConfiguration<K94Warriors.Data.K9DbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<K9DbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(K94Warriors.Data.K9DbContext context)
+        protected override void Seed(K9DbContext context)
         {
             //  This method will be called after migrating to the latest version.
 
@@ -28,6 +25,12 @@ using System.Linq;
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
+
+            context.UserTypes.AddOrUpdate(i => i.ID,
+                new UserType { ID = 1, Name = "Administrator"},
+                new UserType { ID = 2, Name = "Trainer" },
+                new UserType { ID = 3, Name = "Volunteer" }
+            );
 
             context.NoteTypes.AddOrUpdate(i => i.Name,
                 new NoteType { Name = "General Note" },
