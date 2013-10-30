@@ -1,11 +1,14 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
+using System.Linq;
 using System.Web.Http;
 using K94Warriors.Controllers;
 using K94Warriors.Data;
 using K94Warriors.Data.Contracts;
 using K94Warriors.Email;
+using K94Warriors.Enums;
+using K94Warriors.Models;
 using K94Warriors.ScheduledTaskServices;
 using K94Warriors.ScheduledTaskServices.Tasks;
 using Ninject.Activation;
@@ -87,7 +90,6 @@ namespace K94Warriors.App_Start
         {
             // Scheduled tasks with Aditi cloud scheduler
             kernel.Bind<IScheduledTask>().To<MorningEmailTask>().Named("morningTaskEmail")
-                .WithConstructorArgument("to", ConfigurationManager.AppSettings["MorningTasksToEmailAddresses"].Split(','))
                 .WithConstructorArgument("from", ConfigurationManager.AppSettings["MorningTasksFromEmailAddress"])
                 .WithConstructorArgument("subject", ConfigurationManager.AppSettings["MorningTasksEmailSubject"]);
 

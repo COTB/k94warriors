@@ -15,13 +15,16 @@ local organization and show support for our troops.
 ## Technologies
 
 We use the following technologies on this project:
-* ASP.NET MVC 4 with C#
-* SQL Server / Windows Azure SQL Database
-* Windows Azure Storage
-* HTML5
-* Bootstrap
-* Entity Framework Code First
-* Ninject
+* [ASP.NET MVC 4 with C#](http://www.asp.net/mvc/mvc4)
+* [SQL Server / Windows Azure SQL Database](http://www.windowsazure.com/en-us/services/data-management)
+* [Windows Azure Storage](http://www.windowsazure.com/en-us/services/data-management)
+* [HTML5](http://www.w3schools.com/html/html5_intro.asp)
+* [Bootstrap](http://getbootstrap.com)
+* [Entity Framework Code First](http://msdn.microsoft.com/en-us/data/ef.aspx)
+* [Ninject](http://www.ninject.org)
+* [KnockoutJS](http://knockoutjs.com)
+* [ImageResizer.NET](http://imageresizing.net)
+* [SharpZipLib](https://github.com/icsharpcode/SharpZipLib)
 
 ## Contributing
 

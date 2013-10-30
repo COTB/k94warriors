@@ -1,0 +1,33 @@
+﻿@model K94Warriors.Models.TaskEmailRecipient
+@using K94Warriors.Core.HtmlHelperExtensions
+@{
+    ViewBag.Title = "Edit Task Email Recipient";
+}
+
+<h2>Edit Task Email Recipient</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(i => i.TaskEmailRecipientID)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.TaskType)
+        @Html.EnumDropDownListFor(model => model.TaskType, "Select a task type...")
+    </div>
+    
+    <div class="form-group">
+        @Html.LabelFor(model => model.EmailAddress)
+        @Html.K9TextBoxFor(model => model.EmailAddress, "Recipient Email Address")
+        @Html.ValidationMessageFor(model => model.EmailAddress)
+    </div>
+
+    <p>
+        <input class="btn" type="submit" value="Save Changes" />
+    </p>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

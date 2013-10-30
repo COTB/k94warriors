@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using K94Warriors.Data.Contracts;
 using K94Warriors.Email;
+using K94Warriors.Enums;
 using K94Warriors.Models;
 
 namespace K94Warriors.ScheduledTaskServices.Tasks
@@ -15,8 +16,8 @@ namespace K94Warriors.ScheduledTaskServices.Tasks
         private readonly IRepository<DogEvent> _dogEventRepo;
         private readonly IRepository<DogFeedingEntry> _dogFeedingRepo;
         private readonly IRepository<DogMedication> _dogMedicationRepo;
+        private readonly IRepository<TaskEmailRecipient> _taskEmailRecipientRepo; 
 
-        private readonly IList<string> _to;
         private readonly string _from;
         private readonly string _subject;
 
@@ -24,7 +25,8 @@ namespace K94Warriors.ScheduledTaskServices.Tasks
                                 IRepository<DogEvent> dogEventRepo,
                                 IRepository<DogFeedingEntry> dogFeedingRepo,
                                 IRepository<DogMedication> dogMedicationRepo,
-                                IList<string> to, string from, string subject)
+                                IRepository<TaskEmailRecipient> taskEmailRecipientRepo, 
+                                string from, string subject)
         {
             if (mailer == null)
                 throw new ArgumentNullException("mailer");
@@ -38,10 +40,10 @@ namespace K94Warriors.ScheduledTaskServices.Tasks
             if (dogMedicationRepo == null)
                 throw new ArgumentNullException("dogMedicationRepo");
             _dogMedicationRepo = dogMedicationRepo;
+            if (taskEmailRecipientRepo == null)
+                throw new ArgumentNullException("taskEmailRecipientRepo");
+            _taskEmailRecipientRepo = taskEmailRecipientRepo;
 
-            if (to == null || !to.Any())
-                throw new ArgumentNullException("to");
-            _to = to;
             if (string.IsNullOrEmpty(from))
                 throw new ArgumentNullException("from");
             _from = from;
@@ -52,6 +54,11 @@ namespace K94Warriors.ScheduledTaskServices.Tasks
 
         public async Task<bool> Run()
         {
+            var to = _taskEmailRecipientRepo
+                .Where(i => i.TaskType == TaskTypeEnum.MorningEmailTask)
+                .Select(i => i.EmailAddress)
+                .ToList();
+
             var events = GetEvents(10); // TODO: un-hardcode this
             var feedings = GetFeedings();
             var amFeedings = feedings.Where(f => f.AMFeeding).ToList();
@@ -75,7 +82,7 @@ namespace K94Warriors.ScheduledTaskServices.Tasks
             {
                 var eb = new EmailBuilder();
 
-                eb.To(_to)
+                eb.To(to)
                     .From(_from)
                     .WithSubject(_subject)
                     .WithBody(lists);

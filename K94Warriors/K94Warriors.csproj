@@ -193,6 +193,7 @@
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\MedicalRecordTypesController.cs" />
     <Compile Include="Areas\Admin\Controllers\NoteTypesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TaskEmailRecipientsController.cs" />
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -219,6 +220,7 @@
     <Compile Include="Email\IMailer.cs" />
     <Compile Include="Email\SmtpMailer.cs" />
     <Compile Include="Enums\GenderEnum.cs" />
+    <Compile Include="Enums\TaskTypeEnum.cs" />
     <Compile Include="Enums\UserTypeEnum.cs" />
     <Compile Include="Filters\EmailErrorAttribute.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
@@ -306,6 +308,18 @@
     <Compile Include="Migrations\201310292218050_DogProfileDeletedFlag.Designer.cs">
       <DependentUpon>201310292218050_DogProfileDeletedFlag.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201310292250202_TaskTypesAndEmailRecipients.cs" />
+    <Compile Include="Migrations\201310292250202_TaskTypesAndEmailRecipients.Designer.cs">
+      <DependentUpon>201310292250202_TaskTypesAndEmailRecipients.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201310300134053_ChangedTaskTypeToEnum.cs" />
+    <Compile Include="Migrations\201310300134053_ChangedTaskTypeToEnum.Designer.cs">
+      <DependentUpon>201310300134053_ChangedTaskTypeToEnum.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201310300137417_AddedTaskEmailRecipients.cs" />
+    <Compile Include="Migrations\201310300137417_AddedTaskEmailRecipients.Designer.cs">
+      <DependentUpon>201310300137417_AddedTaskEmailRecipients.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Accounts\ExternalLogin.cs" />
     <Compile Include="Models\Accounts\LocalPasswordModel.cs" />
     <Compile Include="Models\Accounts\LoginModel.cs" />
@@ -333,6 +347,7 @@
     <Compile Include="Models\DogProfile.cs" />
     <Compile Include="Models\DogSkill.cs" />
     <Compile Include="Models\DogSkillName.cs" />
+    <Compile Include="Models\TaskEmailRecipient.cs" />
     <Compile Include="Models\EventType.cs" />
     <Compile Include="Models\DogImage.cs" />
     <Compile Include="Models\Location.cs" />
@@ -455,6 +470,9 @@
     <Content Include="Areas\Admin\Views\EventTypes\Create.cshtml" />
     <Content Include="Areas\Admin\Views\EventTypes\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\EventTypes\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\TaskEmailRecipients\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\TaskEmailRecipients\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\TaskEmailRecipients\Edit.cshtml" />
     <None Include="Properties\PublishProfiles\k94warriors - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\k94warriors - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
@@ -625,6 +643,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201310292218050_DogProfileDeletedFlag.resx">
       <DependentUpon>201310292218050_DogProfileDeletedFlag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201310292250202_TaskTypesAndEmailRecipients.resx">
+      <DependentUpon>201310292250202_TaskTypesAndEmailRecipients.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201310300134053_ChangedTaskTypeToEnum.resx">
+      <DependentUpon>201310300134053_ChangedTaskTypeToEnum.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201310300137417_AddedTaskEmailRecipients.resx">
+      <DependentUpon>201310300137417_AddedTaskEmailRecipients.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
