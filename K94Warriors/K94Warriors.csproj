@@ -350,7 +350,6 @@
     <Content Include="css\MedicationPrintLog.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="ConnectionStrings.config.example" />
     <Content Include="lib\bootstrap\dist\css\bootstrap-theme.css" />
     <Content Include="lib\bootstrap\dist\css\bootstrap-theme.min.css" />
     <Content Include="lib\bootstrap\dist\css\bootstrap.css" />
@@ -371,12 +370,7 @@
     <Content Include="lib\toastr\toastr.min.css" />
     <Content Include="lib\toastr\toastr.min.js" />
     <Content Include="MailSettings.config.example" />
-    <Content Include="ConnectionStrings.config" />
     <Content Include="MailSettings.config" />
-    <Content Include="AppSettings.config.example">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="AppSettings.config" />
     <Content Include="Areas\Admin\Views\Web.config">
       <SubType>Designer</SubType>
     </Content>

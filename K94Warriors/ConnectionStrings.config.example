@@ -1,4 +1,0 @@
-﻿<connectionStrings>
-  <add name="K9"
-    connectionString="Server=tcp:[SERVER],1433;Database=[DATABASE];User ID=[USERID];Password=[PASSWORD];Trusted_Connection=False;Encrypt=True;Connection Timeout=30; MultipleActiveResultSets=true"/>
-</connectionStrings>
