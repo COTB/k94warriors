@@ -254,30 +254,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountController.generated.cs">
-      <DependentUpon>T4MVC.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Admin.EventTypesController.generated.cs">
-      <DependentUpon>T4MVC.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Admin.HomeController.generated.cs">
-      <DependentUpon>T4MVC.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Admin.MedicalRecordTypesController.generated.cs">
-      <DependentUpon>T4MVC.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Admin.NoteTypesController.generated.cs">
-      <DependentUpon>T4MVC.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Admin.SharedController.generated.cs">
-      <DependentUpon>T4MVC.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Admin.TaskEmailRecipientsController.generated.cs">
-      <DependentUpon>T4MVC.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Admin.UsersController.generated.cs">
-      <DependentUpon>T4MVC.tt</DependentUpon>
-    </Compile>
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\NinjectDependencyResolver.cs" />
     <Compile Include="App_Start\NinjectDependencyScope.cs" />
@@ -291,9 +267,6 @@
     <Compile Include="Areas\Admin\Controllers\NoteTypesController.cs" />
     <Compile Include="Areas\Admin\Controllers\TaskEmailRecipientsController.cs" />
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
-    <Compile Include="CertificationsController.generated.cs">
-      <DependentUpon>T4MVC.tt</DependentUpon>
-    </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CertificationsController.cs" />
@@ -314,24 +287,12 @@
     <Compile Include="Data\EFRepository.cs" />
     <Compile Include="Data\Contracts\IBlobRepository.cs" />
     <Compile Include="Data\K9UsersContext.cs" />
-    <Compile Include="DogController.generated.cs">
-      <DependentUpon>T4MVC.tt</DependentUpon>
-    </Compile>
     <Compile Include="Email\EmailBuilder.cs" />
     <Compile Include="Email\IMailer.cs" />
     <Compile Include="Email\SmtpMailer.cs" />
     <Compile Include="Enums\GenderEnum.cs" />
     <Compile Include="Enums\TaskTypeEnum.cs" />
     <Compile Include="Enums\UserTypeEnum.cs" />
-    <Compile Include="ErrorController.generated.cs">
-      <DependentUpon>T4MVC.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EventsController.generated.cs">
-      <DependentUpon>T4MVC.tt</DependentUpon>
-    </Compile>
-    <Compile Include="FeedingController.generated.cs">
-      <DependentUpon>T4MVC.tt</DependentUpon>
-    </Compile>
     <Compile Include="Filters\EmailErrorAttribute.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Filters\K9AuthorizeAttribute.cs" />
@@ -342,15 +303,6 @@
     <Compile Include="Data\Contracts\IRepository.cs" />
     <Compile Include="Data\K9DbContext.cs" />
     <Compile Include="Helpers\TimeParserHelper.cs" />
-    <Compile Include="HomeController.generated.cs">
-      <DependentUpon>T4MVC.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MedicalRecordsController.generated.cs">
-      <DependentUpon>T4MVC.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MedicationController.generated.cs">
-      <DependentUpon>T4MVC.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Accounts\ExternalLogin.cs" />
     <Compile Include="Models\Accounts\LocalPasswordModel.cs" />
     <Compile Include="Models\Accounts\LoginModel.cs" />
@@ -377,12 +329,6 @@
     <Compile Include="Models\NoteType.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserType.cs" />
-    <Compile Include="NotesController.generated.cs">
-      <DependentUpon>T4MVC.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PrintController.generated.cs">
-      <DependentUpon>T4MVC.tt</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScheduledTaskServices\IScheduledTaskProvider.cs" />
     <Compile Include="ScheduledTaskServices\Tasks\MorningEmailTask.cs" />
@@ -390,17 +336,6 @@
     <Compile Include="ScheduledTaskServices\IScheduledTask.cs" />
     <Compile Include="ScheduledTaskServices\ScheduledTaskProvider.cs" />
     <Compile Include="ScheduledTaskServices\ScheduledTaskService.cs" />
-    <Compile Include="SharedController.generated.cs">
-      <DependentUpon>T4MVC.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SkillsController.generated.cs">
-      <DependentUpon>T4MVC.tt</DependentUpon>
-    </Compile>
-    <Compile Include="T4MVC.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>T4MVC.tt</DependentUpon>
-    </Compile>
     <Compile Include="ViewModels\DogImageUploadViewModel.cs" />
     <Compile Include="ViewModels\DogPrintViewModel.cs" />
     <Compile Include="ViewModels\DogProfileViewModel.cs" />
@@ -486,12 +421,6 @@
     <Content Include="js\app\ko-mouseover-binding.js" />
     <Content Include="js\app\note-attachment-modal.js" />
     <Content Include="js\app\profile-image-picker.js" />
-    <None Include="T4MVC.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>T4MVC.cs</LastGenOutput>
-    </None>
-    <None Include="T4MVC.tt.hooks.t4" />
-    <None Include="T4MVC.tt.settings.xml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
