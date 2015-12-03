@@ -20,7 +20,6 @@ namespace K94Warriors
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             RegisterFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             ModelBinders.Binders.Add(typeof(DogProfile), new DogProfileModelBinder());
         }

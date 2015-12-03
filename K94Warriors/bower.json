@@ -1,0 +1,29 @@
+{
+  "authors": [
+    "Code on the Beach, Inc."
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.6",
+    "font-awesome": "~4.5.0",
+    "jquery": "~2.1.4",
+    "knockout": "~3.4.0",
+    "toastr": "~2.1.2"
+  },
+  "description": "",
+  "homepage": "https://github.com/COTB/k94warriors",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "license": "Private",
+  "main": "index.js",
+  "moduleType": [],
+  "name": "KennelManagement",
+  "private": true,
+  "resolutions": {
+    "jquery": ">= 1.6.4"
+  }
+}

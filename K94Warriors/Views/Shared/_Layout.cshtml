@@ -1,32 +1,31 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <title>@ViewBag.Title - K9 For Warriors</title>
-        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-        <meta name="viewport" content="width=device-width" />
-        <link href="~/Content/bootstrap/bootstrap.css" rel="stylesheet">
-        <link href="~/Content/font-awesome.css" rel="stylesheet">
-        <link rel="stylesheet" href="~/Content/toastr.css"/>
-        @Styles.Render("~/Content/css")
-        @Styles.Render("~/Content/bootstrap")
-        @RenderSection("styles", required: false)
-        @Scripts.Render("~/bundles/modernizr")
-    </head>
-    <body>
-        <header>
-            <div class="navbar navbar-static-top">
-                <div class="container">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="/">K9s For Warriors</a>
-                    </div>
-                    <div class="navbar-collapse collapse">
-                        @if (Request.IsAuthenticated) {
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - K9s For Warriors Kennel Management</title>
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    <link href="/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/lib/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" />
+    <link href="/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="/lib/toastr/toastr.min.css" rel="stylesheet" type="text/css" />
+    @RenderSection("styles", required: false)
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-default navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">Kennel Management</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    @if (Request.IsAuthenticated)
+                    {
                         <ul class="nav navbar-nav">
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dogs <span class="caret"></span></a>
@@ -37,39 +36,38 @@
                             </li>
                             @if (User.IsInRole("Admin"))
                             {
-                            <li>
-                                <a href="/Admin">Administration</a>
-                            </li>
+                                <li>
+                                    <a href="/Admin">Administration</a>
+                                </li>
                             }
                         </ul>
-                        }
-                        <ul class="nav navbar-nav navbar-right">
-                            @Html.Partial("_LoginPartial")
-                        </ul>
-                    </div><!--/.nav-collapse -->
+                    }
+                    <ul class="nav navbar-nav navbar-right">
+                        @Html.Partial("_LoginPartial")
+                    </ul>
                 </div>
             </div>
+        </nav>
 
-            @RenderSection("subnav", required: false)
-        </header>
-        <div class="container content">
+        @RenderSection("subnav", required: false)
+    </header>
+    <div class="container content">
 
-            @RenderBody()
+        @RenderBody()
 
-        </div>
+    </div>
 
-        <footer>
-        </footer>
+    <footer></footer>
 
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
-        <script type="text/javascript" src="~/Scripts/toastr.js"></script>
-        @RenderSection("scripts", required: false)
-        
-        <script type="text/javascript">
-            $(function () {
-                $('*[data-toggle="tooltip"]').tooltip();
-            });
-        </script>
-    </body>
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/lib/toastr/toastr.min.js"></script>
+    @RenderSection("scripts", required: false)
+
+    <script type="text/javascript">
+        $(function () {
+            $('*[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+</body>
 </html>

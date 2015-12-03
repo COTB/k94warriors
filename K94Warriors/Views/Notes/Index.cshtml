@@ -66,9 +66,9 @@
 @Html.Partial("_NoteAttachmentModal")
 
 @section scripts {
-    <script src="~/Scripts/knockout-2.2.0.js"></script>
-    <script src="~/Scripts/app/ko-mouseover-binding.js"></script>
-    <script src="~/Scripts/app/note-attachment-modal.js"></script>
+    <script src="/lib/knockout/dist/knockout.js"></script>
+    <script src="/js/app/ko-mouseover-binding.js"></script>
+    <script src="/js/app/note-attachment-modal.js"></script>
     <script type="text/javascript">
         $(function () {
             $('#note-attachment-modal').on('show.bs.modal', function () {
