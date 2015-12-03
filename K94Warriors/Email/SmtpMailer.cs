@@ -26,19 +26,19 @@ namespace K94Warriors.Email
         {
             if (string.IsNullOrWhiteSpace(from))
             {
-                throw new ArgumentException("cannot be null, empty, or white space", "from");
+                throw new ArgumentException("cannot be null, empty, or white space", nameof(from));
             }
             if (!to.Any())
             {
-                throw new ArgumentException("must provide at least one recipient address", "to");
+                throw new ArgumentException("must provide at least one recipient address", nameof(to));
             }
             if (string.IsNullOrWhiteSpace(subject))
             {
-                throw new ArgumentException("cannot be null, empty, or white space", "subject");
+                throw new ArgumentException("cannot be null, empty, or white space", nameof(subject));
             }
             if (string.IsNullOrWhiteSpace(body))
             {
-                throw new ArgumentException("cannot be null, empty, or white space", "body");
+                throw new ArgumentException("cannot be null, empty, or white space", nameof(body));
             }
 
             // Create the mail message
@@ -56,7 +56,7 @@ namespace K94Warriors.Email
                 {
                     try
                     {
-                        smtpClient.Send(mailMessage);
+                        await smtpClient.SendMailAsync(mailMessage);
                     }
                     catch (Exception ex)
                     {

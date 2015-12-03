@@ -1,8 +1,4 @@
 ﻿using K94Warriors.Data.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace K94Warriors.Models.Binders
@@ -31,7 +27,7 @@ namespace K94Warriors.Models.Binders
 
             var dog = repo.GetById(dogProfileId);
 
-            return dog ?? base.BindModel(controllerContext, bindingContext);;
+            return dog ?? base.BindModel(controllerContext, bindingContext);
         }
     }
 }

@@ -50,18 +50,5 @@ namespace K94Warriors.Data
         public DbSet<UserType> UserTypes { get; set; }
 
         public DbSet<TaskEmailRecipient> TaskEmailRecipients { get; set; }
-
-        public static void ForceInitialize()
-        {
-            using (var ctx = new K9DbContext())
-            {
-                ctx.Database.Initialize(false);
-            }
-        }
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {   
-            
-        }
     }
 }

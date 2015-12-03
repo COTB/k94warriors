@@ -1,45 +1,39 @@
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
-using System.Linq;
-using System.Web.Http;
+using System.Web;
+using K94Warriors;
 using K94Warriors.Controllers;
 using K94Warriors.Data;
 using K94Warriors.Data.Contracts;
 using K94Warriors.Email;
-using K94Warriors.Enums;
-using K94Warriors.Models;
 using K94Warriors.ScheduledTaskServices;
 using K94Warriors.ScheduledTaskServices.Tasks;
-using Ninject.Activation;
+using Microsoft.Web.Infrastructure.DynamicModuleHelper;
+using Ninject;
+using Ninject.Syntax;
+using Ninject.Web.Common;
 
-[assembly: WebActivator.PreApplicationStartMethod(typeof(K94Warriors.App_Start.NinjectWebCommon), "Start")]
-[assembly: WebActivator.ApplicationShutdownMethodAttribute(typeof(K94Warriors.App_Start.NinjectWebCommon), "Stop")]
+[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(NinjectWebCommon), "Start")]
+[assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(NinjectWebCommon), "Stop")]
 
-namespace K94Warriors.App_Start
+namespace K94Warriors
 {
-    using System;
-    using System.Web;
-
-    using Microsoft.Web.Infrastructure.DynamicModuleHelper;
-
-    using Ninject;
-    using Ninject.Web.Common;
-
-    public static class NinjectWebCommon
+    public static class NinjectWebCommon 
     {
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
 
         /// <summary>
         /// Starts the application
         /// </summary>
-        public static void Start()
+        public static void Start() 
         {
             DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
             DynamicModuleUtility.RegisterModule(typeof(NinjectHttpModule));
             bootstrapper.Initialize(CreateKernel);
         }
-
+        
         /// <summary>
         /// Stops the application.
         /// </summary>
@@ -47,7 +41,7 @@ namespace K94Warriors.App_Start
         {
             bootstrapper.ShutDown();
         }
-
+        
         /// <summary>
         /// Creates the kernel that will manage your application.
         /// </summary>
@@ -55,15 +49,19 @@ namespace K94Warriors.App_Start
         private static IKernel CreateKernel()
         {
             var kernel = new StandardKernel();
-            kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
-            kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
+            try
+            {
+                kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
+                kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
 
-            RegisterServices(kernel);
-
-            // Install our Ninject-based IDependencyResolver into the Web API config
-            GlobalConfiguration.Configuration.DependencyResolver = new NinjectDependencyResolver(kernel);
-
-            return kernel;
+                RegisterServices(kernel);
+                return kernel;
+            }
+            catch
+            {
+                kernel.Dispose();
+                throw;
+            }
         }
 
         /// <summary>
@@ -106,7 +104,7 @@ namespace K94Warriors.App_Start
             kernel.Bind<ScheduledTaskProvider>().ToSelf().InSingletonScope();
         }
 
-        private static void BindAzureBlobServices(IKernel kernel)
+        private static void BindAzureBlobServices(IBindingRoot kernel)
         {
             // Bind to the Images blob container for DogController
             kernel.Bind<IBlobRepository>().To<K9BlobRepository>()

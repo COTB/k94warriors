@@ -11,38 +11,22 @@ namespace K94Warriors.Data
     public class EFRepository<T> : IRepository<T>
         where T : class
     {
-        private readonly DbContext _dbContext;
-
-        private readonly DbSet<T> _dbSet;
-
         public EFRepository(DbContext dbContext)
         {
             if (dbContext == null)
-                throw new ArgumentNullException("dbContext");
+                throw new ArgumentNullException(nameof(dbContext));
 
-            _dbContext = dbContext;
-            _dbSet = dbContext.Set<T>();
+            DbContext = dbContext;
+            DbSet = dbContext.Set<T>();
         }
 
-        protected DbContext DbContext
-        {
-            get { return _dbContext; }
-        }
+        protected DbContext DbContext { get; }
 
-        protected DbSet<T> DbSet
-        {
-            get { return _dbSet; }
-        }
+        protected DbSet<T> DbSet { get; }
 
-        public IQueryable<T> GetAll()
-        {
-            return DbSet;
-        }
+        public IQueryable<T> GetAll() => DbSet;
 
-        public T GetById(int id)
-        {
-            return DbSet.Find(id);
-        }
+        public T GetById(int id) => DbSet.Find(id);
 
         public void Update(T entity)
         {
@@ -103,9 +87,6 @@ namespace K94Warriors.Data
             Delete(entities);
         }
 
-        public IQueryable<T> Where(Expression<Func<T, bool>> predicate)
-        {
-            return DbSet.Where(predicate);
-        }
+        public IQueryable<T> Where(Expression<Func<T, bool>> predicate) => DbSet.Where(predicate);
     }
 }

@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using ImageResizer;
-using K9ImageResizer = K94Warriors.Core.ImageResizing.ImageResizer;
 using K94Warriors.Data.Contracts;
 using K94Warriors.Models;
 using K94Warriors.ViewModels;
@@ -15,7 +14,7 @@ using K94Warriors.ViewModels;
 namespace K94Warriors.Controllers
 {
     [Authorize]
-    public class DogController : BaseController
+    public partial class DogController : BaseController
     {
         private readonly IRepository<DogProfile> _dogRepo;
         private readonly IRepository<DogImage> _dogImageRepo;
@@ -25,16 +24,8 @@ namespace K94Warriors.Controllers
                              IRepository<DogImage> dogImageRepo,
                              IBlobRepository blobRepo)
         {
-            if (dogRepo == null)
-                throw new ArgumentNullException("dogRepo");
             _dogRepo = dogRepo;
-
-            if (dogImageRepo == null)
-                throw new ArgumentNullException("dogImageRepo");
             _dogImageRepo = dogImageRepo;
-
-            if (blobRepo == null)
-                throw new ArgumentNullException("blobRepo");
             _blobRepo = blobRepo;
         }
 
@@ -42,7 +33,7 @@ namespace K94Warriors.Controllers
         //
         // GET: /Dog/Index/
 
-        public ActionResult Index()
+        public virtual ActionResult Index()
         {
             var dogs = _dogRepo.GetAll()
                 .Include(d => d.Location).ToList();
@@ -54,7 +45,7 @@ namespace K94Warriors.Controllers
         // 
         // GET: /Dog/DogProfile/{dogProfileId}
 
-        public ActionResult DogProfile(int id)
+        public virtual ActionResult DogProfile(int id)
         {
             var model = _dogRepo.GetById(id);
 
@@ -68,7 +59,7 @@ namespace K94Warriors.Controllers
         // GET: /Dog/Create/
 
         [HttpGet]
-        public ActionResult Create()
+        public virtual ActionResult Create()
         {
             return View(new DogProfile());
         }
@@ -78,7 +69,7 @@ namespace K94Warriors.Controllers
         // POST: /Dog/Create/
 
         [HttpPost]
-        public async Task<ActionResult> Create(DogProfile model)
+        public virtual ActionResult Create(DogProfile model)
         {
             if (!ModelState.IsValid)
                 return View(model);
@@ -95,7 +86,7 @@ namespace K94Warriors.Controllers
         // GET: /Dog/Edit/{dogProfileId}
 
         [HttpGet]
-        public ActionResult Edit(int dogProfileId)
+        public virtual ActionResult Edit(int dogProfileId)
         {
             var model = _dogRepo.GetById(dogProfileId);
 
@@ -112,7 +103,7 @@ namespace K94Warriors.Controllers
         // POST: /Dog/Edit/
 
         [HttpPost]
-        public async Task<ActionResult> Edit(DogProfile model)
+        public virtual ActionResult Edit(DogProfile model)
         {
             if (!ModelState.IsValid)
                 return View(model);
@@ -127,15 +118,13 @@ namespace K94Warriors.Controllers
         // POST: /Dog/Delete/{dogProfileId}
 
         [HttpPost]
-        public ActionResult Delete(int dogProfileId)
+        public virtual ActionResult Delete(int dogProfileId)
         {
             _dogRepo.Delete(dogProfileId);
             return RedirectToAction("Index");
         }
 
-        #region Partials and Child Actions
-
-        public async Task<ActionResult> DogThumbnail(int dogId, int size)
+        public virtual async Task<ActionResult> DogThumbnail(int dogId, int size)
         {
             var dogImage = _dogImageRepo
                                 .GetAll()
@@ -158,39 +147,39 @@ namespace K94Warriors.Controllers
 
         private ActionResult GetCachedMissingImageThumbnail()
         {
-            byte[] cachedImage = HttpContext.Cache["missing_dog_image_thumbnail"] as byte[];
+            var cachedImage = HttpContext.Cache["missing_dog_image_thumbnail"] as byte[];
 
-            if (cachedImage == null)
+            if (cachedImage != null)
+                return new FileContentResult(cachedImage, "image/png");
+
+            using (var image = new FileStream(Server.MapPath("/Content/dog_image_missing.gif"), FileMode.Open))
+            using (var outStream = new MemoryStream())
             {
-                using (var image = new FileStream(Server.MapPath("/Content/dog_image_missing.gif"), FileMode.Open))
-                using (var outStream = new MemoryStream())
+                var settings = new ResizeSettings
                 {
-                    var settings = new ResizeSettings
-                    {
-                        Height = 32,
-                        Width = 32,
-                        Mode = FitMode.Crop,
-                        Format = "png"
-                    };
-                    image.Seek(0, SeekOrigin.Begin);
-                    ImageBuilder.Current.Build(image, outStream, settings);
-                    var resized = outStream.ToArray();
-                    cachedImage = resized;
-                    HttpContext.Cache["missing_dog_image_thumbnail"] = cachedImage;
-                }
+                    Height = 32,
+                    Width = 32,
+                    Mode = FitMode.Crop,
+                    Format = "png"
+                };
+                image.Seek(0, SeekOrigin.Begin);
+                ImageBuilder.Current.Build(image, outStream, settings);
+                var resized = outStream.ToArray();
+                cachedImage = resized;
+                HttpContext.Cache["missing_dog_image_thumbnail"] = cachedImage;
             }
-            
+
             return new FileContentResult(cachedImage, "image/png");
         }
 
         [ChildActionOnly]
-        public ActionResult DogImagesPartial(int id)
+        public virtual ActionResult DogImagesPartial(int id)
         {
             var viewModel = _dogImageRepo.Where(x => x.DogProfileID == id).ToList();
             return PartialView("_DogImagesPartial", viewModel);
         }
 
-        public async Task<ActionResult> ImageForBlobKey(string blobKey, string mimeType, int height = 90, int width = 160)
+        public virtual async Task<ActionResult> ImageForBlobKey(string blobKey, string mimeType, int height = 90, int width = 160)
         {
             return await GetSizedImage(blobKey, mimeType, height, width);
         }
@@ -225,14 +214,14 @@ namespace K94Warriors.Controllers
             return null;
         }
 
-        public async Task<ActionResult> GetImage(string id)
+        public virtual async Task<ActionResult> GetImage(string id)
         {
             var memoryStream = await _blobRepo.GetImageAsync<MemoryStream>(id);
             return File(memoryStream, "image/jpeg");
         }
 
         [ChildActionOnly]
-        public ActionResult GetDogSection(int dogId)
+        public virtual ActionResult GetDogSection(int dogId)
         {
             var dog = _dogRepo.GetById(dogId);
             ViewBag.DogName = dog.Name;
@@ -241,21 +230,21 @@ namespace K94Warriors.Controllers
             return View("_DogSection");
         }
 
-        public ActionResult ImageKeysForDogProfile(int dogProfileId)
+        public virtual ActionResult ImageKeysForDogProfile(int dogProfileId)
         {
             var keys = _dogImageRepo
                 .Where(image => image.DogProfileID == dogProfileId)
                 .Select(image => new
-                    {
-                        image.BlobKey,
-                        image.MimeType
-                    });
+                {
+                    image.BlobKey,
+                    image.MimeType
+                });
 
             return Json(keys, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public async Task<ActionResult> UploadDogImages(DogImageUploadViewModel model)
+        public virtual async Task<ActionResult> UploadDogImages(DogImageUploadViewModel model)
         {
             if (model.Files.Count < 1)
                 return Json(new { success = false, message = "No files in request." });
@@ -266,7 +255,7 @@ namespace K94Warriors.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> DeleteImage(string blobKey)
+        public virtual async Task<ActionResult> DeleteImage(string blobKey)
         {
             Guid key;
             var success = Guid.TryParse(blobKey, out key);
@@ -282,22 +271,6 @@ namespace K94Warriors.Controllers
             return Json(new { success = true });
         }
 
-        #endregion
-
-        #region Private Methods
-
-        private async Task UploadFiles(int dogProfileId, HttpFileCollectionBase fileCollection)
-        {
-            var fileList = new List<HttpPostedFileBase>();
-            HttpPostedFileBase file;
-            var enumerator = fileCollection.GetEnumerator();
-            while (enumerator.MoveNext())
-                if ((file = enumerator.Current as HttpPostedFileBase) != null)
-                    fileList.Add(file);
-
-            await UploadFiles(dogProfileId, fileList);
-        }
-
         private async Task UploadFiles(int dogProfileId, IEnumerable<HttpPostedFileBase> files)
         {
             var dogImages = new List<DogImage>();
@@ -310,7 +283,5 @@ namespace K94Warriors.Controllers
             }
             _dogImageRepo.Insert(dogImages);
         }
-
-        #endregion
     }
 }

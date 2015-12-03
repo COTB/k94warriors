@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using K94Warriors.Data;
 using WebMatrix.WebData;
 
@@ -14,17 +13,7 @@ namespace K94Warriors.Core
 
             try
             {
-                using (var context = new K9UsersContext())
-                {
-                    if (!context.Database.Exists())
-                    {
-                        // Create the SimpleMembership database without Entity Framework migration schema
-                        ((IObjectContextAdapter) context).ObjectContext.CreateDatabase();
-                    }
-                }
-                WebSecurity.InitializeDatabaseConnection("K9", "Users", "UserID", "Email", autoCreateTables: true);
-
-
+                WebSecurity.InitializeDatabaseConnection("K9", "Users", "UserID", "Email", true);
             }
             catch (Exception ex)
             {

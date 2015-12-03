@@ -4,9 +4,6 @@ using K94Warriors.Enums;
 using K94Warriors.Filters;
 using K94Warriors.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using WebMatrix.WebData;
@@ -15,7 +12,7 @@ namespace K94Warriors.Areas.Admin.Controllers
 {
     [InitializeSimpleMembership]
     [K9Authorize(Roles = "Admin")]
-    public class UsersController : BaseController
+    public partial class UsersController : BaseController
     {
         private readonly IRepository<User> _userRepo;
         private readonly IRepository<UserType> _userTypeRepo;
@@ -26,18 +23,18 @@ namespace K94Warriors.Areas.Admin.Controllers
             _userRepo = userRepo;
             _userTypeRepo = userTypeRepo;
         }
-        
-        public ActionResult Index()
+
+        public virtual ActionResult Index()
         {
             var model = _userRepo.GetAll();
 
             ViewBag.CurrentUserId = CurrentUserId;
-            
+
             return View(model);
         }
 
         [HttpGet]
-        public ActionResult Create()
+        public virtual ActionResult Create()
         {
             ViewBag.UserTypesSelectList = new SelectList(_userTypeRepo.GetAll(), "ID", "Name", (int)UserTypeEnum.Volunteer);
 
@@ -45,7 +42,7 @@ namespace K94Warriors.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(User model, string password)
+        public virtual ActionResult Create(User model, string password)
         {
             if (string.IsNullOrEmpty(password))
                 ModelState.AddModelError("Password", "You must provide a password for this user.");
@@ -53,24 +50,24 @@ namespace K94Warriors.Areas.Admin.Controllers
             if (!ModelState.IsValid)
             {
                 ViewBag.UserTypesSelectList = new SelectList(_userTypeRepo.GetAll(), "ID", "Name", (int)UserTypeEnum.Volunteer);
-                
+
                 return View(model);
             }
 
-            WebSecurity.CreateUserAndAccount(model.Email, password, 
-                new 
-                { 
-                    UserTypeId = model.UserTypeID, 
-                    CreatedTimeUTC = DateTime.UtcNow,
-                    DisplayName = model.DisplayName,
-                    Phone = model.Phone
-                }, false);
+            WebSecurity.CreateUserAndAccount(model.Email, password,
+            new
+            {
+                UserTypeId = model.UserTypeID,
+                CreatedTimeUTC = DateTime.UtcNow,
+                model.DisplayName,
+                model.Phone
+            });
 
             return RedirectToAction("Index");
         }
 
         [HttpGet]
-        public ActionResult Edit(int id)
+        public virtual ActionResult Edit(int id)
         {
             var model = _userRepo.GetById(id);
 
@@ -84,7 +81,7 @@ namespace K94Warriors.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(User model, string password, int existingUserTypeID)
+        public virtual ActionResult Edit(User model, string password, int existingUserTypeID)
         {
             if (!ModelState.IsValid)
             {
@@ -109,7 +106,7 @@ namespace K94Warriors.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public ActionResult Delete(int id)
+        public virtual ActionResult Delete(int id)
         {
             if (id == CurrentUserId)
                 throw new InvalidOperationException("Can't delete current user!");

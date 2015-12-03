@@ -11,18 +11,18 @@ namespace K94Warriors.Data
     {
         private readonly string _imageContainer;
 
-        private readonly CloudStorageAccount _account;
         private readonly CloudBlobClient _client;
 
         public K9BlobRepository(string connectionString, string imageContainer)
         {
             if (string.IsNullOrEmpty(connectionString))
-                throw new ArgumentNullException("connectionString");
-            _account = CloudStorageAccount.Parse(connectionString);
-            _client = _account.CreateCloudBlobClient();
+                throw new ArgumentNullException(nameof(connectionString));
+
+            var account = CloudStorageAccount.Parse(connectionString);
+            _client = account.CreateCloudBlobClient();
 
             if (string.IsNullOrEmpty(imageContainer))
-                throw new ArgumentNullException("imageContainer");
+                throw new ArgumentNullException(nameof(imageContainer));
 
             var container = _client.GetContainerReference(imageContainer);
             container.CreateIfNotExists();

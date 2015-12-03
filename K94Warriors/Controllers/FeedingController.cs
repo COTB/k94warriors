@@ -1,14 +1,11 @@
 ﻿using K94Warriors.Data.Contracts;
 using K94Warriors.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace K94Warriors.Controllers
 {
-    public class FeedingController : BaseController
+    public partial class FeedingController : BaseController
     {
         private readonly IRepository<DogProfile> _dogProfileRepo;
         private readonly IRepository<DogFeedingEntry> _dogFeedingRepo;
@@ -19,7 +16,7 @@ namespace K94Warriors.Controllers
             _dogFeedingRepo = dogFeedingRepo;
         }
 
-        public ActionResult Index(DogProfile dog)
+        public virtual ActionResult Index(DogProfile dog)
         {
             if (dog == null)
                 return HttpNotFound();
@@ -32,7 +29,7 @@ namespace K94Warriors.Controllers
         }
 
         [HttpGet]
-        public ActionResult Create(DogProfile dog)
+        public virtual ActionResult Create(DogProfile dog)
         {
             if (dog == null)
                 return HttpNotFound();
@@ -43,7 +40,7 @@ namespace K94Warriors.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(DogFeedingEntry model)
+        public virtual ActionResult Create(DogFeedingEntry model)
         {
             var dog = _dogProfileRepo.GetById(model.DogProfileID);
 
@@ -62,7 +59,7 @@ namespace K94Warriors.Controllers
         }
 
         [HttpGet]
-        public ActionResult Edit(int id)
+        public virtual ActionResult Edit(int id)
         {
             var model = _dogFeedingRepo.GetById(id);
 
@@ -80,7 +77,7 @@ namespace K94Warriors.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(DogFeedingEntry model)
+        public virtual ActionResult Edit(DogFeedingEntry model)
         {
             if (model == null)
                 return HttpNotFound();
@@ -101,7 +98,7 @@ namespace K94Warriors.Controllers
             return RedirectToAction("Index", new { dog = dog.ProfileID });
         }
 
-        public ActionResult Delete(int id)
+        public virtual ActionResult Delete(int id)
         {
             var feeding = _dogFeedingRepo.GetById(id);
 

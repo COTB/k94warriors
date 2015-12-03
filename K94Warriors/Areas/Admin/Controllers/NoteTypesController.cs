@@ -8,7 +8,7 @@ using System.Web.Mvc;
 namespace K94Warriors.Areas.Admin.Controllers
 {
     [K9Authorize(Roles = "Admin")]
-    public class NoteTypesController : BaseController
+    public partial class NoteTypesController : BaseController
     {
         private readonly IRepository<NoteType> _noteTypesRepo;
 
@@ -17,7 +17,7 @@ namespace K94Warriors.Areas.Admin.Controllers
             _noteTypesRepo = noteTypesRepo;
         }
 
-        public ActionResult Index()
+        public virtual ActionResult Index()
         {
             var model = _noteTypesRepo.GetAll().OrderBy(i => i.Name);
 
@@ -25,13 +25,10 @@ namespace K94Warriors.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public ActionResult Create()
-        {
-            return View();
-        }
+        public virtual ActionResult Create() => View();
 
         [HttpPost]
-        public ActionResult Create(NoteType model)
+        public virtual ActionResult Create(NoteType model)
         {
             var existingName = _noteTypesRepo.Where(i => i.Name == model.Name).FirstOrDefault();
 
@@ -40,25 +37,25 @@ namespace K94Warriors.Areas.Admin.Controllers
 
             if (!ModelState.IsValid)
                 return View(model);
-            
+
             _noteTypesRepo.Insert(model);
 
             return RedirectToAction("Index");
         }
 
         [HttpGet]
-        public ActionResult Edit(int id)
+        public virtual ActionResult Edit(int id)
         {
             var model = _noteTypesRepo.GetById(id);
 
             if (model == null)
                 return HttpNotFound();
-            
+
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult Edit(NoteType model)
+        public virtual ActionResult Edit(NoteType model)
         {
             var existingName = _noteTypesRepo.Where(i => i.Name == model.Name && i.ID != model.ID).FirstOrDefault();
 
@@ -73,7 +70,7 @@ namespace K94Warriors.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Delete(int id)
+        public virtual ActionResult Delete(int id)
         {
             var model = _noteTypesRepo.GetById(id);
 

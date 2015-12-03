@@ -2,16 +2,13 @@
 using K94Warriors.Data.Contracts;
 using K94Warriors.Filters;
 using K94Warriors.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace K94Warriors.Areas.Admin.Controllers
 {
     [K9Authorize(Roles = "Admin")]
-    public class EventTypesController : BaseController
+    public partial class EventTypesController : BaseController
     {
         private readonly IRepository<EventType> _eventTypesRepo;
 
@@ -20,7 +17,7 @@ namespace K94Warriors.Areas.Admin.Controllers
             _eventTypesRepo = eventTypesRepo;
         }
 
-        public ActionResult Index()
+        public virtual ActionResult Index()
         {
             var model = _eventTypesRepo.GetAll().OrderBy(i => i.Name);
 
@@ -28,13 +25,10 @@ namespace K94Warriors.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public ActionResult Create()
-        {
-            return View();
-        }
+        public virtual ActionResult Create() => View();
 
         [HttpPost]
-        public ActionResult Create(EventType model)
+        public virtual ActionResult Create(EventType model)
         {
             var existingName = _eventTypesRepo.Where(i => i.Name == model.Name).FirstOrDefault();
 
@@ -43,25 +37,25 @@ namespace K94Warriors.Areas.Admin.Controllers
 
             if (!ModelState.IsValid)
                 return View(model);
-            
+
             _eventTypesRepo.Insert(model);
 
             return RedirectToAction("Index");
         }
 
         [HttpGet]
-        public ActionResult Edit(int id)
+        public virtual ActionResult Edit(int id)
         {
             var model = _eventTypesRepo.GetById(id);
 
             if (model == null)
                 return HttpNotFound();
-            
+
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult Edit(EventType model)
+        public virtual ActionResult Edit(EventType model)
         {
             var existingName = _eventTypesRepo.Where(i => i.Name == model.Name && i.ID != model.ID).FirstOrDefault();
 
@@ -76,7 +70,7 @@ namespace K94Warriors.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Delete(int id)
+        public virtual ActionResult Delete(int id)
         {
             var model = _eventTypesRepo.GetById(id);
 

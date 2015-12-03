@@ -14,7 +14,7 @@ using K94Warriors.ViewModels;
 
 namespace K94Warriors.Controllers
 {
-    public class NotesController : BaseController
+    public partial class NotesController : BaseController
     {
         private readonly IRepository<DogProfile> _dogProfileRepo;
         private readonly IRepository<DogNote> _dogNoteRepo;
@@ -28,22 +28,10 @@ namespace K94Warriors.Controllers
                                IRepository<DogProfile> dogProfileRepo,
                                IBlobRepository blobRepo)
         {
-            if (dogNoteRepo == null)
-                throw new ArgumentNullException("dogNoteRepo");
             _dogNoteRepo = dogNoteRepo;
-
-            if (noteTypeRepo == null)
-                throw new ArgumentNullException("noteTypeRepo");
             _noteTypeRepo = noteTypeRepo;
-
-            if (dogNoteAttachmentRepo == null)
-                throw new ArgumentNullException("dogNoteAttachmentRepo");
             _dogNoteAttachmentRepo = dogNoteAttachmentRepo;
-
-            if (blobRepo == null)
-                throw new ArgumentNullException("blobRepo");
             _blobRepo = blobRepo;
-
             _dogProfileRepo = dogProfileRepo;
         }
 
@@ -51,7 +39,7 @@ namespace K94Warriors.Controllers
         //
         // GET: /Notes?dog={dogProfileId}
 
-        public ActionResult Index(DogProfile dog)
+        public virtual ActionResult Index(DogProfile dog)
         {
             var model = _dogNoteRepo.Where(n => n.DogProfileID == dog.ProfileID).Include(x => x.DogNoteAttachments);
 
@@ -64,7 +52,7 @@ namespace K94Warriors.Controllers
         //
         // GET: /Notes/Edit/{id}
 
-        public ActionResult Edit(int id)
+        public virtual ActionResult Edit(int id)
         {
             var model = _dogNoteRepo.GetById(id);
             if (model == null)
@@ -83,7 +71,7 @@ namespace K94Warriors.Controllers
         //
         // POST: /Notes/Edit
         [HttpPost]
-        public async Task<ActionResult> Edit(DogNote model, IEnumerable<HttpPostedFileBase> files)
+        public virtual async Task<ActionResult> Edit(DogNote model, IEnumerable<HttpPostedFileBase> files)
         {
             if (!ModelState.IsValid)
             {
@@ -107,7 +95,7 @@ namespace K94Warriors.Controllers
         // 
         // GET: /Notes/Create?dog={dogProfileId}
         [HttpGet]
-        public ActionResult Create(DogProfile dog)
+        public virtual ActionResult Create(DogProfile dog)
         {
             var model = new DogNote { DogProfileID = dog.ProfileID };
 
@@ -122,7 +110,7 @@ namespace K94Warriors.Controllers
         // 
         // POST: /Notes/Create/{dogNote}
         [HttpPost]
-        public async Task<ActionResult> Create(DogNote model, IEnumerable<HttpPostedFileBase> files)
+        public virtual async Task<ActionResult> Create(DogNote model, IEnumerable<HttpPostedFileBase> files)
         {
             if (!ModelState.IsValid)
             {
@@ -148,7 +136,7 @@ namespace K94Warriors.Controllers
         // 
         // POST: /Notes/Delete/{id}
 
-        public ActionResult Delete(int id, int? dogProfileId)
+        public virtual ActionResult Delete(int id, int? dogProfileId)
         {
             _dogNoteRepo.Delete(id);
 
@@ -157,7 +145,7 @@ namespace K94Warriors.Controllers
             return RedirectToAction("Index", "Dog");
         }
 
-        public ActionResult AttachmentKeys(int dogNoteId)
+        public virtual ActionResult AttachmentKeys(int dogNoteId)
         {
             var dogNote = _dogNoteRepo.GetById(dogNoteId);
             if (dogNote == null)
@@ -166,20 +154,20 @@ namespace K94Warriors.Controllers
             var attachments = _dogNoteAttachmentRepo.Where(x => x.DogNoteID == dogNote.NoteID);
             var keys = (from a in attachments
                         select new
-                            {
-                                a.DogNoteAttachmentID,
-                                a.FileName
-                            }).ToList();
+                        {
+                            a.DogNoteAttachmentID,
+                            a.FileName
+                        }).ToList();
 
             return Json(keys, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public async Task<ActionResult> UploadFiles(NoteAttachmentUploadViewModel model)
+        public virtual async Task<ActionResult> UploadFiles(NoteAttachmentUploadViewModel model)
         {
             var dogNote = _dogNoteRepo.GetById(model.DogNoteId);
             if (dogNote == null)
-                return Json(new {success = false, errorMessage = "Invalid dog note id sent with request."});
+                return Json(new { success = false, errorMessage = "Invalid dog note id sent with request." });
 
             if (model.Files.Count < 1)
                 return Json(new { success = false, errorMessage = "No files in request." });
@@ -190,7 +178,7 @@ namespace K94Warriors.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> DeleteFile(int id)
+        public virtual async Task<ActionResult> DeleteFile(int id)
         {
             try
             {
@@ -203,14 +191,14 @@ namespace K94Warriors.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new {success = false, errorMessage = ex.Message});
+                return Json(new { success = false, errorMessage = ex.Message });
             }
 
-            return Json(new {success = true});
+            return Json(new { success = true });
         }
 
 
-        public async Task<ActionResult> DownloadAllFiles(int dogNoteId)
+        public virtual async Task<ActionResult> DownloadAllFiles(int dogNoteId)
         {
             var dogNote = _dogNoteRepo.GetById(dogNoteId);
             if (dogNote == null)
@@ -247,7 +235,7 @@ namespace K94Warriors.Controllers
             return File(outputStream.ToArray(), "application/octet-stream", "NoteAttachments.zip");
         }
 
-        public async Task<ActionResult> DownloadFile(int id)
+        public virtual async Task<ActionResult> DownloadFile(int id)
         {
             var attachment = _dogNoteAttachmentRepo.GetById(id);
             if (attachment == null)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using K94Warriors.Email;
 
@@ -20,7 +21,6 @@ namespace K94Warriors.Filters
         /// <summary>
         ///     The constructor.
         /// </summary>
-        /// <param name="smtpMailer">The SMTP mailer to use.</param>
         /// <param name="from">The from email address.</param>
         /// <param name="to">The to email address.</param>
         /// <exception cref="System.ArgumentNullException">Thrown when smtpMailer is null.</exception>
@@ -55,7 +55,7 @@ namespace K94Warriors.Filters
             try
             {
                 var mailer = new SmtpMailer();
-                mailer.Send(_from, _to, string.Format(_subjectFormat, ex.GetType()), ex.ToString());
+                Task.Run(async () => await mailer.Send(_from, _to, string.Format(_subjectFormat, ex.GetType()), ex.ToString())).Wait();
             }
             catch
             {

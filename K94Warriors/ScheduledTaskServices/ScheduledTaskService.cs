@@ -10,7 +10,7 @@ namespace K94Warriors.ScheduledTaskServices
         public ScheduledTaskService(IScheduledTaskProvider provider)
         {
             if (provider == null)
-                throw new ArgumentNullException("provider");
+                throw new ArgumentNullException(nameof(provider));
             _provider = provider;
         }
 

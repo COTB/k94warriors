@@ -3,20 +3,20 @@ using System.Web.Mvc;
 
 namespace K94Warriors.Controllers
 {
-    public class ErrorController : Controller
+    public partial class ErrorController : Controller
     {
         //
         // GET: /Error/
 
-        public ActionResult Error404()
+        public virtual ActionResult Error404()
         {
-            Response.StatusCode = (int) HttpStatusCode.NotFound;
+            Response.StatusCode = (int)HttpStatusCode.NotFound;
             return View();
         }
 
-        public ActionResult Error403()
+        public virtual ActionResult Error403()
         {
-            Response.StatusCode = (int) HttpStatusCode.Forbidden;
+            Response.StatusCode = (int)HttpStatusCode.Forbidden;
             return View();
         }
     }

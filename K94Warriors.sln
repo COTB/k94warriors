@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "K94Warriors", "K94Warriors\K94Warriors.csproj", "{A530E31C-54C6-4D87-ABA1-AE08CC7599EA}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "K9sForWarriors.KennelManagement.Database", "K9sForWarriors.KennelManagement.Database\K9sForWarriors.KennelManagement.Database.sqlproj", "{4A61E468-E8A0-4B7B-AA39-2B8FD32E346D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,12 @@ Global
 		{A530E31C-54C6-4D87-ABA1-AE08CC7599EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A530E31C-54C6-4D87-ABA1-AE08CC7599EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A530E31C-54C6-4D87-ABA1-AE08CC7599EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A61E468-E8A0-4B7B-AA39-2B8FD32E346D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A61E468-E8A0-4B7B-AA39-2B8FD32E346D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A61E468-E8A0-4B7B-AA39-2B8FD32E346D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{4A61E468-E8A0-4B7B-AA39-2B8FD32E346D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A61E468-E8A0-4B7B-AA39-2B8FD32E346D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A61E468-E8A0-4B7B-AA39-2B8FD32E346D}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

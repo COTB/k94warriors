@@ -1,11 +1,10 @@
 ﻿using K94Warriors.Filters;
 using K94Warriors.Models;
 using System.Web.Mvc;
-using WebMatrix.WebData;
 
 namespace K94Warriors.Controllers
 {
-    public abstract class BaseController : Controller
+    public abstract partial class BaseController : Controller
     {
         protected void SetDogViewBag(DogProfile dog)
         {
@@ -15,14 +14,9 @@ namespace K94Warriors.Controllers
 
         protected int CurrentUserId
         {
-            get 
+            get
             {
-                var user = Session["CurrentUser"] as User;
-
-                if (user == null)
-                {
-                    user = K9AuthorizeAttribute.ReloadUserIntoSession(HttpContext);
-                }
+                var user = Session["CurrentUser"] as User ?? K9AuthorizeAttribute.ReloadUserIntoSession(HttpContext);
 
                 return user.UserID;
             }

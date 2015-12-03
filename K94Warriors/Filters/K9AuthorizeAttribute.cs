@@ -1,8 +1,6 @@
 ﻿using K94Warriors.Data.Contracts;
 using K94Warriors.Enums;
 using K94Warriors.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Web;
@@ -16,9 +14,9 @@ namespace K94Warriors.Filters
         {
             bool success = base.AuthorizeCore(httpContext);
 
-            if (!success)
+            if (!success || httpContext.Session == null)
                 return false;
-
+            
             var user = httpContext.Session["CurrentUser"] as User;
 
             if (user == null)
@@ -53,7 +51,8 @@ namespace K94Warriors.Filters
 
             var user = repo.Where(i => i.Email == userName).FirstOrDefault();
 
-            httpContext.Session["CurrentUser"] = user;
+            if (httpContext.Session != null)
+                httpContext.Session["CurrentUser"] = user;
 
             return user;
         }

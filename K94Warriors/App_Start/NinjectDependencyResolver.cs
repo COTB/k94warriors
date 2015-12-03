@@ -1,7 +1,7 @@
 using System.Web.Http.Dependencies;
 using Ninject;
 
-namespace K94Warriors.App_Start
+namespace K94Warriors
 {
     /// <summary>
     /// This class is the resolver, but it is also the global scope
@@ -9,17 +9,17 @@ namespace K94Warriors.App_Start
     /// </summary>
     public class NinjectDependencyResolver : NinjectDependencyScope, IDependencyResolver
     {
-        IKernel kernel;
+        private readonly IKernel _kernel;
 
         public NinjectDependencyResolver(IKernel kernel)
             : base(kernel)
         {
-            this.kernel = kernel;
+            _kernel = kernel;
         }
 
         public IDependencyScope BeginScope()
         {
-            return new NinjectDependencyScope(kernel.BeginBlock());
+            return new NinjectDependencyScope(_kernel.BeginBlock());
         }
     }
 }

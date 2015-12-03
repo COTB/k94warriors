@@ -1,26 +1,23 @@
 ﻿using K94Warriors.Data.Contracts;
 using K94Warriors.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace K94Warriors.Controllers
 {
-    public class CertificationsController : BaseController
+    public partial class CertificationsController : BaseController
     {
         private readonly IRepository<DogProfile> _dogProfileRepo;
         private readonly IRepository<DogCertification> _dogCertificationRepo;
 
-        public CertificationsController(IRepository<DogProfile> dogProfileRepo, 
+        public CertificationsController(IRepository<DogProfile> dogProfileRepo,
             IRepository<DogCertification> dogCertificationRepo)
         {
             _dogProfileRepo = dogProfileRepo;
             _dogCertificationRepo = dogCertificationRepo;
         }
 
-        public ActionResult Index(DogProfile dog)
+        public virtual ActionResult Index(DogProfile dog)
         {
             var model = _dogCertificationRepo
                 .Where(i => i.DogProfileID == dog.ProfileID)
@@ -32,7 +29,7 @@ namespace K94Warriors.Controllers
         }
 
         [HttpGet]
-        public ActionResult Create(DogProfile dog)
+        public virtual ActionResult Create(DogProfile dog)
         {
             var model = new DogCertification { DogProfileID = dog.ProfileID };
 
@@ -42,7 +39,7 @@ namespace K94Warriors.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(DogCertification model)
+        public virtual ActionResult Create(DogCertification model)
         {
             if (!ModelState.IsValid)
             {
@@ -59,7 +56,7 @@ namespace K94Warriors.Controllers
         }
 
         [HttpGet]
-        public ActionResult Edit(int id)
+        public virtual ActionResult Edit(int id)
         {
             var model = _dogCertificationRepo.GetById(id);
 
@@ -74,7 +71,7 @@ namespace K94Warriors.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(DogCertification model)
+        public virtual ActionResult Edit(DogCertification model)
         {
             if (!ModelState.IsValid)
             {
@@ -90,7 +87,7 @@ namespace K94Warriors.Controllers
             return RedirectToAction("Index", new { dog = model.DogProfileID });
         }
 
-        public ActionResult Delete(int id)
+        public virtual ActionResult Delete(int id)
         {
             var model = _dogCertificationRepo.GetById(id);
 

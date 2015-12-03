@@ -4,13 +4,7 @@ namespace K94Warriors.Areas.Admin
 {
     public class AdminAreaRegistration : AreaRegistration
     {
-        public override string AreaName
-        {
-            get
-            {
-                return "Admin";
-            }
-        }
+        public override string AreaName => "Admin";
 
         public override void RegisterArea(AreaRegistrationContext context)
         {

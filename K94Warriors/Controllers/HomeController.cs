@@ -1,6 +1,4 @@
-﻿using System;
-using System.Data.Entity;
-using System.Data.Objects;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using K94Warriors.Data.Contracts;
@@ -8,14 +6,12 @@ using K94Warriors.Models;
 
 namespace K94Warriors.Controllers
 {
-    public class HomeController : BaseController
+    public partial class HomeController : BaseController
     {
         private readonly IRepository<DogEvent> _dogEventRepo;
 
         public HomeController(IRepository<DogEvent> dogEventRepo)
         {
-            if (dogEventRepo == null)
-                throw new ArgumentNullException("dogEventRepo");
             _dogEventRepo = dogEventRepo;
         }
 

@@ -1,16 +1,12 @@
 ﻿using K94Warriors.Data.Contracts;
 using K94Warriors.Models;
 using K94Warriors.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace K94Warriors.Controllers
 {
-    public class PrintController : BaseController
+    public partial class PrintController : BaseController
     {
         private readonly IRepository<DogProfile> _dogRepo;
 
@@ -19,7 +15,7 @@ namespace K94Warriors.Controllers
             _dogRepo = dogRepo;
         }
 
-        public new ActionResult Profile(int id)
+        public virtual new ActionResult Profile(int id)
         {
             var profile = _dogRepo.GetById(id);
 
@@ -39,13 +35,15 @@ namespace K94Warriors.Controllers
 
             var images = profile.Images.ToList();
 
-            var vm = new DogPrintViewModel();
-            vm.DogProfile = profile;
-            vm.Vaccinations = vaccines;
-            vm.Notes = notes;
-            vm.Feeding = feeding;
-            vm.Images = images;
-            
+            var vm = new DogPrintViewModel
+            {
+                DogProfile = profile,
+                Vaccinations = vaccines,
+                Notes = notes,
+                Feeding = feeding,
+                Images = images
+            };
+
             return View(vm);
         }
 

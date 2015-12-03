@@ -4,12 +4,11 @@ using K94Warriors.ViewModels.Medication;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace K94Warriors.Controllers
 {
-    public class MedicationController : BaseController
+    public partial class MedicationController : BaseController
     {
         private readonly IRepository<DogProfile> _dogProfileRepo;
         private readonly IRepository<DogMedication> _dogMedicationRepo;
@@ -20,7 +19,7 @@ namespace K94Warriors.Controllers
             _dogMedicationRepo = dogMedicationRepo;
         }
 
-        public ActionResult Index(DogProfile dog)
+        public virtual ActionResult Index(DogProfile dog)
         {
             if (dog == null)
                 return HttpNotFound();
@@ -32,7 +31,7 @@ namespace K94Warriors.Controllers
             return View(meds);
         }
 
-        public ActionResult PrintLog(int dogProfileId, int? numdays, DateTime? startdate)
+        public virtual ActionResult PrintLog(int dogProfileId, int? numdays, DateTime? startdate)
         {
             var dog = _dogProfileRepo.GetById(dogProfileId);
 
@@ -48,24 +47,26 @@ namespace K94Warriors.Controllers
 
             var days = new List<DateTime>();
             var date = startdate.Value.AddDays(-1);
-            
+
             for (int i = 0; i < numdays; i++)
             {
                 days.Add((date = date.AddDays(1)));
             }
 
-            var viewModel = new MedicationPrintLogViewModel();
-            viewModel.DogProfile = dog;
-            viewModel.Medications = meds;
-            viewModel.NumDays = numdays.Value;
-            viewModel.StartDate = startdate.Value;
-            viewModel.Days = days;
+            var viewModel = new MedicationPrintLogViewModel
+            {
+                DogProfile = dog,
+                Medications = meds,
+                NumDays = numdays.Value,
+                StartDate = startdate.Value,
+                Days = days
+            };
 
             return View(viewModel);
         }
 
         [HttpGet]
-        public ActionResult Create(DogProfile dog)
+        public virtual ActionResult Create(DogProfile dog)
         {
             if (dog == null)
                 return HttpNotFound();
@@ -76,7 +77,7 @@ namespace K94Warriors.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(DogMedication model)
+        public virtual ActionResult Create(DogMedication model)
         {
             var dog = _dogProfileRepo.GetById(model.DogProfileID);
 
@@ -95,7 +96,7 @@ namespace K94Warriors.Controllers
         }
 
         [HttpGet]
-        public ActionResult Edit(int id)
+        public virtual ActionResult Edit(int id)
         {
             var med = _dogMedicationRepo.GetById(id);
 
@@ -113,7 +114,7 @@ namespace K94Warriors.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(DogMedication med)
+        public virtual ActionResult Edit(DogMedication med)
         {
             if (med == null)
                 return HttpNotFound();
@@ -135,7 +136,7 @@ namespace K94Warriors.Controllers
         }
 
         [HttpGet]
-        public ActionResult Delete(int id)
+        public virtual ActionResult Delete(int id)
         {
             var med = _dogMedicationRepo.GetById(id);
 

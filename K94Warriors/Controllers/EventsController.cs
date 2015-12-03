@@ -7,7 +7,7 @@ using K94Warriors.Helpers;
 
 namespace K94Warriors.Controllers
 {
-    public class EventsController : BaseController
+    public partial class EventsController : BaseController
     {
         private readonly IRepository<DogProfile> _dogProfileRepo;
         private readonly IRepository<DogEvent> _dogEventsRepo;
@@ -26,7 +26,7 @@ namespace K94Warriors.Controllers
         //
         // GET: /Events?dog={dogProfileId}
 
-        public ActionResult Index(DogProfile dog)
+        public virtual ActionResult Index(DogProfile dog)
         {
             // verify dog exists
             if (dog == null)
@@ -40,7 +40,7 @@ namespace K94Warriors.Controllers
         }
 
         [HttpGet]
-        public ActionResult Create(DogProfile dog)
+        public virtual ActionResult Create(DogProfile dog)
         // GET: /Events/Create/{dogProfileId}
 
         {
@@ -66,7 +66,7 @@ namespace K94Warriors.Controllers
         // POST: /Events/Create/
 
         [HttpPost]
-        public ActionResult Create(DogEvent model, string eventTime)
+        public virtual ActionResult Create(DogEvent model, string eventTime)
         {
             var timespan = TimeParserHelper.Parse(eventTime);
 
@@ -87,7 +87,7 @@ namespace K94Warriors.Controllers
                 return View(model);
             }
 
-            model.EventDate = model.EventDate.Add(timespan.Value);
+            model.EventDate = model.EventDate.Add(timespan.GetValueOrDefault());
 
             _dogEventsRepo.Insert(model);
 
@@ -98,9 +98,10 @@ namespace K94Warriors.Controllers
         //
         // GET: /Events/Edit/{dogEventId}
 
-        public ActionResult Edit(int dogEventId)
+        public virtual ActionResult Edit(int dogEventId)
         {
             var model = _dogEventsRepo.GetById(dogEventId);
+
             if (model == null)
                 return RedirectToAction("Index", "Dog");
 
@@ -118,7 +119,7 @@ namespace K94Warriors.Controllers
         // POST: /Events/Edit/
 
         [HttpPost]
-        public ActionResult Edit(DogEvent model, string eventTime)
+        public virtual ActionResult Edit(DogEvent model, string eventTime)
         {
             var timespan = TimeParserHelper.Parse(eventTime);
 
@@ -139,7 +140,7 @@ namespace K94Warriors.Controllers
                 return View(model);
             }
 
-            model.EventDate = model.EventDate.Add(timespan.Value);
+            model.EventDate = model.EventDate.Add(timespan.GetValueOrDefault());
 
             _dogEventsRepo.Update(model);
 
@@ -151,7 +152,7 @@ namespace K94Warriors.Controllers
         // POST: /Events/Delete/{dogEventId}
 
         [HttpPost]
-        public ActionResult Delete(int dogEventId, int? dogProfileId)
+        public virtual ActionResult Delete(int dogEventId, int? dogProfileId)
         {
             _dogEventsRepo.Delete(dogEventId);
 

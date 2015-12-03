@@ -4,7 +4,7 @@ using System.Web.Http.Dependencies;
 using Ninject;
 using Ninject.Syntax;
 
-namespace K94Warriors.App_Start
+namespace K94Warriors
 {
     /// <summary>
     /// Provides a Ninject implementation of IDependencyScope
@@ -38,8 +38,8 @@ namespace K94Warriors.App_Start
         public void Dispose()
         {
             var disposable = resolver as IDisposable;
-            if (disposable != null)
-                disposable.Dispose();
+
+            disposable?.Dispose();
 
             resolver = null;
         }

@@ -29,26 +29,26 @@ namespace K94Warriors.ScheduledTaskServices.Tasks
                                 string from, string subject)
         {
             if (mailer == null)
-                throw new ArgumentNullException("mailer");
+                throw new ArgumentNullException(nameof(mailer));
             _mailer = mailer;
             if (dogEventRepo == null)
-                throw new ArgumentNullException("dogEventRepo");
+                throw new ArgumentNullException(nameof(dogEventRepo));
             _dogEventRepo = dogEventRepo;
             if (dogFeedingRepo == null)
-                throw new ArgumentNullException("dogFeedingRepo");
+                throw new ArgumentNullException(nameof(dogFeedingRepo));
             _dogFeedingRepo = dogFeedingRepo;
             if (dogMedicationRepo == null)
-                throw new ArgumentNullException("dogMedicationRepo");
+                throw new ArgumentNullException(nameof(dogMedicationRepo));
             _dogMedicationRepo = dogMedicationRepo;
             if (taskEmailRecipientRepo == null)
-                throw new ArgumentNullException("taskEmailRecipientRepo");
+                throw new ArgumentNullException(nameof(taskEmailRecipientRepo));
             _taskEmailRecipientRepo = taskEmailRecipientRepo;
 
             if (string.IsNullOrEmpty(from))
-                throw new ArgumentNullException("from");
+                throw new ArgumentNullException(nameof(@from));
             _from = from;
             if (string.IsNullOrEmpty("subject"))
-                throw new ArgumentNullException("subject");
+                throw new ArgumentNullException(nameof(subject));
             _subject = subject;
         }
 
@@ -91,7 +91,7 @@ namespace K94Warriors.ScheduledTaskServices.Tasks
 
                 await _mailer.Send(email);
             }
-            catch (Exception ex)
+            catch
             {
                 return false;
             }

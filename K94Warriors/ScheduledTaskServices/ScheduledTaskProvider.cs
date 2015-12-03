@@ -10,7 +10,7 @@ namespace K94Warriors.ScheduledTaskServices
         public ScheduledTaskProvider(IDictionary<string, Func<IScheduledTask>> factories)
         {
             if (factories == null)
-                throw new ArgumentNullException("factories", "Task factories must be registered.");
+                throw new ArgumentNullException(nameof(factories), "Task factories must be registered.");
 
             _factories = factories;
         }
@@ -24,7 +24,7 @@ namespace K94Warriors.ScheduledTaskServices
         public IScheduledTask GetTask(string key)
         {
             var factory = _factories[key];
-            var task = factory == null ? null : factory();
+            var task = factory?.Invoke();
             return task;
         }
     }

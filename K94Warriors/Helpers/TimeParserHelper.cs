@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Web;
 
 namespace K94Warriors.Helpers
 {
@@ -25,13 +21,13 @@ namespace K94Warriors.Helpers
 
         private class TimeParserFiniteStateMachine
         {
-            private readonly CharStream stream;
-            private const int zeroChar = (int)'0';
+            private readonly CharStream _stream;
+            private const int ZERO_CHAR = '0';
             private const char EOF = (char)0;
 
             public TimeParserFiniteStateMachine(string input)
             {
-                stream = new CharStream(input);
+                _stream = new CharStream(input);
             }
 
             public TimeSpan? Parse()
@@ -40,131 +36,142 @@ namespace K94Warriors.Helpers
                 return LookForHourChar(state);
             }
 
-            public TimeSpan? Finish(TimeState state)
+            private static TimeSpan? Finish(TimeState state)
             {
                 return state.IsComplete ? state.ToTimeSpan() : null;
             }
 
             private TimeSpan? LookForHourChar(TimeState state, bool beenHere = false)
             {
-                char c = stream.ReadChar();
-
-                if (c == EOF)
-                    return beenHere && state.IsComplete ? state.ToTimeSpan() : null;
-
-                switch (c)
+                while (true)
                 {
-                    case '0':
-                    case '1':
-                    case '2':
-                        if (beenHere)
-                        {
-                            state.Hour *= 10;
-                            state.Hour += ((int)c) - zeroChar;
-                            return LookForDelimiter(state);
-                        }
-                        else
-                        {
-                            state.Hour = ((int)c) - zeroChar;
-                            return LookForHourChar(state, true);
-                        }
-                    case '3':
-                    case '4':
-                    case '5':
-                    case '6':
-                    case '7':
-                    case '8':
-                    case '9':
-                        if (beenHere)
-                        {
-                            state.Hour *= 10;
-                            state.Hour += ((int)c) - zeroChar;
-                        }
-                        else
-                            state.Hour = ((int)c) - zeroChar;
+                    char c = _stream.ReadChar();
 
-                        return LookForDelimiter(state);
-                    case ' ':
-                    case '\t':
-                    case '\r':
-                    case '\n':
-                        return LookForHourChar(state, false);
-                    default:
-                        return null;
+                    if (c == EOF)
+                        return beenHere && state.IsComplete ? state.ToTimeSpan() : null;
+
+                    switch (c)
+                    {
+                        case '0':
+                        case '1':
+                        case '2':
+                            if (beenHere)
+                            {
+                                state.Hour *= 10;
+                                state.Hour += c - ZERO_CHAR;
+                                return LookForDelimiter(state);
+                            }
+                            else
+                            {
+                                state.Hour = c - ZERO_CHAR;
+                                beenHere = true;
+                                continue;
+                            }
+                        case '3':
+                        case '4':
+                        case '5':
+                        case '6':
+                        case '7':
+                        case '8':
+                        case '9':
+                            if (beenHere)
+                            {
+                                state.Hour *= 10;
+                                state.Hour += c - ZERO_CHAR;
+                            }
+                            else
+                                state.Hour = c - ZERO_CHAR;
+
+                            return LookForDelimiter(state);
+                        case ' ':
+                        case '\t':
+                        case '\r':
+                        case '\n':
+                            beenHere = false;
+                            continue;
+                        default:
+                            return null;
+                    }
                 }
             }
 
             private TimeSpan? LookForDelimiter(TimeState state)
             {
-                char c = stream.Peek(0);
-
-                if (c == EOF)
-                    return Finish(state);
-
-                switch (c)
+                while (true)
                 {
-                    case ':':
-                        stream.ReadChar();
-                        return LookForMinuteChar(state);
-                    case '0':
-                    case '1':
-                    case '2':
-                    case '3':
-                    case '4':
-                    case '5':
-                    case '6':
-                    case '7':
-                    case '8':
-                    case '9':
-                        return LookForMinuteChar(state);
-                    case 'p':
-                    case 'P':
-                    case 'a':
-                    case 'A':
-                        return LookForAmPm(state);
-                    case ' ':
-                    case '\t':
-                    case '\r':
-                    case '\n':
-                        stream.ReadChar();
-                        return LookForDelimiter(state);
-                    default:
-                        return null;
+                    char c = _stream.Peek(0);
+
+                    if (c == EOF)
+                        return Finish(state);
+
+                    switch (c)
+                    {
+                        case ':':
+                            _stream.ReadChar();
+                            return LookForMinuteChar(state);
+                        case '0':
+                        case '1':
+                        case '2':
+                        case '3':
+                        case '4':
+                        case '5':
+                        case '6':
+                        case '7':
+                        case '8':
+                        case '9':
+                            return LookForMinuteChar(state);
+                        case 'p':
+                        case 'P':
+                        case 'a':
+                        case 'A':
+                            return LookForAmPm(state);
+                        case ' ':
+                        case '\t':
+                        case '\r':
+                        case '\n':
+                            _stream.ReadChar();
+                            continue;
+                        default:
+                            return null;
+                    }
                 }
             }
 
             private TimeSpan? LookForAmPm(TimeState state)
             {
-                char c = stream.ReadChar();
-
-                if (c == EOF)
-                    return Finish(state);
-
-                switch (c)
+                while (true)
                 {
-                    case 'a':
-                    case 'A':
-                        state.Is24Hour = false;
-                        state.IsPM = false;
-                        return LookForAmPmEnd(state);
-                    case 'p':
-                    case 'P':
-                        state.Is24Hour = false;
-                        state.IsPM = true;
-                        return LookForAmPmEnd(state);
-                    case ' ':
-                    case '\t':
-                    case '\r':
-                    case '\n':
-                        return LookForAmPm(state);
-                    default:
-                        return null;
+                    char c = _stream.ReadChar();
+
+                    if (c == EOF)
+                        return Finish(state);
+
+                    switch (c)
+                    {
+                        case 'a':
+                        case 'A':
+                            state.Is24Hour = false;
+                            state.IsPM = false;
+                            return LookForAmPmEnd(state);
+                        case 'p':
+                        case 'P':
+                            state.Is24Hour = false;
+                            state.IsPM = true;
+                            return LookForAmPmEnd(state);
+                        case ' ':
+                        case '\t':
+                        case '\r':
+                        case '\n':
+                            continue;
+                        default:
+                            return null;
+                    }
                 }
             }
 
             private TimeSpan? LookForAmPmEnd(TimeState state)
             {
-                char c = stream.ReadChar();
+                char c = _stream.ReadChar();
 
                 if (c == EOF)
                     return Finish(state);
@@ -181,90 +188,95 @@ namespace K94Warriors.Helpers
 
             private TimeSpan? LookForMinuteChar(TimeState state, bool beenHere = false)
             {
-                char c = stream.ReadChar();
-
-                if (c == EOF)
-                    return beenHere && state.IsComplete ? state.ToTimeSpan() : null;
-
-                switch (c)
+                while (true)
                 {
-                    case 'a':
-                    case 'A':
-                    case 'p':
-                    case 'P':
-                        stream.Backup(1);
-                        return LookForAmPm(state);
-                    case ' ':
-                    case '\t':
-                    case '\r':
-                    case '\n':
-                        return LookForMinuteChar(state, false);
-                    case '0':
-                    case '1':
-                    case '2': 
-                    case '3':
-                    case '4':
-                    case '5':
-                        if (beenHere)
-                        {
-                            state.Minute *= 10;
-                            state.Minute += ((int)c) - zeroChar;
+                    char c = _stream.ReadChar();
+
+                    if (c == EOF)
+                        return beenHere && state.IsComplete ? state.ToTimeSpan() : null;
+
+                    switch (c)
+                    {
+                        case 'a':
+                        case 'A':
+                        case 'p':
+                        case 'P':
+                            _stream.Backup(1);
                             return LookForAmPm(state);
-                        }
-                        else
-                        {
-                            state.Minute = ((int)c) - zeroChar;
-                            return LookForMinuteChar(state, true);
-                        }
-                    case '6':
-                    case '7':
-                    case '8':
-                    case '9':
-                        if (!beenHere)
-                            return null; // minutes can't start with 6-9
+                        case ' ':
+                        case '\t':
+                        case '\r':
+                        case '\n':
+                            beenHere = false;
+                            continue;
+                        case '0':
+                        case '1':
+                        case '2':
+                        case '3':
+                        case '4':
+                        case '5':
+                            if (beenHere)
+                            {
+                                state.Minute *= 10;
+                                state.Minute += c - ZERO_CHAR;
+                                return LookForAmPm(state);
+                            }
+                            else
+                            {
+                                state.Minute = c - ZERO_CHAR;
+                                beenHere = true;
+                                continue;
+                            }
+                        case '6':
+                        case '7':
+                        case '8':
+                        case '9':
+                            if (!beenHere)
+                                return null; // minutes can't start with 6-9
 
-                        state.Minute *= 10;
-                        state.Minute += ((int)c) - zeroChar;
+                            state.Minute *= 10;
+                            state.Minute += c - ZERO_CHAR;
 
-                        return LookForAmPm(state);
-                    default:
-                        return null; // invalid character
+                            return LookForAmPm(state);
+                        default:
+                            return null; // invalid character
+                    }
                 }
             }
         }
 
         private class CharStream
         {
-            private string source = null;
-            private int pos = 0;
+            private readonly string _source;
+            private int _pos;
 
             public CharStream(string source)
             {
-                this.source = source;
+                _source = source;
             }
 
             public char ReadChar()
             {
-                if (pos >= source.Length)
+                if (_pos >= _source.Length)
                     return (char)0;
 
-                return source[pos++];
+                return _source[_pos++];
             }
             
             public void Backup(int amount)
             {
-                if (pos - amount < 0)
-                    pos = 0;
+                if (_pos - amount < 0)
+                    _pos = 0;
                 else
-                    pos -= amount;
+                    _pos -= amount;
             }
 
             public char Peek(int distance = 1)
             {
-                if (pos + distance >= source.Length)
+                if (_pos + distance >= _source.Length)
                     return (char)0;
 
-                return source[pos + distance];
+                return _source[_pos + distance];
             }
         }
 
@@ -275,15 +287,8 @@ namespace K94Warriors.Helpers
             public bool? IsPM;
             public bool Is24Hour = true;
 
-            public bool IsComplete
-            {
-                get
-                {
-                    // as long as we at least have an hour, we can infer some timespan
-                    return Hour.HasValue;
-                }
-            }
-            
+            public bool IsComplete => Hour.HasValue;
+
             public TimeSpan? ToTimeSpan()
             {
                 if (!IsComplete)
@@ -298,16 +303,14 @@ namespace K94Warriors.Helpers
                 
                 if (isPM)
                 {
-                    if (hour == 12)
-                        return TimeSpan.FromHours(hour).Add(TimeSpan.FromMinutes(minute));
-
-                    return TimeSpan.FromHours(12 + hour).Add(TimeSpan.FromMinutes(minute));
+                    return hour == 12 
+                        ? TimeSpan.FromHours(hour).Add(TimeSpan.FromMinutes(minute)) 
+                        : TimeSpan.FromHours(12 + hour).Add(TimeSpan.FromMinutes(minute));
                 }
 
-                if (hour == 12)
-                    return TimeSpan.FromMinutes(minute);
-
-                return TimeSpan.FromHours(hour).Add(TimeSpan.FromMinutes(minute));
+                return hour == 12 
+                    ? TimeSpan.FromMinutes(minute) 
+                    : TimeSpan.FromHours(hour).Add(TimeSpan.FromMinutes(minute));
             }
         }
     }

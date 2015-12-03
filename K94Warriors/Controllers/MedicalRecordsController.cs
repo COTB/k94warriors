@@ -10,7 +10,7 @@ using K94Warriors.Models;
 
 namespace K94Warriors.Controllers
 {
-    public class MedicalRecordsController : BaseController
+    public partial class MedicalRecordsController : BaseController
     {
         private readonly IRepository<DogProfile> _dogProfileRepo;
         private readonly IRepository<DogMedicalRecord> _dogMedicalRecordsRepo;
@@ -24,24 +24,10 @@ namespace K94Warriors.Controllers
                                         IRepository<MedicalRecordType> medicalRecordTypesRepo,
                                         IBlobRepository blobRepo)
         {
-            if (dogProfileRepo == null)
-                throw new ArgumentNullException("dogProfileRepo");
             _dogProfileRepo = dogProfileRepo;
-
-            if (dogMedicalRecordsRepo == null)
-                throw new ArgumentNullException("dogMedicalRecordsRepo");
             _dogMedicalRecordsRepo = dogMedicalRecordsRepo;
-
-            if (dogMedicalRecordImageRepo == null)
-                throw new ArgumentNullException("dogMedicalRecordImageRepo");
             _dogMedicalRecordImageRepo = dogMedicalRecordImageRepo;
-
-            if (medicalRecordTypesRepo == null)
-                throw new ArgumentNullException("medicalRecordTypesRepo");
             _medicalRecordTypesRepo = medicalRecordTypesRepo;
-
-            if (blobRepo == null)
-                throw new ArgumentNullException("blobRepo");
             _blobRepo = blobRepo;
         }
 
@@ -49,7 +35,7 @@ namespace K94Warriors.Controllers
         //
         // GET: /MedicalRecords?dog={dogProfileId}
 
-        public ActionResult Index(DogProfile dog)
+        public virtual ActionResult Index(DogProfile dog)
         {
             if (dog == null)
                 return RedirectToAction("Index", "Dog");
@@ -66,7 +52,7 @@ namespace K94Warriors.Controllers
         // GET: /MedicalRecords/Create?dog={dogProfileId}
 
         [HttpGet]
-        public ActionResult Create(DogProfile dog)
+        public virtual ActionResult Create(DogProfile dog)
         {
             if (dog == null)
                 return RedirectToAction("Index", "Dog");
@@ -83,16 +69,16 @@ namespace K94Warriors.Controllers
         // POST: /MedicalRecords/Create
 
         [HttpPost]
-        public async Task<ActionResult> Create(DogMedicalRecord model, IEnumerable<HttpPostedFileBase> files)
+        public virtual async Task<ActionResult> Create(DogMedicalRecord model, IEnumerable<HttpPostedFileBase> files)
         {
             if (!ModelState.IsValid)
             {
                 var dog = _dogProfileRepo.GetById(model.DogProfileID);
-                
+
                 SetDogViewBag(dog);
 
                 ViewBag.MedicalRecordTypesSelectList = new SelectList(_medicalRecordTypesRepo.GetAll(), "MedicalRecordTypeID", "Name");
-                
+
                 return View(model);
             }
 
@@ -108,7 +94,7 @@ namespace K94Warriors.Controllers
         //
         // GET: /MedicalRecords/Edit
 
-        public ActionResult Edit(int dogMedicalRecordId)
+        public virtual ActionResult Edit(int dogMedicalRecordId)
         {
             var model = _dogMedicalRecordsRepo.GetById(dogMedicalRecordId);
             if (model == null)
@@ -128,12 +114,12 @@ namespace K94Warriors.Controllers
         // POST: /MedicalRecords/Edit
 
         [HttpPost]
-        public async Task<ActionResult> Edit(DogMedicalRecord model, IEnumerable<HttpPostedFileBase> files)
+        public virtual async Task<ActionResult> Edit(DogMedicalRecord model, IEnumerable<HttpPostedFileBase> files)
         {
             if (!ModelState.IsValid)
             {
                 var dog = _dogProfileRepo.GetById(model.DogProfileID);
-                
+
                 SetDogViewBag(dog);
 
                 ViewBag.MedicalRecordTypesSelectList = new SelectList(_medicalRecordTypesRepo.GetAll(), "MedicalRecordTypeID", "Name");
@@ -154,7 +140,7 @@ namespace K94Warriors.Controllers
         // POST: /MedicalRecords/Delete
 
         [HttpPost]
-        public ActionResult Delete(int dogMedicalRecordId, int? dogProfileId)
+        public virtual ActionResult Delete(int dogMedicalRecordId, int? dogProfileId)
         {
             _dogMedicalRecordsRepo.Delete(dogMedicalRecordId);
             return dogProfileId.HasValue
@@ -170,11 +156,11 @@ namespace K94Warriors.Controllers
             {
                 var blobKey = Guid.NewGuid();
                 var medicalRecordImage = new DogMedicalRecordImage
-                    {
-                        BlobKey = blobKey,
-                        DogMedicalRecordID = dogMedicalRecordId,
-                        MimeType = file.ContentType
-                    };
+                {
+                    BlobKey = blobKey,
+                    DogMedicalRecordID = dogMedicalRecordId,
+                    MimeType = file.ContentType
+                };
                 medicalRecordImages.Add(medicalRecordImage);
                 await _blobRepo.InsertOrUpdateImageAsync(blobKey.ToString(), file.InputStream);
             }

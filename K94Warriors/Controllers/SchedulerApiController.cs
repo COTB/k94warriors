@@ -15,8 +15,6 @@ namespace K94Warriors.Controllers
 
         public SchedulerApiController(IScheduledTaskService taskService)
         {
-            if (taskService == null)
-                throw new ArgumentNullException("taskService");
             _taskService = taskService;
         }
 
@@ -41,10 +39,8 @@ namespace K94Warriors.Controllers
             {
                 return new HttpResponseMessage(HttpStatusCode.OK);
             }
-            else
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Error dispatching task.");
-            }
+
+            return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Error dispatching task.");
         }
     }
 }
