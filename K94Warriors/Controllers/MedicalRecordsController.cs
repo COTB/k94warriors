@@ -152,7 +152,8 @@ namespace K94Warriors.Controllers
         private async Task UploadFiles(int dogMedicalRecordId, IEnumerable<HttpPostedFileBase> files)
         {
             var medicalRecordImages = new List<DogMedicalRecordImage>();
-            foreach (var file in files)
+            // HACK.JS: not sure why exactly 1 null record is being posted when no files are uploaded, will figure out later.
+            foreach (var file in files.Where(x => x != null))
             {
                 var blobKey = Guid.NewGuid();
                 var medicalRecordImage = new DogMedicalRecordImage

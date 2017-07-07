@@ -110,6 +110,7 @@
     <Folder Include="dbo\" />
     <Folder Include="dbo\Tables\" />
     <Folder Include="Scripts" />
+    <Folder Include="Scripts\PostDeployment" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\DogCertifications.sql">
@@ -207,6 +208,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Localhost.publish.xml" />
+    <None Include="Scripts\PostDeployment\SeedUserTypes.sql" />
+    <None Include="Scripts\PostDeployment\SeedLocations.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
